@@ -1,0 +1,29 @@
+################################################################################
+
+heuristique :
+h(P) = somme des écarts types des positions 
+=> faire un .c ? 
+
+################################################################################
+
+struct movmt :
+str* ordre des choix (si meilleure branche 2 fois puis deuxième choix, 112)
+int i 
+int 1,2,3,4 (droite haut gauche bas)
+float h(P + Mi)
+
+function pour trier le struct au dessus en fonction de h en O(nln(n))
+
+################################################################################
+
+Pour tester les différents mouvements possibles :
+On fait une boucle sur la configuration de départ P
+Si on atteint un 1 en i on regarde lesquels des 4 mouvements Mi (déplacement de la bille i) sont possibles
+On calcule alors tout de suite h(P+Mi) on stocke h dans le struct movmt
+
+################################################################################
+
+Parcours du graphe en stack beam search
+Beam search au départ de largeur n au départ puis si pas de solution, élargissement en backtracking en sélectionnant le n+1 meilleur de chaque branche en partant du bas 
+
+################################################################################
