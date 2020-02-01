@@ -43,16 +43,16 @@ int correctMove(state board[7][7], movement* move) {
     int y = move->posiy;
     direction dir = move->dir;
     if (board[x][y]==ball){
-        if ((dir==north) && (board[y+1][x]==ball) && (board[y+2][x]==empty)){
+        if ((dir==north) && (board[y][x+1]==ball) && (board[y][x+2]==empty)){
             ok = 1;
         }
-        else if ((dir==south) && (board[y-1][x]==ball) && (board[y-2][x]==empty)){
+        else if ((dir==south) && (board[y][x-1]==ball) && (board[y][x-2]==empty)){
             ok = 1;
         }
-        else if ((dir==east) && (board[y][x+1]==ball) && (board[y][x+2]==empty)){
+        else if ((dir==east) && (board[y+1][x]==ball) && (board[y+2][x]==empty)){
             ok = 1;
         }
-        else if ((dir==west) && (board[y][x-1]==ball) && (board[y][x-2]==empty)){
+        else if ((dir==west) && (board[y-1][x]==ball) && (board[y-2][x]==empty)){
             ok = 1;
         }
         else {
@@ -87,23 +87,25 @@ void doMove(state board[7][7], movement* move) {
     int y = move->posiy;
     if (move->dir==north) {
         board[x][y] = empty;
-        board[x][y+1] = empty;
-        board[x][y+2] = ball;
-    }
-    else if (move->dir==south) {
-        board[x][y] = empty;
-        board[x][y-1] = empty;
-        board[x][y-2] = ball;
-    }
-    else if (move->dir==east) {
-        board[x][y] = empty;
         board[x+1][y] = empty;
         board[x+2][y] = ball;
     }
-    else if (move->dir==west) {
+    else if (move->dir==south) {
         board[x][y] = empty;
         board[x-1][y] = empty;
         board[x-2][y] = ball;
+    }
+    else if (move->dir==east) {
+        board[x][y] = empty;
+        board[x][y+1] = empty;
+        board[x][y+2] = ball;
+        printf("hello \n");
+        printf("%d  %d\n",x,y+2);
+    }
+    else if (move->dir==west) {
+        board[x][y] = empty;
+        board[x][y-1] = empty;
+        board[x][y-2] = ball;
     }
     else {
         printf("UNEXPECTED ERROR");
@@ -122,6 +124,7 @@ void userMove(state board[7][7]) {
         printf("Entrez la coordonnée horizontale de la balle à déplacer\n");
         scanf("%hhd", &(move.posix));
 
+        
         int ok = 0;
         while(!ok) {
             printf("Entrez la direction du mouvement (n,s,e,o) : \n");
@@ -148,6 +151,7 @@ void userMove(state board[7][7]) {
             }
         }
         status = correctMove(board, &move);
+        printf("%d \n",status);
         if (status==0){
             printf("Ce mouvement n'est pas possible. Veuillez en proposer un autre :\n");
         } 
@@ -160,10 +164,10 @@ void printBoard(state board[7][7]) {
     printf("\n");
     for (int i=0 ; i<7 ; i++) {
         for (int j=0 ; j<7 ; j++) {
-            if (board[j][i]==ball) {
+            if (board[i][j]==ball) {
                 printf("O ");
             }
-            else if (board[j][i]==empty) {
+            else if (board[i][j]==empty) {
                 printf("X ");
             }
             else {
