@@ -12,6 +12,6 @@ void userGame();
 typedef struct trajectory trajectory;
 struct trajectory {
     //Remembers the different steps
-    state board[7][7];
+    state board[7][7]; //DOESNT WORK
     trajectory* next;
 };
