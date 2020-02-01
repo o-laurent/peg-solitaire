@@ -31,10 +31,3 @@ struct movement {
 float cost_f(node *child);
 void buildLineage(node* currentNode, sorted_children *lineage);
 void sort_lists(int children_nb, float *cost_list, node **children_array);
-
-typedef trajectory trajectory;
-struct trajectory {
-    //Remembers the different steps
-    state board[7][7];
-    trajectory next;
-}
