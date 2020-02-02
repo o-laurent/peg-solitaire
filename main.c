@@ -181,7 +181,9 @@ void printBoard(state board[7][7]) {
                 printf("\033[0m");
             }
             if (board[i][j]==ball) {
-                printf("O ");
+                printf("\033[1m");
+                printf("o ");
+                printf("\033[0m");
             }
             else if (board[i][j]==empty) {
                 printf("\033[37;2m"); //Grey 
