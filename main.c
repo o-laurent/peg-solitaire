@@ -20,7 +20,7 @@ int makePossibleMoves(state board[7][7], movementList* moveList) {
                 for (k=0 ; k<4 ; k++) {
                     move.dir = k;
                     if (correctMove(board, &move)) {
-                        consML(move, moveList);
+                        consML(&move, moveList);
                         nb++;
                     }
                 }
@@ -34,6 +34,28 @@ int moveNb(state board[7][7]) {
     int nb;
     movementList moveList;
     nb = makePossibleMoves(board, &moveList);
+    return nb;
+}
+
+int moveFixed(state board[7][7], movementList* moveList, unsigned char x, unsigned char y) {
+    int nb = 0;
+    int k = 0;
+    movement move;
+    if (board[x][y]==ball) {
+        move.posix = x;
+        move.posiy = y;
+        printf("en x : %d en y : %d \n", move.posix, move.posiy);
+        for (k=0 ; k<4 ; k++) {
+            move.dir = k;
+            if (correctMove(board, &move)) {
+                consML(&move, moveList);
+                
+                nb++;
+            }
+        }
+    }
+    move = moveList->move;
+    printf("en fonction ; en x : %d en y : %d direction : %d \n", move.posix, move.posiy, move.dir);
     return nb;
 }
 
@@ -146,7 +168,8 @@ void userMove(state board[7][7]) {
     char dir;
     char line[1024];
     movement move;
-    int status = 0; //Will be true if a correct movement is recorded
+    int status = 0; //True if a correct movement is recorded
+    movementList* moveList = malloc(sizeof(movementList));
     while (!status) {
         printf("Entrez la coordonnée ");
         printf("\033[0;34m");
@@ -165,36 +188,44 @@ void userMove(state board[7][7]) {
         sscanf(line, "%hhd", &(move.posiy));
         
         int ok = 0;
-        while(!ok) {
-            printf("Entrez la direction du mouvement (n, s, e, o) : \n");
-            fgets(line,1024,stdin);
-            sscanf(line,"%c",&dir);
-            if (dir=='n') {
-                ok++;
-                move.dir = north;
-            }
-            else if (dir=='s') {
-                ok++;
-                move.dir = south;
-            }
-            else if (dir=='e') {
-                ok++;
-                move.dir = east;
-            }
-            else if (dir=='o') {
-                ok++;
-                move.dir = west;
-            }
-            else {
-                ok =0;
-                printf("Erreur lors de l'entrée \n");
-            }
+        if (moveFixed(board, moveList, move.posix, move.posiy)==1) {
+            ok = 1;
+            move = moveList->move;
+            printf(" en x : %d en y : %d direction : %d \n", move.posix, move.posiy, move.dir);
+            status = correctMove(board, &move);
         }
-        status = correctMove(board, &move);
-        printf("%d \n",status);
-        if (status==0){
-            printf("Ce mouvement n'est pas possible. Veuillez en proposer un autre :\n");
-        } 
+        else {
+            while(!ok && !status) {
+                printf("Entrez la direction du mouvement (n, s, e, o) : \n");
+                fgets(line,1024,stdin);
+                sscanf(line,"%c",&dir);
+                if (dir=='n') {
+                    ok++;
+                    move.dir = north;
+                }
+                else if (dir=='s') {
+                    ok++;
+                    move.dir = south;
+                }
+                else if (dir=='e') {
+                    ok++;
+                    move.dir = east;
+                }
+                else if (dir=='o') {
+                    ok++;
+                    move.dir = west;
+                }
+                else {
+                    ok =0;
+                    printf("Erreur lors de l'entrée \n");
+                }
+            }
+            status = correctMove(board, &move);
+            printf("%d \n", status);
+            if (status==0){
+                printf("Ce mouvement n'est pas possible. Veuillez en proposer un autre :\n");
+            } 
+        }
     }
     doMove(board, &move);
     

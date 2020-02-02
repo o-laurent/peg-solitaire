@@ -36,12 +36,14 @@ void buildLineage(node* currentNode, sorted_children *lineage);
 void sort_lists(int children_nb, float *cost_list, node **children_array);
 
 /* Important functions */
-movementList* consML (movement move, movementList* moveList){
+movementList* consML (movement* move, movementList* moveList){
     movementList* tmp = malloc(sizeof(movementList)) ;
     if (tmp == NULL) {
+        printf("ERREUR");
         return NULL;
     }
-    tmp->move = move;
+    tmp->move = *move;
     tmp->next = moveList;
+    printf("en structure  x : %d en y : %d \n", move->posix, move->posiy);
     return tmp;
 }
