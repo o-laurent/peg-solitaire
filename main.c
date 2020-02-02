@@ -43,16 +43,16 @@ int correctMove(state board[7][7], movement* move) {
     int y = move->posiy;
     direction dir = move->dir;
     if (board[x][y]==ball){
-        if ((dir==north) && (board[y][x+1]==ball) && (board[y][x+2]==empty)){
+        if ((dir==north) && (board[x-1][y]==ball) && (board[x-2][y]==empty)){
             ok = 1;
         }
-        else if ((dir==south) && (board[y][x-1]==ball) && (board[y][x-2]==empty)){
+        else if ((dir==south) && (board[x+1][y]==ball) && (board[x+2][y]==empty)){
             ok = 1;
         }
-        else if ((dir==east) && (board[y+1][x]==ball) && (board[y+2][x]==empty)){
+        else if ((dir==east) && (board[x][y+1]==ball) && (board[x][y+2]==empty)){
             ok = 1;
         }
-        else if ((dir==west) && (board[y-1][x]==ball) && (board[y-2][x]==empty)){
+        else if ((dir==west) && (board[x][y-1]==ball) && (board[x][y-2]==empty)){
             ok = 1;
         }
         else {
@@ -87,13 +87,13 @@ void doMove(state board[7][7], movement* move) {
     int y = move->posiy;
     if (move->dir==north) {
         board[x][y] = empty;
-        board[x+1][y] = empty;
-        board[x+2][y] = ball;
+        board[x-1][y] = empty;
+        board[x-2][y] = ball;
     }
     else if (move->dir==south) {
         board[x][y] = empty;
-        board[x-1][y] = empty;
-        board[x-2][y] = ball;
+        board[x+1][y] = empty;
+        board[x+2][y] = ball;
     }
     else if (move->dir==east) {
         board[x][y] = empty;
@@ -119,10 +119,10 @@ void userMove(state board[7][7]) {
     int status = 0; //Will be true if a correct movement is recorded
     while (!status) {
         printf("Entrez la coordonnée verticale de la balle à déplacer\n");
-        scanf("%hhd", &(move.posiy));
+        scanf("%hhd", &(move.posix));
 
         printf("Entrez la coordonnée horizontale de la balle à déplacer\n");
-        scanf("%hhd", &(move.posix));
+        scanf("%hhd", &(move.posiy));
 
         
         int ok = 0;
@@ -163,7 +163,18 @@ void userMove(state board[7][7]) {
 void printBoard(state board[7][7]) {
     printf("\n");
     for (int i=0 ; i<7 ; i++) {
+        if (i==0) {
+            printf("  ");
+            for (int j=0 ; j<7 ; j++) {
+                printf("%d ", j);
+            }
+            printf("\n");
+        }
+        
         for (int j=0 ; j<7 ; j++) {
+            if (j==0) {
+                printf("%d ", i);
+            }
             if (board[i][j]==ball) {
                 printf("O ");
             }
@@ -182,7 +193,7 @@ void printBoard(state board[7][7]) {
 void userGame() {
     //Define 7x7 board and a counter
     state board[7][7];
-    int turn = 0;
+    int turn = 1;
 
     //Initialise the board
     initBoard(board);
@@ -192,6 +203,7 @@ void userGame() {
         //Print the board
         printBoard(board);
         userMove(board);
+        turn++;
     }
 }
 
