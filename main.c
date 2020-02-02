@@ -184,7 +184,7 @@ void userMove(state board[7][7]) {
         fgets(line, 1024, stdin);
         sscanf(line, "%hhd", &(move.posiy));
         printf("\n");
-        
+
         int ok = 0;
         if (moveFixed(board, &moveList, move.posix, move.posiy)==1) {
             ok = 1;
@@ -292,7 +292,7 @@ int main(){
     int ballNumber;
 
     //intro
-    printf("Bienvenue dans le Solitaire v0.1\n");
+    printf("Bienvenue dans le Solitaire v1.0\n");
     printf("\n");
 
     //Chose the mode
