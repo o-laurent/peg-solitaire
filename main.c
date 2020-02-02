@@ -1,20 +1,51 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "structures.h"
 #include "main.h"
 
 
+int makePossibleMoves(state board[7][7], movementList* moveList) {
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    int nb = 0;
+    movement move;
+    for (i=0 ; i<7 ; i++) {
+        for (j=0 ; j<7 ; j++) {
+            if (board[i][j]==ball) {
+                move.posix = i;
+                move.posiy = j;
+                for (k=0 ; k<4 ; k++) {
+                    move.dir = k;
+                    if (correctMove(board, &move)) {
+                        consML(move, moveList);
+                        nb++;
+                    }
+                }
+            }
+        }
+    }
+    return nb;
+}
+
+int moveNb(state board[7][7]) {
+    int nb;
+    movementList moveList;
+    nb = makePossibleMoves(board, &moveList);
+    return nb;
+}
 
 void initBoard(state board[7][7]) {
-    //Initialise the board to an English solitaire
+    //Initialise the board to a French solitaire
     for (int i=0; i<7; i++) {
         for (int j=0; j<7; j++) {
-            if ( (i%6==0 && j%6==0) || (i%6==0 && j==1) || (i==1 && j%6==0) || (i%6==0 && j==5) || (i==5 && j%6==0) ) {
+            if ((i%6==0 && j%6==0) || (i%6==0 && j==1) || (i==1 && j%6==0) || (i%6==0 && j==5) || (i==5 && j%6==0)) {
                 board[i][j] = out;
             }
-            else if ( i==j && i==3 ) {
-                board[i][j] = empty;
+            else if (i==j && i==3) {
+                board[i][j] = empty; 
             }
             else {
                 board[i][j] = ball;
@@ -43,16 +74,16 @@ int correctMove(state board[7][7], movement* move) {
     int y = move->posiy;
     direction dir = move->dir;
     if (board[x][y]==ball){
-        if ((dir==north) && (board[x-1][y]==ball) && (board[x-2][y]==empty)){
+        if ((dir==north) && (board[x-1][y]==ball) && (board[x-2][y]==empty)) {
             ok = 1;
         }
-        else if ((dir==south) && (board[x+1][y]==ball) && (board[x+2][y]==empty)){
+        else if ((dir==south) && (board[x+1][y]==ball) && (board[x+2][y]==empty)) {
             ok = 1;
         }
-        else if ((dir==east) && (board[x][y+1]==ball) && (board[x][y+2]==empty)){
+        else if ((dir==east) && (board[x][y+1]==ball) && (board[x][y+2]==empty)) {
             ok = 1;
         }
-        else if ((dir==west) && (board[x][y-1]==ball) && (board[x][y-2]==empty)){
+        else if ((dir==west) && (board[x][y-1]==ball) && (board[x][y-2]==empty)) {
             ok = 1;
         }
         else {
@@ -69,12 +100,12 @@ int correctMove(state board[7][7], movement* move) {
 int possibleMove(state board[7][7]) {
     //Returns 1 if one move can still be done
     int doable;
-    if (ballNb(board) >= 2){
-        //If there is only one ball, one can not play anymore
+    if ((ballNb(board)>=2) && (moveNb(board)>=1)) {
+        //ballNb for optimality (allows not to go through moveNb)
         doable = 1;
-        //NOT FINISHED
     }
     else {
+        //If there is only one ball, one can not play anymore
         doable = 0;
     }
     return doable;
@@ -117,17 +148,25 @@ void userMove(state board[7][7]) {
     movement move;
     int status = 0; //Will be true if a correct movement is recorded
     while (!status) {
-        printf("Entrez la coordonnée verticale de la balle à déplacer\n");
-        fgets(line,1024,stdin);
-        sscanf(line,"%hhd",&(move.posix));
+        printf("Entrez la coordonnée ");
+        printf("\033[0;34m");
+        printf("verticale ");
+        printf("\033[0m");
+        printf("de la balle à déplacer\n");
+        fgets(line, 1024, stdin);
+        sscanf(line, "%hhd", &(move.posix));
 
-        printf("Entrez la coordonnée horizontale de la balle à déplacer\n");
-        fgets(line,1024,stdin);
-        sscanf(line,"%hhd",&(move.posiy));
+        printf("Entrez la coordonnée ");
+        printf("\033[0;31m");
+        printf("horizontale ");
+        printf("\033[0m");
+        printf("de la balle à déplacer\n");
+        fgets(line, 1024, stdin);
+        sscanf(line, "%hhd", &(move.posiy));
         
         int ok = 0;
         while(!ok) {
-            printf("Entrez la direction du mouvement (n,s,e,o) : \n");
+            printf("Entrez la direction du mouvement (n, s, e, o) : \n");
             fgets(line,1024,stdin);
             sscanf(line,"%c",&dir);
             if (dir=='n') {
@@ -199,7 +238,7 @@ void printBoard(state board[7][7]) {
     printf("\n");
 }
 
-void userGame() {
+int userGame() {
     //Define 7x7 board and a counter
     state board[7][7];
     int turn = 1;
@@ -214,35 +253,44 @@ void userGame() {
         userMove(board);
         turn++;
     }
+    return ballNb(board);
 }
 
 int main(){ 
     unsigned char status;
+    time_t secondsStart; 
+    time_t secondsEnd; 
     char line[1024];
+    int ballNumber;
+
     //intro
     printf("Bienvenue dans le Solitaire v0.1\n");
     printf("\n");
 
-    //mode choice
+    //Chose the mode
     printf("Appuyez sur '1' pour jouer ou '2' pour une résolution automatique :\n");
-    fgets(line,1024,stdin);
-    sscanf(line,"%hhd",&status);
+    fgets(line, 1024, stdin);
+    sscanf(line, "%hhd", &status);
 
     //checking for input errors
     while (status!=1 && status!=2) {
         printf("Erreur lors de l'entrée. Veuillez réessayer;\n");
         printf("Appuyez sur '1' pour jouer ou '2' pour une résolution automatique :\n");
-        fgets(line,1024,stdin);
-        sscanf(line,"%hhd",&status);
+        fgets(line, 1024, stdin);
+        sscanf(line, "%hhd", &status);
     }
 
-    //actual game
+    //game
     if (status==1) {
-        userGame();
+        time(&secondsStart); 
+        ballNumber = userGame();
+        time(&secondsEnd); 
+        printf("Après %lf minutes, la partie s'est terminée avec %d billes sur le plateau. \n", ((double)secondsEnd-(double)secondsStart)/60, ballNumber);
+        printf("Bravo !\n");
     }
 
     printf("\n");
-    printf("Développé par Anthony Aoun, Maria El Haddad, Olivier Laurent et Johhny Yammine dans le cadre du projet de IN103 : Algorithmique en C \n");
+    printf("Développé par Anthony Aoun, Maria El Haddad, Olivier Laurent et Johhny Yammine dans le cadre du projet de IN103 : Algorithmique en C. \n\n");
 
     printf("\n");
     printf("Merci d'avoir joué. Au revoir ^~^\n");

@@ -30,4 +30,3 @@ float cost_f(node *child){
 void sort_lists(int children_nb, float *cost_list, node **children_array){
 
 }
-
