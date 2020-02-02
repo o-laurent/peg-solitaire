@@ -99,8 +99,6 @@ void doMove(state board[7][7], movement* move) {
         board[x][y] = empty;
         board[x][y+1] = empty;
         board[x][y+2] = ball;
-        printf("hello \n");
-        printf("%d  %d\n",x,y+2);
     }
     else if (move->dir==west) {
         board[x][y] = empty;
@@ -115,20 +113,23 @@ void doMove(state board[7][7], movement* move) {
 void userMove(state board[7][7]) {
     //Allows the user to chose the movement he desires
     char dir;
+    char line[1024];
     movement move;
     int status = 0; //Will be true if a correct movement is recorded
     while (!status) {
         printf("Entrez la coordonnée verticale de la balle à déplacer\n");
-        scanf("%hhd", &(move.posix));
+        fgets(line,1024,stdin);
+        sscanf(line,"%hhd",&(move.posix));
 
         printf("Entrez la coordonnée horizontale de la balle à déplacer\n");
-        scanf("%hhd", &(move.posiy));
-
+        fgets(line,1024,stdin);
+        sscanf(line,"%hhd",&(move.posiy));
         
         int ok = 0;
         while(!ok) {
             printf("Entrez la direction du mouvement (n,s,e,o) : \n");
-            scanf("%c", &dir);
+            fgets(line,1024,stdin);
+            sscanf(line,"%c",&dir);
             if (dir=='n') {
                 ok++;
                 move.dir = north;
@@ -209,14 +210,15 @@ void userGame() {
 
 int main(){ 
     unsigned char status;
-
+    char line[1024];
     //intro
     printf("Bienvenue dans le Solitaire v0.1\n");
     printf("\n");
 
     //mode choice
     printf("Appuyez sur '1' pour jouer ou '2' pour une résolution automatique :\n");
-    scanf("%hhd", &status);
+    fgets(line,1024,stdin);
+    sscanf(line,"%hhd",&status);
 
     //checking for input errors
     while (status!=1 && status!=2) {
