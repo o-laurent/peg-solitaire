@@ -44,6 +44,5 @@ movementList* consML (movement* move, movementList* moveList){
     }
     tmp->move = *move;
     tmp->next = moveList;
-    printf("en structure  x : %d en y : %d \n", move->posix, move->posiy);
     return tmp;
 }

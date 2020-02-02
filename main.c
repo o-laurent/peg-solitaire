@@ -37,25 +37,22 @@ int moveNb(state board[7][7]) {
     return nb;
 }
 
-int moveFixed(state board[7][7], movementList* moveList, unsigned char x, unsigned char y) {
+int moveFixed(state board[7][7], movementList** moveList, unsigned char x, unsigned char y) {
     int nb = 0;
     int k = 0;
     movement move;
     if (board[x][y]==ball) {
         move.posix = x;
         move.posiy = y;
-        printf("en x : %d en y : %d \n", move.posix, move.posiy);
         for (k=0 ; k<4 ; k++) {
             move.dir = k;
             if (correctMove(board, &move)) {
-                consML(&move, moveList);
-                
+                *moveList = consML(&move, *moveList);
                 nb++;
             }
         }
     }
-    move = moveList->move;
-    printf("en fonction ; en x : %d en y : %d direction : %d \n", move.posix, move.posiy, move.dir);
+    move = (*moveList)->move;
     return nb;
 }
 
@@ -186,12 +183,12 @@ void userMove(state board[7][7]) {
         printf("de la balle à déplacer\n");
         fgets(line, 1024, stdin);
         sscanf(line, "%hhd", &(move.posiy));
+        printf("\n");
         
         int ok = 0;
-        if (moveFixed(board, moveList, move.posix, move.posiy)==1) {
+        if (moveFixed(board, &moveList, move.posix, move.posiy)==1) {
             ok = 1;
             move = moveList->move;
-            printf(" en x : %d en y : %d direction : %d \n", move.posix, move.posiy, move.dir);
             status = correctMove(board, &move);
         }
         else {
