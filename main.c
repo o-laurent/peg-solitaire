@@ -166,21 +166,27 @@ void printBoard(state board[7][7]) {
     for (int i=0 ; i<7 ; i++) {
         if (i==0) {
             printf("  ");
+            printf("\033[0;31m"); //Red
             for (int j=0 ; j<7 ; j++) {
                 printf("%d ", j);
             }
+            printf("\033[0m");
             printf("\n");
         }
         
         for (int j=0 ; j<7 ; j++) {
             if (j==0) {
+                printf("\033[0;34m"); //Blue
                 printf("%d ", i);
+                printf("\033[0m");
             }
             if (board[i][j]==ball) {
                 printf("O ");
             }
             else if (board[i][j]==empty) {
+                printf("\033[37;2m"); //Grey 
                 printf("X ");
+                printf("\033[0m");
             }
             else {
                 printf("  ");
@@ -224,14 +230,19 @@ int main(){
     while (status!=1 && status!=2) {
         printf("Erreur lors de l'entrée. Veuillez réessayer;\n");
         printf("Appuyez sur '1' pour jouer ou '2' pour une résolution automatique :\n");
-        scanf("%hhd", &status);
+        fgets(line,1024,stdin);
+        sscanf(line,"%hhd",&status);
     }
 
     //actual game
-    userGame();
+    if (status==1) {
+        userGame();
+    }
 
-    //bye bye
     printf("\n");
-    printf("Au revoir ^~^\n");
+    printf("Développé par Anthony Aoun, Maria El Haddad, Olivier Laurent et Johhny Yammine dans le cadre du projet de IN103 : Algorithmique en C \n");
+
+    printf("\n");
+    printf("Merci d'avoir joué. Au revoir ^~^\n");
     return 0;
 }
