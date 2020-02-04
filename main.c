@@ -230,8 +230,8 @@ void userMove(state board[7][7]) {
 
 void printBoard(state board[7][7]) {
     printf("\n");
-    for (int i=0 ; i<7 ; i++) {
-        if (i==0) {
+    for (int i=0 ; i<8 ; i++) {
+        if (i==0 || i==7) {
             printf("  ");
             printf("\033[0;31m"); //Red
             for (int j=0 ; j<7 ; j++) {
@@ -241,18 +241,18 @@ void printBoard(state board[7][7]) {
             printf("\n");
         }
         
-        for (int j=0 ; j<7 ; j++) {
-            if (j==0) {
+        for (int j=0 ; j<8 ; j++) {
+            if ((j==0 || j==7) && i!=7) {
                 printf("\033[0;34m"); //Blue
                 printf("%d ", i);
                 printf("\033[0m");
             }
-            if (board[i][j]==ball) {
+            if (j<7 && board[i][j]==ball) {
                 printf("\033[1m");
                 printf("o ");
                 printf("\033[0m");
             }
-            else if (board[i][j]==empty) {
+            else if (j<7 && board[i][j]==empty) {
                 printf("\033[37;2m"); //Grey 
                 printf("X ");
                 printf("\033[0m");
