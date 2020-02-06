@@ -339,7 +339,9 @@ int main(){
 
     if (status==2) {
         -1; //autoresolve
+        //show solution or not
     }
+
     printf("\n");
     printf("Développé par Anthony Aoun, Maria El Haddad, Olivier Laurent et Johhny Yammine dans le cadre du projet de IN103 : Algorithmique en C. \n\n");
 
