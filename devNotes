@@ -28,12 +28,14 @@ Beam search au départ de largeur n au départ puis si pas de solution, élargis
 
 ################################################################################
 RESTE à faire :
+- repasser aux vecteurs de dim 49 et abandonner les matrices : ???
 - Tuto : Johnny
-- Afficher apres erreur : Johnny
-- Dans verticale et hori verifier que c'est un nombre : Anthony 
 - arrondir le temps en minutes (%.1f) : Maria
 - récupérer les meilleurs scores et le nombre de parties jouées et stocker dans un texte : Anthony
 - sauvegarde des différentes étapes de la partie : Oli
 - corriger la branche de Maria : Oli
 - ajouter les règles : Johnny
 - faire un makefile : Oli
+
+OPTION 
+- faire une présentation en js
