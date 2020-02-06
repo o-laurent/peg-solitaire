@@ -27,3 +27,9 @@ Parcours du graphe en stack beam search
 Beam search au départ de largeur n au départ puis si pas de solution, élargissement en backtracking en sélectionnant le n+1 meilleur de chaque branche en partant du bas 
 
 ################################################################################
+
+Tuto
+Afficher apres erreur
+Corriger la bille hors des cadres
+Dans verticale et hori verifier que c'est un nombre
+
