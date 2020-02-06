@@ -7,6 +7,7 @@
 
 
 int makePossibleMoves(state board[7][7], movementList* moveList) {
+    //Generates the linked list which contains all the moves
     int i = 0;
     int j = 0;
     int k = 0;
@@ -31,6 +32,7 @@ int makePossibleMoves(state board[7][7], movementList* moveList) {
 }
 
 int moveNb(state board[7][7]) {
+    //Returns the number of possible moves
     int nb;
     movementList moveList;
     nb = makePossibleMoves(board, &moveList);
@@ -38,6 +40,7 @@ int moveNb(state board[7][7]) {
 }
 
 int moveFixed(state board[7][7], movementList** moveList, unsigned char x, unsigned char y) {
+    //Returns the moves
     int nb = 0;
     int k = 0;
     movement move;
@@ -316,6 +319,9 @@ int main(){
 
     //checking for input errors
     while (status!=1 && status!=2) {
+        if (status==0){
+            -1; //Tutorial
+        }
         printf("Erreur lors de l'entrée. Veuillez réessayer;\n");
         printf("Appuyez sur '1' pour jouer ou '2' pour une résolution automatique :\n");
         fgets(line, 1024, stdin);
@@ -331,6 +337,9 @@ int main(){
         printf("Bravo !\n");
     }
 
+    if (status==2) {
+        -1; //autoresolve
+    }
     printf("\n");
     printf("Développé par Anthony Aoun, Maria El Haddad, Olivier Laurent et Johhny Yammine dans le cadre du projet de IN103 : Algorithmique en C. \n\n");
 
