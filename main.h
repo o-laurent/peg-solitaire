@@ -23,7 +23,7 @@ void innerConst(state* boardTmp[7][7], state* board[7][7]) {
 
 }
 
-trajectory* consT (state* board[7][7], trajectory* uTrajectory) {
+/*trajectory* consT (state* board[7][7], trajectory* uTrajectory) {
     trajectory* tmp = malloc(sizeof(trajectory));
     if (tmp == NULL) {
         printf("ERREUR");
@@ -33,4 +33,4 @@ trajectory* consT (state* board[7][7], trajectory* uTrajectory) {
     tmp->next = uTrajectory;
     return tmp;
 }
-
+*/

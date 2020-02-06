@@ -246,12 +246,12 @@ void printBoard(state board[7][7]) {
                 printf("%d ", i);
                 printf("\033[0m");
             }
-            if (j<7 && board[i][j]==ball) {
+            if (j<7 && board[i][j]==ball && i!=7) {
                 printf("\033[1m");
                 printf("o ");
                 printf("\033[0m");
             }
-            else if (j<7 && board[i][j]==empty) {
+            else if (j<7 && board[i][j]==empty && i!=7) {
                 printf("\033[37;2m"); //Grey 
                 printf("X ");
                 printf("\033[0m");
