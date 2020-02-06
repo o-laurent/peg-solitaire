@@ -1,5 +1,5 @@
+#include "structures.h"
 typedef enum state{ball, empty, out} state;
-
 
 int makePossibleMoves(state board[7][7], movementList* moveList);
 int moveNb(state board[7][7]);
@@ -18,3 +18,19 @@ struct trajectory {
     state board[7][7]; //DOESNT WORK
     trajectory* next;
 };
+
+void innerConst(state* boardTmp[7][7], state* board[7][7]) {
+
+}
+
+trajectory* consT (state* board[7][7], trajectory* uTrajectory) {
+    trajectory* tmp = malloc(sizeof(trajectory));
+    if (tmp == NULL) {
+        printf("ERREUR");
+        return NULL;
+    }
+    innerConsT(tmp->board, board);
+    tmp->next = uTrajectory;
+    return tmp;
+}
+

@@ -27,9 +27,14 @@ Parcours du graphe en stack beam search
 Beam search au départ de largeur n au départ puis si pas de solution, élargissement en backtracking en sélectionnant le n+1 meilleur de chaque branche en partant du bas 
 
 ################################################################################
-
-Tuto
-Afficher apres erreur
-Corriger la bille hors des cadres
-Dans verticale et hori verifier que c'est un nombre
+RESTE à faire :
+- Tuto : Johnny
+- Afficher apres erreur : Johnny
+- Corriger la bille hors des cadres : Oli
+- Dans verticale et hori verifier que c'est un nombre : Anthony 
+- vérifier que les coordonnéees fournies par l'utilisateur correspondent à une bille avant de demander la direction
+- arrondir le temps en minutes (%.1f) : Maria
+- récupérer les meilleurs scores et le nombre de parties jouées et stocker dans un texte : Anthony
+- sauvegarde des différentes étapes de la partie : Oli
+- ajouter les règles : Johnny
 

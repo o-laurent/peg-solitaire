@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "structures.h"
 #include "main.h"
 
 
@@ -194,8 +193,8 @@ void userMove(state board[7][7]) {
         else {
             while(!ok && !status) {
                 printf("Entrez la direction du mouvement (n, s, e, o) : \n");
-                fgets(line,1024,stdin);
-                sscanf(line,"%c",&dir);
+                fgets(line, 1024, stdin);
+                sscanf(line, "%c", &dir);
                 if (dir=='n') {
                     ok++;
                     move.dir = north;
@@ -268,12 +267,13 @@ void printBoard(state board[7][7]) {
 
 int userGame() {
     //Define 7x7 board and a counter
+    trajectory uTrajectory;
     state board[7][7];
     int turn = 1;
 
     //Initialise the board
     initBoard(board);
-
+    uTrajectory ;
     while (possibleMove(board)){
         printf("----------   Début du tour %d ----------\n", turn);
         //Print the board
