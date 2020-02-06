@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 
 #include "main.h"
 
@@ -110,7 +111,7 @@ int correctMove(state board[7][7], movement* move) {
     }
     else {
         ok = 0;
-        printf("NOT A BALL");
+        printf("UNEXPECTED ERROR 1");
     }
     return ok;
 }
@@ -167,6 +168,8 @@ void userMove(state board[7][7]) {
     int status = 0; //True if a correct movement is recorded
     movementList* moveList = malloc(sizeof(movementList));
     while (!status) {
+        //Print the board
+        printBoard(board);
         printf("Entrez la coordonnée ");
         printf("\033[0;34m");
         printf("verticale ");
@@ -190,7 +193,7 @@ void userMove(state board[7][7]) {
             move = moveList->move;
             status = correctMove(board, &move);
         }
-        else {
+        else if (board[move.posix][move.posiy]==ball) {
             while(!ok && !status) {
                 printf("Entrez la direction du mouvement (n, s, e, o) : \n");
                 fgets(line, 1024, stdin);
@@ -219,8 +222,21 @@ void userMove(state board[7][7]) {
             status = correctMove(board, &move);
             printf("%d \n", status);
             if (status==0){
+                printf("\033[1;31m"); //Red
+                printf("Erreur utilisateur\n");
+                printf("\033[0m");
+                sleep(0.5);
                 printf("Ce mouvement n'est pas possible. Veuillez en proposer un autre :\n");
+                sleep(1.5);
             } 
+        }
+        else {
+            printf("\033[1;31m"); //Red
+            printf("Erreur utilisateur\n");
+            printf("\033[0m");
+            sleep(0.5);
+            printf("Le mouvement proposé ne correspond pas à une bille.\nVeuillez en proposer un autre :\n");
+            sleep(1.5);
         }
     }
     doMove(board, &move);
@@ -276,8 +292,6 @@ int userGame() {
     uTrajectory ;
     while (possibleMove(board)){
         printf("----------   Début du tour %d ----------\n", turn);
-        //Print the board
-        printBoard(board);
         userMove(board);
         turn++;
     }

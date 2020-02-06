@@ -31,8 +31,8 @@ RESTE à faire :
 - Tuto : Johnny
 - Afficher apres erreur : Johnny
 - Dans verticale et hori verifier que c'est un nombre : Anthony 
-- vérifier que les coordonnéees fournies par l'utilisateur correspondent à une bille avant de demander la direction
 - arrondir le temps en minutes (%.1f) : Maria
 - récupérer les meilleurs scores et le nombre de parties jouées et stocker dans un texte : Anthony
 - sauvegarde des différentes étapes de la partie : Oli
+- corriger la branche de Maria : Oli
 - ajouter les règles : Johnny
