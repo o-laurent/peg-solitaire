@@ -5,20 +5,24 @@
 
 #include "main.h"
 
-state MatrixToVector(state matr[7][7]) {
-	state vect[49];
+state* MatrixToVector(state matr[7][7]) {
+	state* vect = malloc(sizeof(state)*49);
 	int i;
 	int j;
 
-	for(j=0;j<7;j++) {
-		for(i=0;i<49;i++) {
-			vect[i]=matr[i%7][j];
+	for(i=0;i<7;i++) {
+		for(j=0;j<7;j++) {
+			vect[i*7 + j]=matr[i][j];
         }
     }
+    return vect;
 }
 
-state VectorToMatrix(state vect[49]) {
-    state matr[49][49];
+state** VectorToMatrix(state vect[49]) {
+    state **matr = malloc(sizeof(*matr) * 7);
+    for (int i=0;i<7;i++) {
+        matr[i] = malloc(sizeof(**matr)*7);
+    }
     int i;
     int j;
 
@@ -27,6 +31,7 @@ state VectorToMatrix(state vect[49]) {
             matr[i][j]=vect[i*7+j];
         }
     }
+    return matr;
 }
 
 
