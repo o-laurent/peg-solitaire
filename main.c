@@ -5,6 +5,30 @@
 
 #include "main.h"
 
+state MatrixToVector(state matr[7][7]) {
+	state vect[49];
+	int i;
+	int j;
+
+	for(j=0;j<7;j++) {
+		for(i=0;i<49;i++) {
+			vect[i]=matr[i%7][j];
+        }
+    }
+}
+
+state VectorToMatrix(state vect[49]) {
+    state matr[49][49];
+    int i;
+    int j;
+
+    for(i=0;i<7;i++) {
+        for(j=0;j<7;j++) {
+            matr[i][j]=vect[i*7+j];
+        }
+    }
+}
+
 
 int makePossibleMoves(state board[7][7], movementList* moveList) {
     //Generates the linked list which contains all the moves
