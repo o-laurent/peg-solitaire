@@ -10,9 +10,9 @@ int possibleMove(state **board);
 void doMove(state **board, movement* move);
 void userMove(state **board, int* pquit);
 void printBoard(state **board);
-int userGame(int* pquit);
+
 void saveGame (state** board, int turn, time_t time);
-long int* loadGame (state** board);
+void loadGame (state** board, long long int returned[2]);
 
 typedef struct trajectory trajectory;
 struct trajectory {
@@ -20,6 +20,8 @@ struct trajectory {
     state **board; //DOESNT WORK
     trajectory* next;
 };
+
+int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn);
 
 trajectory* consT (state** board, trajectory* pTrajectory) {
     //Add a board on the top of the list

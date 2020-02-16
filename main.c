@@ -7,7 +7,7 @@
 
 void saveGame (state** board, int turn, time_t time) {
     FILE *out;
-    out = fopen ("save.txt", "wb");
+    out = fopen ("data/save.txt", "wb");
     if (out == NULL) {
         printf("La sauvegarde a échoué...\n");
     }
@@ -22,19 +22,26 @@ void saveGame (state** board, int turn, time_t time) {
     fclose(out);
 }
 
-//we have to initialise an empty board before calling the function
-//the function will change the value of this board
-long int* loadGame (state** board) {
+int isThereASavedGame() {
+    // Returns 1 if there is a saved game that can be resumed
+    FILE *in;
+    in = fopen ("data/save.txt", "rb");
+    if (in == NULL) {
+        return 0;
+    }
+    return 1;
+}
+
+//we have to initialize an empty board before calling the function
+//the function will change the values of this board
+void loadGame (state** board, long long int returned[2]) {
     FILE *in;
     int x;
-    int turn;
-    long int time;
-    in = fopen ("save.txt", "rb");
+    in = fopen ("data/save.txt", "rb");
     if (in == NULL) {
         printf("Le chargement de la partie précédente a échoué...\n");
     }
-    long int* returned = malloc(sizeof(long long int)*2);
-
+    unsigned char error = 0;
     for (int i=0; i<7; i++) {
         for (int j=0; j<7; j++) {
             fscanf (in, "%d",&x);
@@ -49,18 +56,17 @@ long int* loadGame (state** board) {
             }
             else {
                 printf("Erreur lors du téléchargement des données...\n");
+                error++;
             }
         }
     }
-    fscanf (in, "%d",&turn);
-    fscanf (in, "%ld",&time);
-
-    returned[0] = turn;
-    returned[1] = time;
-
+    fscanf (in, "%lld", &returned[0]);
+    fscanf (in, "%lld", &returned[1]);
+    if (error!=0) {
+        returned[0] = -1;
+        returned[1] = -1;
+    }
     fclose(in);
-
-    return returned;
 }
 
 
@@ -369,27 +375,18 @@ void printBoard(state **board) {
     printf("\n");
 }
 
-int userGame(int* pquit) {
-    //Contains pointers to the boards
-    trajectory* pTrajectory = malloc(sizeof(trajectory));
-    state **board = malloc(sizeof(*board) * 7);
-    for (int i=0;i<7;i++) {
-        board[i] = malloc(sizeof(**board)*7);
-    }
-    printf("pointeur after init %p \n", board);
-    int turn = 1;
-
+int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn ) {
     //Initialising the board and the trajectory
     initBoard(board);
-    pTrajectory->next = NULL;
-    pTrajectory->board = board;
+    (*pTrajectory)->next = NULL;
+    (*pTrajectory)->board = board;
 
     state** newBoard = malloc(sizeof(*newBoard) * 7);
     for (int i=0;i<7;i++) {
         newBoard[i] = malloc(sizeof(**newBoard)*7);
     }
 
-    while (/*possibleMove(board) && */(!(*pquit))){
+    while (possibleMove(board) && (!(*pquit))){
         free(newBoard);
         newBoard = malloc(sizeof(*newBoard) * 7);
         for (int i=0;i<7;i++) {
@@ -397,11 +394,9 @@ int userGame(int* pquit) {
         }
         copyBoard(board, newBoard);
 
-        printf("----------   Début du tour %d ----------\n", turn);
-        //
+        printf("----------   Début du tour %d ----------\n", *turn);
         userMove(newBoard, pquit);
-        //
-        turn++;
+        (*turn)++;
 
         board = malloc(sizeof(*board) * 7);
         for (int i=0;i<7;i++) {
@@ -409,10 +404,9 @@ int userGame(int* pquit) {
         }
         copyBoard(newBoard, board);
 
-        pTrajectory = consT(board, pTrajectory);
+        *pTrajectory = consT(board, *pTrajectory);
     }
-    
-    return ballNb(pTrajectory->board);
+    return ballNb((*pTrajectory)->board);
 }
 
 int main(){ 
@@ -423,6 +417,11 @@ int main(){
     int ballNumber = 36;
     int quit = 0;
     int* pquit = &quit;
+
+    //Check if there is a saved game to load 
+    int savedGame = isThereASavedGame();
+    time_t savedTime = 0;
+    int turn = 1;
 
     //intro
     printf("Bienvenue dans le Solitaire v1.0\n");
@@ -455,35 +454,45 @@ int main(){
 
     //game
     if (status==1) {
-        char resume;
+        //Allocating the board
+        state **board = malloc(sizeof(*board) * 7);  //Table which will contain the first configuration
+        long long int returned[2];
+        for (int i=0;i<7;i++) {
+            board[i] = malloc(sizeof(**board)*7);
+        }
 
-        //ask if the user wants to load game
-        printf("\n");
-        printf("Voulez-vous continuer la partie précédente ? (o/n)\n");
-        fgets(line, 1024, stdin);
-        sscanf(line, "%c", &resume);
-        while (resume!='o' && resume!='n') {
+        if (savedGame) { //ask whether the user wants to load game or not
+            
+            char resume; //'o' if the user wants to resume the game
+            
             printf("\n");
-            printf("Erreur lors de l'entrée. Veuillez réessayer;\n");
             printf("Voulez-vous continuer la partie précédente ? (o/n)\n");
             fgets(line, 1024, stdin);
             sscanf(line, "%c", &resume);
-        }
-        if (resume=='o') {
-            //ouvrir le fichier
-            //verifier qu'il n'est pas vide
-            //recuperer matrice, nb de tours, temps
-            //affecter a toutes les variables les valeurs retirees
-            return -1;
+            while (resume!='o' && resume!='n') {
+                printf("\n");
+                printf("Erreur lors de l'entrée. Veuillez réessayer;\n");
+                printf("Voulez-vous continuer la partie précédente ? (o/n)\n");
+                fgets(line, 1024, stdin);
+                sscanf(line, "%c", &resume);
+            }
+            if (resume=='o') {
+                loadGame(board, returned);
+                turn = returned[0];
+                savedTime = returned[1];
+                remove("data/save.txt");
+            }
         }
 
         time(&secondsStart); 
+        trajectory* pTrajectory = malloc(sizeof(trajectory));
         //
-        ballNumber = userGame(pquit);
+        ballNumber = userGame(pquit, &pTrajectory, board, &turn);
         //
         time(&secondsEnd); 
+        printBoard(pTrajectory->board);
         if (*pquit!=1) {
-            printf("Après %lf minutes, la partie s'est terminée avec %d billes sur le plateau. \n", ((double)secondsEnd-(double)secondsStart)/60, ballNumber);
+            printf("Après %lf minutes, la partie s'est terminée avec %d billes sur le plateau. \n", ((double)secondsEnd-(double)secondsStart)/60+savedTime, ballNumber);
             printf("Bravo !\n");
         }
         else {
