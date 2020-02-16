@@ -347,35 +347,31 @@ int userGame(int* pquit) {
     for (int i=0;i<7;i++) {
         board[i] = malloc(sizeof(**board)*7);
     }
+    printf("pointeur after init %p \n", board);
     int turn = 1;
 
     //Initialising the board and the trajectory
     initBoard(board);
     pTrajectory->next = NULL;
-    pTrajectory->board = &board;
+    pTrajectory->board = board;
 
     state** newBoard = malloc(sizeof(*newBoard) * 7);
     for (int i=0;i<7;i++) {
         newBoard[i] = malloc(sizeof(**newBoard)*7);
     }
+
     while (/*possibleMove(board) && */(!(*pquit))){
-        printf("pointeurafter while %p \n", &board);
         free(newBoard);
         newBoard = malloc(sizeof(*newBoard) * 7);
         for (int i=0;i<7;i++) {
             newBoard[i] = malloc(sizeof(**newBoard)*7);
         }
-        printf("new pointeur after zero %p \n", &newBoard);
         copyBoard(board, newBoard);
-        printf("pointeur after copy new %p \n", &board);
-        printf("new pointeur after copy new %p \n", &newBoard);
+
         printf("----------   Début du tour %d ----------\n", turn);
         //
         userMove(newBoard, pquit);
         //
-        printf("pointeur before copy %p \n", &board);
-        printf("new pointeur before copy %p \n", &newBoard);
-
         turn++;
 
         board = malloc(sizeof(*board) * 7);
@@ -383,21 +379,11 @@ int userGame(int* pquit) {
             board[i] = malloc(sizeof(**board)*7);
         }
         copyBoard(newBoard, board);
-        
-        printf("pointeur before while %p \n", &board);
-        printf("new pointeur before while %p \n", &newBoard);
 
-        pTrajectory = consT(&board, pTrajectory);
-
-        trajectory* aTrajectory = pTrajectory;
-        while (aTrajectory->next != NULL) {
-            printf("ok");
-            printBoard(*(aTrajectory->board));
-            aTrajectory = aTrajectory->next;
-        }
+        pTrajectory = consT(board, pTrajectory);
     }
     
-    return -1; //ballNb(*(uTrajectory.board));
+    return ballNb(pTrajectory->board);
 }
 
 int main(){ 

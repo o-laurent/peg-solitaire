@@ -15,11 +15,11 @@ int userGame(int* pquit);
 typedef struct trajectory trajectory;
 struct trajectory {
     //Remembers the different steps
-    state ***board; //DOESNT WORK
+    state **board; //DOESNT WORK
     trajectory* next;
 };
 
-trajectory* consT (state*** board, trajectory* pTrajectory) {
+trajectory* consT (state** board, trajectory* pTrajectory) {
     //Add a board on the top of the list
     trajectory* tmp = malloc(sizeof(trajectory));
     if (tmp == NULL) {
