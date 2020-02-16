@@ -5,33 +5,62 @@
 
 #include "main.h"
 
-state* MatrixToVector(state matr[7][7]) {
-	state* vect = malloc(sizeof(state)*49);
-	int i;
-	int j;
-
-	for(i=0;i<7;i++) {
-		for(j=0;j<7;j++) {
-			vect[i*7 + j]=matr[i][j];
+void saveGame (state** board, int turn, time_t time) {
+    FILE *out;
+    out = fopen ("save.txt", "wb");
+    if (out == NULL) {
+        printf("La sauvegarde a échoué...\n");
+    }
+    for (int i=0; i<7; i++) {
+        for (int j=0; j<7; j++) {
+            fprintf(out, "%d \n",board[i][j]);
         }
     }
-    return vect;
+    fprintf(out, "%d \n",turn);
+    fprintf(out, "%ld \n",time);
+
+    fclose(out);
 }
 
-state** VectorToMatrix(state vect[49]) {
-    state **matr = malloc(sizeof(*matr) * 7);
-    for (int i=0;i<7;i++) {
-        matr[i] = malloc(sizeof(**matr)*7);
+//we have to initialise an empty board before calling the function
+//the function will change the value of this board
+long int* loadGame (state** board) {
+    FILE *in;
+    int x;
+    int turn;
+    long int time;
+    in = fopen ("save.txt", "rb");
+    if (in == NULL) {
+        printf("Le chargement de la partie précédente a échoué...\n");
     }
-    int i;
-    int j;
+    long int* returned = malloc(sizeof(long long int)*2);
 
-    for(i=0;i<7;i++) {
-        for(j=0;j<7;j++) {
-            matr[i][j]=vect[i*7+j];
+    for (int i=0; i<7; i++) {
+        for (int j=0; j<7; j++) {
+            fscanf (in, "%d",&x);
+            if (x==0) {
+                board[i][j]=ball;
+            }
+            else if (x==1) {
+                board[i][j]=empty;
+            }
+            else if (x==2) {
+                board[i][j]=out;
+            }
+            else {
+                printf("Erreur lors du téléchargement des données...\n");
+            }
         }
     }
-    return matr;
+    fscanf (in, "%d",&turn);
+    fscanf (in, "%ld",&time);
+
+    returned[0] = turn;
+    returned[1] = time;
+
+    fclose(in);
+
+    return returned;
 }
 
 
@@ -493,8 +522,6 @@ int main(){
 
     printf("\n");
     printf("Merci d'avoir joué. Au revoir ^~^\n");
-
-    //free(board);
 
     return 0;
 }
