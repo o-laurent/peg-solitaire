@@ -11,6 +11,8 @@ void doMove(state **board, movement* move);
 void userMove(state **board, int* pquit);
 void printBoard(state **board);
 int userGame(int* pquit);
+void saveGame (state** board, int turn, time_t time);
+long int* loadGame (state** board);
 
 typedef struct trajectory trajectory;
 struct trajectory {
