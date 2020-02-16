@@ -1,4 +1,7 @@
+#ifndef _MAIN_H_
+#define _MAIN_H_
 #include "structures.h"
+
 typedef enum state{ball, empty, out} state;
 
 int makePossibleMoves(state **board, movementList* moveList);
@@ -17,7 +20,7 @@ void loadGame (state** board, long long int returned[2]);
 typedef struct trajectory trajectory;
 struct trajectory {
     //Remembers the different steps
-    state **board; //DOESNT WORK
+    state** board;
     trajectory* next;
 };
 
@@ -43,3 +46,4 @@ void copyBoard (state** boardI, state** boardO) {
         }
     }
 }
+#endif

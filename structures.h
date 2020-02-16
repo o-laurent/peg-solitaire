@@ -1,3 +1,6 @@
+#ifndef _STRUCTURES_H_
+#define _STRUCTURES_H_
+#include "main.h"
 typedef enum direction {north, south, east, west} direction;
 typedef struct sorted_children sorted_children;
 typedef struct node node;
@@ -12,7 +15,8 @@ struct sorted_children {
 
 struct node {
     //model of a node
-    float  cost;
+    float cost;
+    state** board;
     node *child;
     node *brother;
     node *parent;
@@ -31,7 +35,6 @@ struct movementList {
     movementList* next;
 };
 
-float cost_f(node *child);
 void buildLineage(node* currentNode, sorted_children *lineage);
 void sort_lists(int children_nb, float *cost_list, node **children_array);
 
@@ -46,3 +49,4 @@ movementList* consML (movement* move, movementList* moveList){
     tmp->next = moveList;
     return tmp;
 }
+#endif
