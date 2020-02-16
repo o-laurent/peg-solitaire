@@ -404,19 +404,21 @@ int main(){
 
     //game
     if (status==1) {
-        char x;
+        char resume;
 
         //ask if the user wants to load game
         printf("\n");
         printf("Voulez-vous continuer la partie précédente ? (o/n)\n");
-        scanf("%c",&x);
-        while (x!='o' && x!='n') {
+        fgets(line, 1024, stdin);
+        sscanf(line, "%c", &resume);
+        while (resume!='o' && resume!='n') {
             printf("\n");
             printf("Erreur lors de l'entrée. Veuillez réessayer;\n");
             printf("Voulez-vous continuer la partie précédente ? (o/n)\n");
-            scanf("%c",&x);
+            fgets(line, 1024, stdin);
+            sscanf(line, "%c", &resume);
         }
-        if (x=='o') {
+        if (resume=='o') {
             //ouvrir le fichier
             //verifier qu'il n'est pas vide
             //recuperer matrice, nb de tours, temps
