@@ -210,7 +210,7 @@ void userMove(state **board, int* pquit) {
         fgets(line, 1024, stdin);
         sscanf(line, "%hhd", &(move.posix));
         
-        //if we don't want to quit
+        //if user doesn't want to quit
         if (move.posix != 9) {
 
             printf("Entrez la coordonnée ");
@@ -220,10 +220,8 @@ void userMove(state **board, int* pquit) {
             printf("de la balle à déplacer\n");
             fgets(line, 1024, stdin);
             sscanf(line, "%hhd", &(move.posiy));
-            printf("%hhd \n",move.posix);
-            //if we don't want to quit
+            //if user doesn't want to quit
             if (move.posiy != 9) {
-
                 printf("\n");
 
                 int ok = 0;
@@ -239,7 +237,7 @@ void userMove(state **board, int* pquit) {
                         fgets(line, 1024, stdin);
                         sscanf(line, "%c", &dir);
 
-                        //if we don't want to quit
+                        //if user doesn't want to quit
                         if (dir != 9) {
 
                             if (dir=='n') {
@@ -343,25 +341,63 @@ void printBoard(state **board) {
 }
 
 int userGame(int* pquit) {
-    //Define 7x7 board and a counter
-    trajectory uTrajectory;
+    //Contains pointers to the boards
+    trajectory* pTrajectory = malloc(sizeof(trajectory));
     state **board = malloc(sizeof(*board) * 7);
     for (int i=0;i<7;i++) {
         board[i] = malloc(sizeof(**board)*7);
     }
     int turn = 1;
 
-    //Initialise the board
+    //Initialising the board and the trajectory
     initBoard(board);
-    uTrajectory ;
-    while (possibleMove(board) && (!(*pquit))){
+    pTrajectory->next = NULL;
+    pTrajectory->board = &board;
+
+    state** newBoard = malloc(sizeof(*newBoard) * 7);
+    for (int i=0;i<7;i++) {
+        newBoard[i] = malloc(sizeof(**newBoard)*7);
+    }
+    while (/*possibleMove(board) && */(!(*pquit))){
+        printf("pointeurafter while %p \n", &board);
+        free(newBoard);
+        newBoard = malloc(sizeof(*newBoard) * 7);
+        for (int i=0;i<7;i++) {
+            newBoard[i] = malloc(sizeof(**newBoard)*7);
+        }
+        printf("new pointeur after zero %p \n", &newBoard);
+        copyBoard(board, newBoard);
+        printf("pointeur after copy new %p \n", &board);
+        printf("new pointeur after copy new %p \n", &newBoard);
         printf("----------   Début du tour %d ----------\n", turn);
         //
-        userMove(board, pquit);
+        userMove(newBoard, pquit);
         //
+        printf("pointeur before copy %p \n", &board);
+        printf("new pointeur before copy %p \n", &newBoard);
+
         turn++;
+
+        board = malloc(sizeof(*board) * 7);
+        for (int i=0;i<7;i++) {
+            board[i] = malloc(sizeof(**board)*7);
+        }
+        copyBoard(newBoard, board);
+        
+        printf("pointeur before while %p \n", &board);
+        printf("new pointeur before while %p \n", &newBoard);
+
+        pTrajectory = consT(&board, pTrajectory);
+
+        trajectory* aTrajectory = pTrajectory;
+        while (aTrajectory->next != NULL) {
+            printf("ok");
+            printBoard(*(aTrajectory->board));
+            aTrajectory = aTrajectory->next;
+        }
     }
-    return ballNb(board);
+    
+    return -1; //ballNb(*(uTrajectory.board));
 }
 
 int main(){ 
@@ -446,18 +482,20 @@ int main(){
     }
 
     if (status==9 && ballNumber<36) {
-        char x;
+        char save;
         //ask the user if he wants to save game
         printf("\n");
         printf("Voulez-vous sauvegarder la partie ? (o/n)\n");
-        scanf("%c",&x);
-        while (x!='o' && x!='n') {
+        fgets(line, 1024, stdin);
+        sscanf(line, "%c", &save);
+        while (save!='o' && save!='n') {
             printf("\n");
             printf("Erreur lors de l'entrée. Veuillez réessayer;\n");
             printf("Voulez-vous sauvegarder la partie ? (o/n)\n");
-            scanf("%c",&x);
+            fgets(line, 1024, stdin);
+            sscanf(line, "%c", &save);
         }
-        if (x=='o') {
+        if (save=='o') {
             //ouvrir un fichier
             //y glisser la matrice, le nb de tours et le temps 
             //confirmer que l'enregistrement a reussi

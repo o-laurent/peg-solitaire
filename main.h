@@ -15,22 +15,27 @@ int userGame(int* pquit);
 typedef struct trajectory trajectory;
 struct trajectory {
     //Remembers the different steps
-    state **board; //DOESNT WORK
+    state ***board; //DOESNT WORK
     trajectory* next;
 };
 
-void innerConst(state* boardTmp[7][7], state* board[7][7]) {
-
-}
-
-/*trajectory* consT (state* board[7][7], trajectory* uTrajectory) {
+trajectory* consT (state*** board, trajectory* pTrajectory) {
+    //Add a board on the top of the list
     trajectory* tmp = malloc(sizeof(trajectory));
     if (tmp == NULL) {
         printf("ERREUR");
         return NULL;
     }
-    innerConsT(tmp->board, board);
-    tmp->next = uTrajectory;
+    tmp->board = board;
+    tmp->next = pTrajectory;
+
     return tmp;
 }
-*/
+
+void copyBoard (state** boardI, state** boardO) {
+    for(int i=0;i<7;i++){
+        for(int j=0;j<7;j++){
+            boardO[i][j] = boardI[i][j];
+        }
+    }
+}
