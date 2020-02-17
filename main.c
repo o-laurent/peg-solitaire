@@ -519,10 +519,9 @@ int main(){
             sscanf(line, "%c", &save);
         }
         if (save=='o') {
-            //ouvrir un fichier
-            //y glisser la matrice, le nb de tours et le temps 
-            //confirmer que l'enregistrement a reussi
-            return -1;
+                saveGame(board,*turn,savedTime);
+                printf("\n");
+                printf("La partie a été saugegardée !\n");
         }
     }
     printf("\n");
