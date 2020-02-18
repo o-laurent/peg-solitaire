@@ -1,16 +1,11 @@
-#ifndef _AUTOSOLVE_C_
-#define _AUTOSOLVE_C_
+#ifndef AUTOSOLVE_C_
+#define AUTOSOLVE_C_
 #include <stdio.h>
 #include <stdlib.h>
-
 #include "autosolve.h"
-
 #endif
 
-float cost_f(node* child);
-
-float cost_f(node* child){
-    state** board = child->board;
+float cost_f(state** board){
     float cost = 0;
     for(int i=0; i<7;i++){
         for(int j=0; j<7;j++){
@@ -26,8 +21,4 @@ float cost_f(node* child){
         }
     }
     return cost;
-}
-
-int main(){
-
 }

@@ -3,6 +3,7 @@
 #include <time.h>
 #include <unistd.h>
 #include "main.h"
+#include "autosolve.h"
 #include "data.c"
 
 int makePossibleMoves(state **board, movementList* moveList) {
@@ -436,7 +437,7 @@ int main(){
     }
 
     if (status==2) {
-        -1; //autoresolve
+        -1; //autosolve
         //show solution or not
     }
 
