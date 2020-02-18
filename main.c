@@ -443,7 +443,7 @@ int main(){
         //show solution or not
     }
 
-    /*if (status==9 && ballNumber<36) {
+    if (status==9 && ballNumber<36) {
         char save;
         //ask the user if he wants to save game
         printf("\n");
@@ -462,7 +462,7 @@ int main(){
                 printf("\n");
                 printf("La partie a été saugegardée !\n");
         }
-    }*/
+    }
     printf("\n");
     printf("Développé par Anthony Aoun, Maria El Haddad, Olivier Laurent et Johhny Yammine dans le cadre du projet de IN103 : Algorithmique en C. \n\n");
 
