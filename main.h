@@ -2,8 +2,6 @@
 #define _MAIN_H_
 #include "structures.h"
 
-typedef enum state{ball, empty, out} state;
-
 int makePossibleMoves(state **board, movementList* moveList);
 int moveNb(state **board);
 void initBoard(state **board);
@@ -14,15 +12,16 @@ void doMove(state **board, movement* move);
 void userMove(state **board, int* pquit);
 void printBoard(state **board);
 
-void saveGame (state** board, int turn, time_t time);
-void loadGame (state** board, long long int returned[2]);
-
 typedef struct trajectory trajectory;
 struct trajectory {
     //Remembers the different steps
     state** board;
     trajectory* next;
 };
+
+void saveGame (state** board, int turn, time_t time);
+void loadGame (state** board, long long int returned[2]);
+int isThereASavedGame();
 
 int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn);
 

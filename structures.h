@@ -1,7 +1,8 @@
 #ifndef _STRUCTURES_H_
 #define _STRUCTURES_H_
-#include "main.h"
+
 typedef enum direction {north, south, east, west} direction;
+typedef enum state{ball, empty, out} state;
 typedef struct sorted_children sorted_children;
 typedef struct node node;
 typedef struct movement movement;
