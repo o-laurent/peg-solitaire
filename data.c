@@ -10,7 +10,7 @@ void saveGame (state** board, int turn, double time) {
         }
     }
     fprintf(out, "%d \n", turn);
-    fprintf(out, "%f \n", time);
+    fprintf(out, "%lf \n", time);
     fclose(out);
 }
 

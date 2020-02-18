@@ -414,7 +414,7 @@ int main(){
             if (resume=='o') {
                 loadGame(board, returned);
                 turn = returned[0];
-                savedTime = returned[1];
+                savedTime = (double)returned[1];
                 remove("data/save.txt");
             }
         }
