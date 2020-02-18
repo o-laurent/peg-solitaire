@@ -1,4 +1,4 @@
-void saveGame (state** board, int turn, time_t time) {
+void saveGame (state** board, int turn, double time) {
     FILE *out;
     out = fopen ("data/save.txt", "wb");
     if (out == NULL) {
@@ -6,12 +6,11 @@ void saveGame (state** board, int turn, time_t time) {
     }
     for (int i=0; i<7; i++) {
         for (int j=0; j<7; j++) {
-            fprintf(out, "%d \n",board[i][j]);
+            fprintf(out, "%d \n", board[i][j]);
         }
     }
-    fprintf(out, "%d \n",turn);
-    fprintf(out, "%ld \n",time);
-
+    fprintf(out, "%d \n", turn);
+    fprintf(out, "%f \n", time);
     fclose(out);
 }
 

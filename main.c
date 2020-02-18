@@ -421,7 +421,6 @@ int main(){
                 remove("data/save.txt");
             }
         }
-
         time(&secondsStart); 
         trajectory* pTrajectory = malloc(sizeof(trajectory));
         //
