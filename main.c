@@ -428,6 +428,11 @@ int main(){
         if (*pquit!=1) {
             printf("Après %.2lf minutes, la partie s'est terminée avec %d billes sur le plateau. \n", ((double)secondsEnd-(double)secondsStart)/60+savedTime, ballNumber);
             printf("Bravo !\n");
+            //historique et implementation
+            implementNumberOfGames();
+            int x = readNumberOfGames();
+            printf("Historique de Jeu: \n");
+            printf("Nombre de parties jouées: %d",x);
         }
         else {
             char save;
@@ -456,26 +461,6 @@ int main(){
         //show solution or not
     }
 
-    /*if (status==9 && ballNumber<36) {
-        char save;
-        //ask the user if he wants to save game
-        printf("\n");
-        printf("Voulez-vous sauvegarder la partie ? (o/n)\n");
-        fgets(line, 1024, stdin);
-        sscanf(line, "%c", &save);
-        while (save!='o' && save!='n') {
-            printf("\n");
-            printf("Erreur lors de l'entrée. Veuillez réessayer;\n");
-            printf("Voulez-vous sauvegarder la partie ? (o/n)\n");
-            fgets(line, 1024, stdin);
-            sscanf(line, "%c", &save);
-        }
-        if (save=='o') {
-                saveGame(pTrajectory->board, turn, (double)secondsEnd-(double)secondsStart);
-                printf("\n");
-                printf("La partie a été sauvegardée !\n");
-        }
-    }*/
     printf("\n");
     printf("Développé par Anthony Aoun, Maria El Haddad, Olivier Laurent et Johhny Yammine dans le cadre du projet de IN103 : Algorithmique en C. \n\n");
 
