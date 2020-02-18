@@ -3,7 +3,7 @@
 #include <time.h>
 #include <unistd.h>
 #include "main.h"
-#include "autosolve.h"
+#include "autosolve.c"
 #include "data.c"
 
 int makePossibleMoves(state **board, movementList* moveList) {
@@ -60,7 +60,7 @@ int moveFixed(state **board, movementList** moveList, unsigned char x, unsigned 
 }
 
 void initBoard(state **board) {
-    //Initialise the board to a English solitaire
+    //Initialise the board to a French solitaire
     for (int i=0; i<7; i++) {
         for (int j=0; j<7; j++) {
             if ((i%6==0 && j%6==0) || (i%6==0 && j==1) || (i==1 && j%6==0) || (i%6==0 && j==5) || (i==5 && j%6==0)) {
@@ -330,6 +330,7 @@ int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn ) {
         }
         copyBoard(board, newBoard);
 
+        //printf("Valeur : %f", cost_f(newBoard));
         printf("----------   Début du tour %d ----------\n", *turn);
         userMove(newBoard, pquit);
         (*turn)++;
@@ -429,7 +430,7 @@ int main(){
         time(&secondsEnd); 
         printBoard(pTrajectory->board);
         if (*pquit!=1) {
-            printf("Après %lf minutes, la partie s'est terminée avec %d billes sur le plateau. \n", ((double)secondsEnd-(double)secondsStart)/60+savedTime, ballNumber);
+            printf("Après %.2lf minutes, la partie s'est terminée avec %d billes sur le plateau. \n", ((double)secondsEnd-(double)secondsStart)/60+savedTime, ballNumber);
             printf("Bravo !\n");
         }
         else {
@@ -442,7 +443,7 @@ int main(){
         //show solution or not
     }
 
-    if (status==9 && ballNumber<36) {
+    /*if (status==9 && ballNumber<36) {
         char save;
         //ask the user if he wants to save game
         printf("\n");
@@ -461,7 +462,7 @@ int main(){
                 printf("\n");
                 printf("La partie a été saugegardée !\n");
         }
-    }
+    }*/
     printf("\n");
     printf("Développé par Anthony Aoun, Maria El Haddad, Olivier Laurent et Johhny Yammine dans le cadre du projet de IN103 : Algorithmique en C. \n\n");
 
