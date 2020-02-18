@@ -1,7 +1,9 @@
+#ifndef STRUCTURES_H_
+#define STRUCTURES_H_
 #include <stdio.h>
 #include <stdlib.h>
 #include "structures.h"
-
+#endif
 
 
 void buildLineage(node* currentNode, sorted_children *lineage){
@@ -39,7 +41,6 @@ void sortNodes(node** phead){
     }
 
 }
-
 
 node* sortedMerge(node* a, node* b) {
     struct Node* result = NULL; 
