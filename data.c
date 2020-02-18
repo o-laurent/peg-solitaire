@@ -61,3 +61,31 @@ void loadGame (state** board, long long int returned[2]) {
     }
     fclose(in);
 }
+
+//gives back 0 if there is nthg saved
+//otherwise it gives us the saved number
+int readNumberOfGames() {
+    FILE *in;
+    int x;
+    in = fopen ("data/stats.txt", "rb");
+    if (in == NULL) {
+        return 0;
+    }
+    else if (feof (in)) {
+        return 0;
+    }
+    else {
+        fscanf (in, "%d",&x);
+        return x;
+    }
+    fclose(in);
+}
+
+void implementNumberOfGames() {
+    int x;
+    x=readNumberOfGames();
+    x++;
+    FILE *out;
+    out = fopen ("data/stats.txt", "wb");
+    fprintf(out, "%d\n",x);
+}

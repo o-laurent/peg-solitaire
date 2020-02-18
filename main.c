@@ -347,6 +347,7 @@ int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn ) {
 }
 
 int main(){ 
+    state **board = malloc(sizeof(*board) * 7);
     unsigned char status;
     time_t secondsStart; 
     time_t secondsEnd; 
@@ -457,7 +458,7 @@ int main(){
             sscanf(line, "%c", &save);
         }
         if (save=='o') {
-                saveGame(board,*turn,savedTime);
+                saveGame(board,turn,savedTime);
                 printf("\n");
                 printf("La partie a été saugegardée !\n");
         }
