@@ -313,7 +313,6 @@ void printBoard(state **board) {
 
 int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn ) {
     //Initialising the board and the trajectory
-    initBoard(board);
     (*pTrajectory)->next = NULL;
     (*pTrajectory)->board = board;
 
@@ -398,11 +397,9 @@ int main(){
         for (int i=0;i<7;i++) {
             board[i] = malloc(sizeof(**board)*7);
         }
-
+        initBoard(board);
         if (savedGame) { //ask whether the user wants to load game or not
-            
             char resume; //'o' if the user wants to resume the game
-            
             printf("\n");
             printf("Voulez-vous continuer la partie précédente ? (o/n)\n");
             fgets(line, 1024, stdin);
