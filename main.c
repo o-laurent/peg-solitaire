@@ -330,7 +330,7 @@ int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn ) {
         }
         copyBoard(board, newBoard);
 
-        printf("Valeur : %f", cost_f(newBoard));
+        //printf("Valeur : %f", cost_f(newBoard));
         printf("----------   Début du tour %d ----------\n", *turn);
         userMove(newBoard, pquit);
         (*turn)++;
