@@ -447,9 +447,9 @@ int main(){
                 sscanf(line, "%c", &save);
             }
             if (save=='o') {
-                    saveGame(pTrajectory->board, turn, (double)secondsEnd-(double)secondsStart);
-                    printf("\n");
-                    printf("La partie a été sauvegardée !\n");
+                saveGame(pTrajectory->board, turn, (double)secondsEnd-(double)secondsStart);
+                printf("\n");
+                printf("La partie a été sauvegardée !\n");
             }
         }
     }
