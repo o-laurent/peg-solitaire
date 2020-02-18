@@ -13,7 +13,7 @@ float cost_f(state** board){
                 for(int k=i;k<7;k++){
                     for(int q=j; q<7; q++){
                         if (board[k][q]==ball) {
-                            cost = cost + (k-i)*(k-i) + (q-j)*(q-j);
+                            cost = cost+(k-i)*(k-i)+(q-j)*(q-j);
                         }
                     }
                 } 
@@ -22,3 +22,12 @@ float cost_f(state** board){
     }
     return cost;
 }
+
+/*tant que non stop 
+    on regarde si il y a des mouvements possibles 
+        On construit la lignée 
+            On trie la lignée 
+                On choisit les deux meilleurs et on supprime les autres 
+                    si stop != 0 on arrête
+                    sinon on réitère le raisonnement 
+*/

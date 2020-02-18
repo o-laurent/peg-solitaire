@@ -1,5 +1,5 @@
-#ifndef STRUCTURES_H_
-#define STRUCTURES_H_
+#ifndef STRUCTURES_C_
+#define STRUCTURES_C_
 #include <stdio.h>
 #include <stdlib.h>
 #include "structures.h"
@@ -11,7 +11,7 @@ void buildLineage(node* currentNode, sorted_children *lineage){
     unsigned int children_nb = 0;
     while(child != NULL){
         children_nb ++;
-        child = child->next
+        child = child->next;
     }
 
     int cost_list[children_nb];

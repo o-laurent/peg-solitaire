@@ -458,9 +458,9 @@ int main(){
             sscanf(line, "%c", &save);
         }
         if (save=='o') {
-                saveGame(board,turn,savedTime);
+                //saveGame(board,turn,savedTime);
                 printf("\n");
-                printf("La partie a été saugegardée !\n");
+                printf("La partie a été sauvegardée !\n");
         }
     }
     printf("\n");
