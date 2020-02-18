@@ -426,13 +426,17 @@ int main(){
         time(&secondsEnd); 
         printBoard(pTrajectory->board);
         if (*pquit!=1) {
-            printf("Après %.2lf minutes, la partie s'est terminée avec %d billes sur le plateau. \n", ((double)secondsEnd-(double)secondsStart)/60+savedTime, ballNumber);
+            printf("Après %.2lf minutes, la partie s'est terminée avec %d billes sur le plateau. \n", ((double)secondsEnd-(double)secondsStart+savedTime)/60, ballNumber);
             printf("Bravo !\n");
-            //historique et implementation
-            implementNumberOfGames();
+            //history of the game
+            //nb of games
+            implementStats((double)secondsEnd-(double)secondsStart+savedTime);
             int x = readNumberOfGames();
-            printf("Historique de Jeu: \n");
-            printf("Nombre de parties jouées: %d",x);
+            double y = totalPlayingTime();
+            printf("\n");
+            printf("Historique de Jeu \n");
+            printf("Nombre de parties jouées: %d\n",x);
+            printf("Temps total de jeu: %lf minutes\n",y/60);
         }
         else {
             char save;
@@ -449,7 +453,7 @@ int main(){
                 sscanf(line, "%c", &save);
             }
             if (save=='o') {
-                saveGame(pTrajectory->board, turn, (double)secondsEnd-(double)secondsStart);
+                saveGame(pTrajectory->board, turn, (double)secondsEnd-(double)secondsStart+savedTime);
                 printf("\n");
                 printf("La partie a été sauvegardée !\n");
             }
