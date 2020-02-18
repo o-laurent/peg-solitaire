@@ -434,7 +434,24 @@ int main(){
             printf("Bravo !\n");
         }
         else {
-            status = 9;
+            char save;
+            //ask the user if he wants to save game
+            printf("\n");
+            printf("Voulez-vous sauvegarder la partie ? (o/n)\n");
+            fgets(line, 1024, stdin);
+            sscanf(line, "%c", &save);
+            while (save!='o' && save!='n') {
+                printf("\n");
+                printf("Erreur lors de l'entrée. Veuillez réessayer;\n");
+                printf("Voulez-vous sauvegarder la partie ? (o/n)\n");
+                fgets(line, 1024, stdin);
+                sscanf(line, "%c", &save);
+            }
+            if (save=='o') {
+                    saveGame(pTrajectory->board, turn, (double)secondsEnd-(double)secondsStart);
+                    printf("\n");
+                    printf("La partie a été sauvegardée !\n");
+            }
         }
     }
 
@@ -443,7 +460,7 @@ int main(){
         //show solution or not
     }
 
-    if (status==9 && ballNumber<36) {
+    /*if (status==9 && ballNumber<36) {
         char save;
         //ask the user if he wants to save game
         printf("\n");
@@ -458,11 +475,11 @@ int main(){
             sscanf(line, "%c", &save);
         }
         if (save=='o') {
-                //saveGame(board,turn,savedTime);
+                saveGame(pTrajectory->board, turn, (double)secondsEnd-(double)secondsStart);
                 printf("\n");
                 printf("La partie a été sauvegardée !\n");
         }
-    }
+    }*/
     printf("\n");
     printf("Développé par Anthony Aoun, Maria El Haddad, Olivier Laurent et Johhny Yammine dans le cadre du projet de IN103 : Algorithmique en C. \n\n");
 
