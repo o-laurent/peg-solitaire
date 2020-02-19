@@ -4,7 +4,6 @@
 #include <unistd.h>
 #include "main.h"
 #include "autosolve.c"
-#include "data.c"
 
 int makePossibleMoves(state **board, movementList* moveList) {
     //Generates the linked list which contains all the moves

@@ -82,3 +82,14 @@ void nodeSplit(node* source, node** frontRef, node** backRef) {
     *backRef = slow->next; 
     slow->next = NULL; 
 }
+
+movementList* consML (movement* move, movementList* moveList){
+    movementList* tmp = malloc(sizeof(movementList)) ;
+    if (tmp == NULL) {
+        printf("ERREUR");
+        return NULL;
+    }
+    tmp->move = *move;
+    tmp->next = moveList;
+    return tmp;
+}

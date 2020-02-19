@@ -19,9 +19,14 @@ struct trajectory {
     trajectory* next;
 };
 
+//data.c
 void saveGame (state** board, int turn, double time);
 void loadGame (state** board, long long int returned[2]);
 int isThereASavedGame();
+int readNumberOfGames();
+double totalPlayingTime();
+void implementStats(double time);
+
 
 int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn);
 
@@ -37,7 +42,7 @@ trajectory* consT (state** board, trajectory* pTrajectory) {
 
     return tmp;
 }
-
+movementList* consML (movement* move, movementList* moveList);
 void copyBoard (state** boardI, state** boardO) {
     for(int i=0;i<7;i++){
         for(int j=0;j<7;j++){

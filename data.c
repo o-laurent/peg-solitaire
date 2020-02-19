@@ -1,3 +1,8 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
+#include "data.h"
 void saveGame (state** board, int turn, double time) {
     FILE *out;
     out = fopen ("data/save.txt", "wb");

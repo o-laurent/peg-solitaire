@@ -1,10 +1,13 @@
 all: solitaire
 
-solitaire: solitaire.o
-	gcc -o solitaire solitaire.o
+solitaire: data.o main.o
+	gcc -o solitaire data.o main.o
 
-solitaire.o: main.c
-	gcc -o solitaire.o -c main.c -Wall
+main.o: main.c
+	gcc -Wall main.c -o main.o -c 
+
+data.o: data.c
+	gcc -Wall data.c -o data.o -c 
 
 clean:
 	rm -rf *.o

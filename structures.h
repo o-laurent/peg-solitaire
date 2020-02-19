@@ -36,18 +36,7 @@ struct movementList {
     movementList* next;
 };
 
+movementList* consML (movement* move, movementList* moveList);
 void buildLineage(node* currentNode, sorted_children *lineage);
 void sort_lists(int children_nb, float *cost_list, node **children_array);
-
-/* Important functions */
-movementList* consML (movement* move, movementList* moveList){
-    movementList* tmp = malloc(sizeof(movementList)) ;
-    if (tmp == NULL) {
-        printf("ERREUR");
-        return NULL;
-    }
-    tmp->move = *move;
-    tmp->next = moveList;
-    return tmp;
-}
 #endif
