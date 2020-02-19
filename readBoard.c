@@ -5,8 +5,8 @@ typedef enum state {ball, empty, out} state;
 
 void printBoardV(state **board, char lineNb, char colNb) {
     printf("\n");
-    for (int i=0; i<lineNb+1 ; i++) {
-        if (i==0 || i==lineNb) {
+    for (int i=0; i<lineNb+1; i++) {
+        if (i==0||i==lineNb) {
             printf("  ");
             printf("\033[0;31m"); //Red
             for (int j=0 ; j<colNb ; j++) {
@@ -37,7 +37,7 @@ void printBoardV(state **board, char lineNb, char colNb) {
                 }
             }
             else if (j<100) {
-                if ((j==0 || j==colNb) && i!=lineNb) {
+                if ((j==0||j==colNb) && i!=lineNb) {
                     printf("\033[0;34m"); //Blue
                     printf("%d  ", i);
                     printf("\033[0m");
@@ -66,7 +66,7 @@ void printBoardV(state **board, char lineNb, char colNb) {
 void printBoard(state **board) {
     printf("\n");
     for (int i=0 ; i<8 ; i++) {
-        if (i==0 || i==7) {
+        if (i==0||i==7) {
             printf("  ");
             printf("\033[0;31m"); //Red
             for (int j=0 ; j<7 ; j++) {
@@ -76,7 +76,7 @@ void printBoard(state **board) {
             printf("\n");
         }
         for (int j=0 ; j<8 ; j++) {
-            if ((j==0 || j==7) && i!=7) {
+            if ((j==0||j==7) && i!=7) {
                 printf("\033[0;34m"); //Blue
                 printf("%d ", i);
                 printf("\033[0m");
@@ -103,11 +103,11 @@ void printBoard(state **board) {
 
 state** readBoard (char* fileName, char* lineNb, char* colNb) { //je pense que l'erreur est dans l'arg
 	FILE* fichier = fopen(fileName, "r");
-	if (fichier==NULL){		
-        printf("ERREUR lors de la lecture du fichier model.\n");
+	if (fichier==NULL) {		
+        printf("ERREUR lors de la lecture du fichier model.txt.\n");
         printf("En l'absence de model.txt, nous passons en mode 'Partie Standard'.\n");
-        printf("Si vous souahiter faire une partie personnalisée, veuillez ajouter un fichier model.txt dans le fichier data.\n");
-		state** board = malloc(sizeof(*board) * (*lineNb));
+        printf("Si vous souhaitez faire une partie personnalisée, veuillez ajouter un fichier model.txt dans le fichier data.\n");
+		state** board = malloc(sizeof(*board)*(*lineNb));
         for (int i=0; i<*lineNb; i++) {
                 board[i] = malloc(sizeof(**board)*(*colNb));
         }
@@ -118,8 +118,7 @@ state** readBoard (char* fileName, char* lineNb, char* colNb) { //je pense que l
 		int s[123] = {0}; //tableau du nbr de caractères par lignes
 		int l = 0;//numero de la ligne
 		char c = fgetc(fichier);
-        printf("%c\n",c);
-		while(c!=EOF){
+		while (c!=EOF) {
             if (c!='\n') {
                 s[l]++;
                 c = fgetc(fichier);
@@ -135,30 +134,29 @@ state** readBoard (char* fileName, char* lineNb, char* colNb) { //je pense que l
             else {
                 c = fgetc(fichier);
             }
-            printf("%c\n", c);
 		}
         
 
 		fclose(fichier);	
 		//trouvons le nbr max de caractère dans une ligne pour savoir la taille de la grille qu' on fera
 		l = 0;	
-		while (l<*lineNb){
-			if (s[l]>*colNb){
-				(*colNb) = s[l];
+		while (l<*lineNb) {
+			if (s[l]>*colNb) {
+				*colNb = s[l];
 			}
 			l++;
 		}
-        state** board = malloc(sizeof(*board) * (*lineNb));
+        state** board = malloc(sizeof(*board)*(*lineNb));
         for (int i=0; i<*lineNb; i++) {
                 board[i] = malloc(sizeof(**board)*(*colNb));
         }
 		l = 0; 
         int i = 0;
 		FILE* fichier = fopen("data/model.txt", "r");
-		while (l<*lineNb){
+		while (l<*lineNb) {
 			i = 0;
             c = fgetc(fichier);
-			while(i<s[l]){
+			while (i<s[l]) {
                 if (c==' ') {
                     board[l][i] = out;
                 }
