@@ -11,12 +11,12 @@ int makePossibleMoves(state **board, movementList* moveList) {
     int k = 0;
     int nb = 0;
     movement move;
-    for (i=0 ; i<7 ; i++) {
-        for (j=0 ; j<7 ; j++) {
+    for (i=0; i<7; i++) {
+        for (j=0; j<7; j++) {
             if (board[i][j]==ball) {
                 move.posix = i;
                 move.posiy = j;
-                for (k=0 ; k<4 ; k++) {
+                for (k=0; k<4; k++) {
                     move.dir = k;
                     if (correctMove(board, &move)) {
                         consML(&move, moveList);
@@ -45,7 +45,7 @@ int moveFixed(state **board, movementList** moveList, unsigned char x, unsigned 
     if (board[x][y]==ball) {
         move.posix = x;
         move.posiy = y;
-        for (k=0 ; k<4 ; k++) {
+        for (k=0; k<4; k++) {
             move.dir = k;
             if (correctMove(board, &move)) {
                 *moveList = consML(&move, *moveList);
@@ -78,7 +78,7 @@ int ballNb(state **board) {
     //Counts the number of balls on the board
     int count =0;
     for (int i=0; i<7; i++) {
-        for (int j=0 ; j<7 ; j++) {
+        for (int j=0; j<7; j++) {
             if (board[i][j]==ball) {
                 count++;
             }
@@ -178,9 +178,10 @@ void userMove(state **board, int* pquit) {
         printf("de la balle à déplacer\n");
         fgets(line, 1024, stdin);
         sscanf(line, "%hhd", &(move.posix));
+        move.posix--;
         
         //if user doesn't want to quit
-        if (move.posix != -1) {
+        if (move.posix != -2) {
 
             printf("Entrez la coordonnée ");
             printf("\033[0;31m");
@@ -189,8 +190,9 @@ void userMove(state **board, int* pquit) {
             printf("de la balle à déplacer\n");
             fgets(line, 1024, stdin);
             sscanf(line, "%hhd", &(move.posiy));
+            move.posiy--;
             //if user doesn't want to quit
-            if (move.posiy != -1) {
+            if (move.posiy != -2) {
                 printf("\n");
 
                 int ok = 0;
@@ -256,12 +258,12 @@ void userMove(state **board, int* pquit) {
                     sleep(1.5);
                 }
             }
-            else if (move.posiy == -1) {
+            else if (move.posiy == -2) {
                 *pquit = 1;
                 goodMove = 1;
             }
         }
-        else if (move.posix == -1) {
+        else if (move.posix == -2) {
             *pquit = 1;
             goodMove = 1;
         }
@@ -278,7 +280,7 @@ void printBoard(state **board) {
             printf("  ");
             printf("\033[0;31m"); //Red
             for (int j=0 ; j<7 ; j++) {
-                printf("%d ", j);
+                printf("%d ", j+1);
             }
             printf("\033[0m");
             printf("\n");
@@ -286,7 +288,7 @@ void printBoard(state **board) {
         for (int j=0 ; j<8 ; j++) {
             if ((j==0 || j==7) && i!=7) {
                 printf("\033[0;34m"); //Blue
-                printf("%d ", i);
+                printf("%d ", i+1);
                 printf("\033[0m");
             }
             if (i<7 && j<7 && board[i][j]==ball) {
@@ -394,14 +396,31 @@ int main(){
         for (int i=0;i<7;i++) {
             board[i] = malloc(sizeof(**board)*7);
         }
-        initBoard(board);
+        //Personalized game ?
+        char perso;
+        do {
+            printf("Voulez-vous utiliser un modèle personnalisé ? (o/n)\n");
+            fgets(line, 1024, stdin);
+            sscanf(line, "%c", &perso);
+        }
+        while (perso!='o' && perso!='O' && perso!='N' && perso!='n' && perso!='\n');
+        if (perso=='N' || perso=='n' || perso=='\n') {
+            initBoard(board);
+        }
+        else {
+            char lineNb = 0;
+            char colNb = 0;
+            board = readBoard("data/model.txt", &lineNb, &colNb);
+        }
+
+        //Load saved game ?
         if (savedGame) { //ask whether the user wants to load game or not
             char resume; //'o' if the user wants to resume the game
             printf("\n");
             printf("Voulez-vous continuer la partie précédente ? (o/n)\n");
             fgets(line, 1024, stdin);
             sscanf(line, "%c", &resume);
-            while (resume!='o' && resume!='n') {
+            while (resume!='o' && resume!='O' && resume!='N' && resume!='n' && resume!='\n') {
                 printf("\n");
                 printf("Erreur lors de l'entrée. Veuillez réessayer\n");
                 printf("Voulez-vous continuer la partie précédente ? (o/n)\n");
@@ -432,8 +451,8 @@ int main(){
             double y = totalPlayingTime();
             printf("\n");
             printf("Historique de Jeu \n");
-            printf("Nombre de parties jouées: %d\n",x);
-            printf("Temps total de jeu: %lf minutes\n",y/60);
+            printf("Nombre de parties jouées: %d\n", x);
+            printf("Temps total de jeu: %lf minutes\n", (y+(double)secondsEnd-(double)secondsStart)/60);
         }
         else {
             char save;

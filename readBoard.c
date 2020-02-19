@@ -1,14 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "readBoard.h"
-void printBoardV(state **board, char lineNb, char colNb) {
+
+void printBoardV(state** board, char lineNb, char colNb) {
     printf("\n");
     for (int i=0; i<lineNb+1; i++) {
         if (i==0||i==lineNb) {
             printf("  ");
             printf("\033[0;31m"); //Red
             for (int j=0 ; j<colNb ; j++) {
-                printf("%d ", j);
+                printf("%d ", j+1);
             }
             printf("\033[0m");
             printf("\n");
@@ -17,7 +18,7 @@ void printBoardV(state **board, char lineNb, char colNb) {
             if (j<10) {
                 if ((j==0 || j==colNb) && i!=lineNb) {
                     printf("\033[0;34m"); //Blue
-                    printf("%d ", i);
+                    printf("%d ", i+1);
                     printf("\033[0m");
                 }
                 if (i<lineNb && j<colNb && board[i][j]==ball) {
@@ -37,7 +38,7 @@ void printBoardV(state **board, char lineNb, char colNb) {
             else if (j<100) {
                 if ((j==0||j==colNb) && i!=lineNb) {
                     printf("\033[0;34m"); //Blue
-                    printf("%d  ", i);
+                    printf("%d  ", i+1);
                     printf("\033[0m");
                 }
                 if (i<lineNb && j<colNb && board[i][j]==ball) {

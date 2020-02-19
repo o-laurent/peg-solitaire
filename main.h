@@ -1,5 +1,6 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
+#include "structures.h"
 
 int makePossibleMoves(state **board, movementList* moveList);
 int moveNb(state **board);
