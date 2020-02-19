@@ -182,7 +182,7 @@ void userMove(state **board, int* pquit) {
         sscanf(line, "%hhd", &(move.posix));
         
         //if user doesn't want to quit
-        if (move.posix != 9) {
+        if (move.posix != -1) {
 
             printf("Entrez la coordonnée ");
             printf("\033[0;31m");
@@ -192,7 +192,7 @@ void userMove(state **board, int* pquit) {
             fgets(line, 1024, stdin);
             sscanf(line, "%hhd", &(move.posiy));
             //if user doesn't want to quit
-            if (move.posiy != 9) {
+            if (move.posiy != -1) {
                 printf("\n");
 
                 int ok = 0;
@@ -201,7 +201,6 @@ void userMove(state **board, int* pquit) {
                     move = moveList->move;
                     goodMove = correctMove(board, &move);
                 }
-                
                 else if (board[move.posix][move.posiy]==ball) {
                     while(!ok && !goodMove) {
                         printf("Entrez la direction du mouvement (n, s, e, o) : \n");
@@ -209,7 +208,7 @@ void userMove(state **board, int* pquit) {
                         sscanf(line, "%c", &dir);
 
                         //if user doesn't want to quit
-                        if (dir != 9) {
+                        if (dir != -1) {
 
                             if (dir=='n') {
                                 ok++;
@@ -243,7 +242,7 @@ void userMove(state **board, int* pquit) {
                                 sleep(1.5);
                             } 
                         }  
-                        else if (dir == 9) {
+                        else if (dir == -1) {
                             *pquit = 1;
                             goodMove = 1;
                         }
@@ -259,12 +258,12 @@ void userMove(state **board, int* pquit) {
                     sleep(1.5);
                 }
             }
-            else if (move.posiy == 9) {
+            else if (move.posiy == -1) {
                 *pquit = 1;
                 goodMove = 1;
             }
         }
-        else if (move.posix == 9) {
+        else if (move.posix == -1) {
             *pquit = 1;
             goodMove = 1;
         }
@@ -347,7 +346,7 @@ int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn ) {
 
 int main(){ 
     state **board = malloc(sizeof(*board) * 7);
-    unsigned char status;
+    char status;
     time_t secondsStart; 
     time_t secondsEnd; 
     char line[1024];
@@ -365,12 +364,12 @@ int main(){
     printf("\n");
 
     //Chose the mode
-    printf("Appuyez sur '0' pour les règles du jeu, '1' pour jouer ou '2' pour une résolution automatique.\nAppuyez à tout moment sur '9' pour quitter la partie :\n");
+    printf("Appuyez sur '0' pour les règles du jeu, '1' pour jouer ou '2' pour une résolution automatique.\nAppuyez à tout moment sur '-1' pour quitter la partie :\n");
     fgets(line, 1024, stdin);
     sscanf(line, "%hhd", &status);
 
     //checking for input errors
-    while (status!=1 && status!=2 && status!=9) {
+    while (status!=1 && status!=2 && status!=-1) {
         if (status==0){
             printf("Le solitaire est, comme son nom l’indique, un jeu où l’on n’a aucun adversaire.\n"
             "Le but est de déplacer des billes sur un plateau, de les ôter petit à petit selon une règle précise "
@@ -378,13 +377,13 @@ int main(){
             "dessus la seconde se trouvant à coté pour aller rejoindre le trou vide.\nLa bille qui aura été sautée est alors sortie du jeu.\n"
             "Il faut savoir qu’à chaque coup, le joueur ne peut prendre qu’une seule bille à la fois et que cette dernière est prise par une autre "
             "bille venant verticalement ou horizontalement à elle.\n\n");
-	        printf("Appuyez sur '0' pour les règles du jeu, '1' pour jouer ou '2' pour une résolution automatique.\nAppuyez à tout moment sur '9' pour quitter la partie :\n");
+	        printf("Appuyez sur '0' pour les règles du jeu, '1' pour jouer ou '2' pour une résolution automatique.\nAppuyez à tout moment sur '-1' pour quitter la partie :\n");
 	        fgets(line, 1024, stdin);
             sscanf(line, "%hhd", &status);//Tutorial 
 	    }
         else {
             printf("Erreur lors de l'entrée. Veuillez réessayer;\n");
-            printf("Appuyez sur '0' pour les règles du jeu, '1' pour jouer ou '2' pour une résolution automatique.\nAppuyez à tout moment sur '9' pour quitter la partie :\n");
+            printf("Appuyez sur '0' pour les règles du jeu, '1' pour jouer ou '2' pour une résolution automatique.\nAppuyez à tout moment sur '-1' pour quitter la partie :\n");
             fgets(line, 1024, stdin);
             sscanf(line, "%hhd", &status);
         }}
