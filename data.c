@@ -61,8 +61,8 @@ void loadGame (state** board, long long int returned[2]) {
     fclose(in);
 }
 
-//gives back 0 if there is nthg saved
-//otherwise it gives us the saved number
+//nb of games (first line of stats)
+//gives back 0 if there is nthg saved, otherwise it gives us the saved number
 int readNumberOfGames() {
     FILE *in;
     int x;
@@ -80,11 +80,37 @@ int readNumberOfGames() {
     fclose(in);
 }
 
-void implementNumberOfGames() {
+//total time (second line of stats)
+//gives back 0 if there is nthg saved, otherwise it gives us the saved number
+double totalPlayingTime() {
+    FILE *in;
     int x;
+    double y;
+    in = fopen ("data/stats.txt", "rb");
+    if (in == NULL) {
+        return 0;
+    }
+    else if (feof (in)) {
+        return 0;
+    }
+    else {
+        fscanf (in, "%d",&x);
+        fscanf (in, "%lf",&y);
+        return y;
+    }
+    fclose(in);
+}
+
+void implementStats(double time) {
+    int x;
+    double y;
     x=readNumberOfGames();
+    y=totalPlayingTime();
     x++;
+    y=y+time;
+    
     FILE *out;
     out = fopen ("data/stats.txt", "wb");
     fprintf(out, "%d\n",x);
+    fprintf(out, "%lf\n",y);
 }

@@ -26,8 +26,8 @@ struct node {
 
 struct movement {
     //optimized model of a movement
-    unsigned char posix;
-    unsigned char posiy;
+    char posix;
+    char posiy;
     direction dir;
 };
 
