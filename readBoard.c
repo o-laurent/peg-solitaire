@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef enum state {ball, empty, out} state;
-
+#include "readBoard.h"
 void printBoardV(state **board, char lineNb, char colNb) {
     printf("\n");
     for (int i=0; i<lineNb+1; i++) {
@@ -57,43 +55,6 @@ void printBoardV(state **board, char lineNb, char colNb) {
                 }
             }
             
-        }
-        printf("\n");
-    }
-    printf("\n");
-}
-
-void printBoard(state **board) {
-    printf("\n");
-    for (int i=0 ; i<8 ; i++) {
-        if (i==0||i==7) {
-            printf("  ");
-            printf("\033[0;31m"); //Red
-            for (int j=0 ; j<7 ; j++) {
-                printf("%d ", j);
-            }
-            printf("\033[0m");
-            printf("\n");
-        }
-        for (int j=0 ; j<8 ; j++) {
-            if ((j==0||j==7) && i!=7) {
-                printf("\033[0;34m"); //Blue
-                printf("%d ", i);
-                printf("\033[0m");
-            }
-            if (i<7 && j<7 && board[i][j]==ball) {
-                printf("\033[1m");
-                printf("o ");
-                printf("\033[0m");
-            }
-            else if (i<7 && j<7 && board[i][j]==empty) {
-                printf("\033[37;2m"); //Grey 
-                printf("X ");
-                printf("\033[0m");
-            }
-            else {
-                printf("  ");
-            }
         }
         printf("\n");
     }
@@ -182,10 +143,10 @@ state** readBoard (char* fileName, char* lineNb, char* colNb) { //je pense que l
     }
 }
 
-int main() {
+/*int main() {
     char lineNb = 0;
     char colNb = 0;
     state** board = readBoard("data/model.txt", &lineNb, &colNb);
     printBoardV(board, lineNb, colNb);
     return 0;
-}
+}*/

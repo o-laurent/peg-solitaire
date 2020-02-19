@@ -1,13 +1,16 @@
 all: solitaire
 
-solitaire: data.o main.o
-	gcc -o solitaire data.o main.o
+solitaire: structures.o readBoard.o data.o main.o
+	gcc -o solitaire structures.o readBoard.o data.o main.o
 
-main.o: main.c
-	gcc -Wall main.c -o main.o -c 
+structures.o: main.c
+	gcc -Wall structures.c -o structures.o -c 
 
 data.o: data.c
 	gcc -Wall data.c -o data.o -c 
+
+readBoard.o: readBoard.c
+	gcc -Wall readBoard.c -o readBoard.o -c 
 
 clean:
 	rm -rf *.o

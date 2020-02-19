@@ -5,8 +5,7 @@
 #include "structures.h"
 #endif
 
-
-void buildLineage(node* currentNode, sorted_children *lineage){
+/*void buildLineage(node* currentNode, sorted_children *lineage){
     node *child = currentNode;
     unsigned int children_nb = 0;
     while(child != NULL){
@@ -24,11 +23,11 @@ void buildLineage(node* currentNode, sorted_children *lineage){
     }
 
     sortNodes(children_nb, cost_list, children_array);        
-}
+}*/
 
 void sortNodes(node** phead){
     node* head = *phead;
-    if((phead==NULL) || (headref->next==NULL)) {
+    if((phead==NULL) || ((*phead)->next==NULL)) {
         return;
     }
     else{
@@ -43,7 +42,7 @@ void sortNodes(node** phead){
 }
 
 node* sortedMerge(node* a, node* b) {
-    struct Node* result = NULL; 
+    node* result = NULL; 
     if (a == NULL) {
         return (b); 
     }

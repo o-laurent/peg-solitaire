@@ -19,7 +19,7 @@ struct node {
     float cost;
     state** board;
     node* child;
-    node* brother;
+    node* next;
     node* parent;
     sorted_children* lineage;
 };
@@ -37,6 +37,8 @@ struct movementList {
 };
 
 movementList* consML (movement* move, movementList* moveList);
-void buildLineage(node* currentNode, sorted_children *lineage);
-void sort_lists(int children_nb, float *cost_list, node **children_array);
+//void buildLineage(node* currentNode, sorted_children *lineage);
+void sortNodes(node** phead);
+node* sortedMerge(node* a, node* b);
+void nodeSplit(node* source, node** frontRef, node** backRef);
 #endif

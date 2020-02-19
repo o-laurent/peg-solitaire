@@ -3,7 +3,6 @@
 #include <time.h>
 #include <unistd.h>
 #include "main.h"
-#include "autosolve.c"
 
 int makePossibleMoves(state **board, movementList* moveList) {
     //Generates the linked list which contains all the moves
@@ -171,7 +170,7 @@ void userMove(state **board, int* pquit) {
     movementList* moveList = malloc(sizeof(movementList));
     while (!goodMove) {
         //Print the board
-        printBoard(board);    
+        printBoardV(board, 7, 7);    
         printf("Entrez la coordonnée ");
         printf("\033[0;34m");
         printf("verticale ");
@@ -404,12 +403,12 @@ int main(){
             sscanf(line, "%c", &resume);
             while (resume!='o' && resume!='n') {
                 printf("\n");
-                printf("Erreur lors de l'entrée. Veuillez réessayer;\n");
+                printf("Erreur lors de l'entrée. Veuillez réessayer\n");
                 printf("Voulez-vous continuer la partie précédente ? (o/n)\n");
                 fgets(line, 1024, stdin);
                 sscanf(line, "%c", &resume);
             }
-            if (resume=='o') {
+            if (resume=='o'||resume=='o'||resume=='\n') {
                 loadGame(board, returned);
                 turn = returned[0];
                 savedTime = (double)returned[1];
@@ -422,7 +421,7 @@ int main(){
         ballNumber = userGame(pquit, &pTrajectory, board, &turn);
         //
         time(&secondsEnd); 
-        printBoard(pTrajectory->board);
+        printBoardV(pTrajectory->board, 7, 7);
         if (*pquit!=1) {
             printf("Après %.2lf minutes, la partie s'est terminée avec %d billes sur le plateau. \n", ((double)secondsEnd-(double)secondsStart+savedTime)/60, ballNumber);
             printf("Bravo !\n");

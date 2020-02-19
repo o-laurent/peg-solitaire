@@ -3,8 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "autosolve.h"
-#include "structures.h"
-#include "main.h"
 #endif
 
 float cost_f(state** board){

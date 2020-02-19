@@ -1,2 +1,6 @@
 solitaire.o
 solitaire
+data.o
+main.o
+readBoard.o
+structures.o

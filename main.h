@@ -1,6 +1,5 @@
 #ifndef _MAIN_H_
 #define _MAIN_H_
-#include "structures.h"
 
 int makePossibleMoves(state **board, movementList* moveList);
 int moveNb(state **board);
@@ -27,6 +26,9 @@ int readNumberOfGames();
 double totalPlayingTime();
 void implementStats(double time);
 
+//readBoard.c
+void printBoardV(state **board, char lineNb, char colNb);
+state** readBoard (char* fileName, char* lineNb, char* colNb);
 
 int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn);
 
@@ -42,7 +44,10 @@ trajectory* consT (state** board, trajectory* pTrajectory) {
 
     return tmp;
 }
+
+typedef struct node node;
 movementList* consML (movement* move, movementList* moveList);
+
 void copyBoard (state** boardI, state** boardO) {
     for(int i=0;i<7;i++){
         for(int j=0;j<7;j++){
