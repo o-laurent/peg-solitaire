@@ -186,7 +186,6 @@ int main() {
     char lineNb = 0;
     char colNb = 0;
     state** board = readBoard("data/model.txt", &lineNb, &colNb);
-    //printBoard(board);
     printBoardV(board, lineNb, colNb);
     return 0;
 }
