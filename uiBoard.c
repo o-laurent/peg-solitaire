@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "readBoard.h"
+#include "uiBoard.h"
 
 void printBoardV(state** board, char lineNb, char colNb) {
     printf("\n");

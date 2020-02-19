@@ -2,5 +2,5 @@ solitaire.o
 solitaire
 data.o
 main.o
-readBoard.o
+uiBoard.o
 structures.o
