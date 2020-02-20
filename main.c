@@ -454,20 +454,20 @@ int main(){
         trajectory* ptrajOrigin = pTrajectory;
         //
         ballNumber = userGame(pquit, &pTrajectory, board, &turn);
-        printf("bNb %d quit %d", ballNumber, *pquit);
         //
         time(&secondsEnd); 
         printBoardV(pTrajectory->board, 7, 7);
         if (*pquit!=1) {
             saveTrajectory(ptrajOrigin);
             printf("Après %.2lf minutes, la partie s'est terminée avec %d billes sur le plateau. \n", ((double)secondsEnd-(double)secondsStart+savedTime)/60, ballNumber);
-            printf("Bravo !\n"); //CHANGE COLOR
+            printf("\033[1;36mBravo !\033[0m\n"); //CHANGE COLOR
             printf("N'hésitez pas à aller récupérer les différentes étapes de la partie dans data/trajectory.txt avant de commencer la prochaine partie !\n");
             //history of the game
             //nb of games
             implementStats((double)secondsEnd-(double)secondsStart+savedTime);
             int x = readNumberOfGames();
             double y = totalPlayedTime();
+            printf("%f, %lf, %f, %lf", y, y, y/60, y/60);
             printf("\n\n");
             printf("Historique de Jeu :\n");
             printf("Nombre de parties jouées: %d\n", x);

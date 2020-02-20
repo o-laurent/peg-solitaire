@@ -5,3 +5,4 @@ main.o
 uiBoard.o
 structures.o
 data/save.txt
+feasible.o

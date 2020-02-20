@@ -1,7 +1,10 @@
 all: solitaire
 
-solitaire: structures.o uiBoard.o data.o rules.o main.o
-	gcc -o solitaire structures.o uiBoard.o data.o rules.o main.o
+solitaire: structures.o feasible.o uiBoard.o data.o rules.o main.o
+	gcc -o solitaire structures.o feasible.o uiBoard.o data.o rules.o main.o
+
+feasible.o: feasible.c
+	gcc -Wall feasible.c -o feasible.o -c 
 
 structures.o: structures.c
 	gcc -Wall structures.c -o structures.o -c 
