@@ -364,29 +364,23 @@ int main(){
     printf("\n");
 
     //Chose the mode
-    printf("Appuyez sur '0' pour les règles du jeu, '1' pour jouer ou '2' pour une résolution automatique.\nAppuyez à tout moment sur '-1' pour quitter la partie :\n");
-    fgets(line, 1024, stdin);
-    sscanf(line, "%hhd", &status);
-
-    //checking for input errors
-    while (status!=1 && status!=2 && status!=-1) {
-        if (status==0){
-            printf("Le solitaire est, comme son nom l’indique, un jeu où l’on n’a aucun adversaire.\n"
-            "Le but est de déplacer des billes sur un plateau, de les ôter petit à petit selon une règle précise "
-            "jusqu’à ce qu’il ne reste qu’une seule bille au centre.\nLe joueur va prendre une bille et sauter par "
-            "dessus la seconde se trouvant à coté pour aller rejoindre le trou vide.\nLa bille qui aura été sautée est alors sortie du jeu.\n"
-            "Il faut savoir qu’à chaque coup, le joueur ne peut prendre qu’une seule bille à la fois et que cette dernière est prise par une autre "
-            "bille venant verticalement ou horizontalement à elle.\n\n");
-	        printf("Appuyez sur '0' pour les règles du jeu, '1' pour jouer ou '2' pour une résolution automatique.\nAppuyez à tout moment sur '-1' pour quitter la partie :\n");
-	        fgets(line, 1024, stdin);
-            sscanf(line, "%hhd", &status);//Tutorial 
-	    }
+    do{
+        printf("Appuyez sur '0' pour les règles du jeu et le tutoriel, '1' pour jouer ou '2' pour une résolution automatique.\nAppuyez à tout moment sur '-1' pour quitter la partie :\n");
+        fgets(line, 1024, stdin);
+        sscanf(line, "%hhd", &status);
+        printf("\n\n");
+        if (status==0) { //Rules
+            printRules();
+        }
         else {
             printf("Erreur lors de l'entrée. Veuillez réessayer;\n");
             printf("Appuyez sur '0' pour les règles du jeu, '1' pour jouer ou '2' pour une résolution automatique.\nAppuyez à tout moment sur '-1' pour quitter la partie :\n");
             fgets(line, 1024, stdin);
             sscanf(line, "%hhd", &status);
-        }}
+        }
+    }
+    while (status!=1 && status!=2 && status!=-1); //checking for input errors
+    
 
     //game
     if (status==1) {

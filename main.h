@@ -23,9 +23,12 @@ void implementStats(double time);
 //uiBoard.c
 void printBoardV(state **board, char lineNb, char colNb);
 void printTrajectory(trajectory* trajOrigin);
+void rmTrajectory();
 void saveTrajectory(trajectory* trajOrigin);
 state** readBoard (char* fileName, char* lineNb, char* colNb);
 
+//rules.c
+void printRules();
 
 int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn);
 

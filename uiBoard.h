@@ -11,5 +11,5 @@ void printTrajectory(trajectory* trajOrigin);
 void rmTrajectory();
 void saveTrajectory(trajectory* trajOrigin);
 
-//Reading functions
+//Reading function
 state** readBoard (char* fileName, char* lineNb, char* colNb);

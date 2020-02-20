@@ -81,12 +81,14 @@ void printTrajectory(trajectory* trajOrigin) {
     while(trajOrigin!=NULL);
 }
 
+
+//Saving functions
 void rmTrajectory() {
     FILE* out;
     out = fopen ("data/trajectory.txt", "w");
     fclose(out);
 }
-//Saving function
+
 void saveTrajectory(trajectory* trajOrigin) {
     FILE* out;
     int turn = 0;
@@ -118,7 +120,8 @@ void saveTrajectory(trajectory* trajOrigin) {
     fclose(out);
 };
 
-//Reading functions 
+
+//Reading function
 state** readBoard (char* fileName, char* lineNb, char* colNb) {
     //reads the board depicted in fileName
 	FILE* fichier = fopen(fileName, "r");
