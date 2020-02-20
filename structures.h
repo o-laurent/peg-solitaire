@@ -10,10 +10,18 @@ typedef struct movementList movementList;
 
 typedef struct trajectory trajectory;
 struct trajectory {
-    //Remembers the different steps
+    //Double linked list which remembers the different steps
     state** board;
     trajectory* next;
     trajectory* previous;
+};
+
+typedef struct trajectoryNode trajectoryNode;
+struct trajectoryNode {
+    //Double linked list which remembers the different steps in the tree of possibilities
+    node* cNode; //Tree
+    trajectoryNode* next;
+    trajectoryNode* previous;
 };
 
 struct sorted_children {
@@ -25,11 +33,12 @@ struct sorted_children {
 struct node {
     //model of a node
     float cost;
+    int childNb;
     state** board;
     node* child;
     node* next;
     node* parent;
-    sorted_children* lineage;
+    node** lineage;
 };
 
 struct movement {
@@ -45,6 +54,9 @@ struct movementList {
 };
 
 movementList* consML (movement* move, movementList* moveList);
+trajectory* consT(state** board, trajectory* pTrajectory);
+trajectoryNode* consTN(node* board, trajectoryNode* pTrajectory);
+
 //void buildLineage(node* currentNode, sorted_children *lineage);
 void sortNodes(node** phead);
 node* sortedMerge(node* a, node* b);

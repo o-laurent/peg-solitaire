@@ -91,3 +91,31 @@ movementList* consML (movement* move, movementList* moveList){
     tmp->next = moveList;
     return tmp;
 }
+
+trajectory* consT(state** board, trajectory* pTrajectory) {
+    //Add a board on the top of the list
+    trajectory* tmp = malloc(sizeof(trajectory));
+    if (tmp == NULL) { //Insufficent space
+        printf("ERREUR");
+        return NULL;
+    }
+    pTrajectory->next = tmp; //Next Step
+    tmp->board = board;
+    tmp->previous = pTrajectory; //Previous Step
+
+    return tmp;
+}
+
+trajectoryNode* consTN(node* child, trajectoryNode* pTrajectory) {
+    //Add a node on the top of the list
+    trajectoryNode* tmp = malloc(sizeof(trajectoryNode));
+    if (tmp == NULL) { //Insufficent space
+        printf("ERREUR");
+        return NULL;
+    }
+    pTrajectory->next = tmp; //Next Step
+    tmp->cNode = child;
+    tmp->previous = pTrajectory; //Previous Step
+
+    return tmp;
+}

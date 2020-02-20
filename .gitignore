@@ -6,3 +6,4 @@ uiBoard.o
 structures.o
 data/save.txt
 feasible.o
+autosolve.o

@@ -33,20 +33,6 @@ void printRules();
 
 int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn);
 
-trajectory* consT(state** board, trajectory* pTrajectory) {
-    //Add a board on the top of the list
-    trajectory* tmp = malloc(sizeof(trajectory));
-    if (tmp == NULL) { //Insufficent space
-        printf("ERREUR");
-        return NULL;
-    }
-    pTrajectory->next = tmp; //Next Step
-    tmp->board = board;
-    tmp->previous = pTrajectory; //Previous Step
-
-    return tmp;
-}
-
 typedef struct node node;
 movementList* consML(movement* move, movementList* moveList);
 

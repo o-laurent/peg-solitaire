@@ -1,274 +1,50 @@
 Début de la partie : 
 
 ----------   Début du tour 0 ----------
-    o o o     
-  o o o o o   
-o o o o o o o 
-o o x o o o o 
-o o o o o o o 
-  o o o o o   
-    o o o     
-----------   Début du tour 1 ----------
-    o o o     
-  o o o o o   
-o o o o o o o 
-o o o x x o o 
-o o o o o o o 
-  o o o o o   
-    o o o     
-----------   Début du tour 2 ----------
-    o o o     
-  o o o o o   
-o o o o o o o 
-o o o x o x x 
-o o o o o o o 
-  o o o o o   
-    o o o     
-----------   Début du tour 3 ----------
-    o o o     
-  o o o o o   
-o o o o o o o 
-o o o x o o x 
-o o o o o x o 
-  o o o o x   
-    o o o     
-----------   Début du tour 4 ----------
-    o o o     
-  o o o o o   
-o o o o o o o 
-o o o x o o x 
-o o o x x o o 
-  o o o o x   
-    o o o     
-----------   Début du tour 5 ----------
-    o o o     
-  o o o o o   
-o o o o o o o 
-o o o x o o x 
-o o o x o x x 
-  o o o o x   
-    o o o     
-----------   Début du tour 6 ----------
-    o o o     
-  o o o o o   
-o o o o o x o 
-o o o x o x x 
-o o o x o o x 
-  o o o o x   
-    o o o     
-----------   Début du tour 7 ----------
-    o o o     
-  o o o o o   
-o o o x x o o 
-o o o x o x x 
-o o o x o o x 
-  o o o o x   
-    o o o     
-----------   Début du tour 8 ----------
-    o o o     
-  o o o o o   
-o o o x o x x 
-o o o x o x x 
-o o o x o o x 
-  o o o o x   
-    o o o     
-----------   Début du tour 9 ----------
-    o o o     
-  o o o o o   
-o o o x o x x 
-o o o x o x x 
-o o o o x x x 
-  o o o o x   
-    o o o     
-----------   Début du tour 10 ----------
-    o o o     
-  o o o o o   
-o o o x o x x 
-o o o x o x x 
-o o o o o x x 
-  o o o x x   
-    o o x     
-----------   Début du tour 11 ----------
-    o o o     
-  o o o o o   
-o o o x o x x 
-o o o x o x x 
-o o o o o x x 
-  o o o x x   
-    x x o     
-----------   Début du tour 12 ----------
-    o o o     
-  o o o o o   
-o o o x o x x 
-o o o x x x x 
-o o o o x x x 
-  o o o o x   
-    x x o     
-----------   Début du tour 13 ----------
-    o o o     
-  o o o o o   
-o o o x o x x 
-o o o x x x x 
-o o o o o x x 
-  o o o x x   
     x x x     
-----------   Début du tour 14 ----------
-    o o o     
-  o o o x o   
-o o o x x x x 
-o o o x o x x 
-o o o o o x x 
-  o o o x x   
-    x x x     
-----------   Début du tour 15 ----------
-    o o o     
-  o x x o o   
-o o o x x x x 
-o o o x o x x 
-o o o o o x x 
-  o o o x x   
-    x x x     
-----------   Début du tour 16 ----------
-    o o x     
-  o x x x o   
-o o o x o x x 
-o o o x o x x 
-o o o o o x x 
-  o o o x x   
-    x x x     
-----------   Début du tour 17 ----------
-    o o x     
-  o x x o o   
-o o o x x x x 
-o o o x x x x 
-o o o o o x x 
-  o o o x x   
-    x x x     
-----------   Début du tour 18 ----------
-    o o x     
-  o x o x x   
-o o o x x x x 
-o o o x x x x 
-o o o o o x x 
-  o o o x x   
-    x x x     
-----------   Début du tour 19 ----------
-    o x x     
-  o x x x x   
-o o o o x x x 
-o o o x x x x 
-o o o o o x x 
-  o o o x x   
-    x x x     
-----------   Début du tour 20 ----------
-    o x x     
-  o o x x x   
-o o x o x x x 
-o o x x x x x 
-o o o o o x x 
-  o o o x x   
-    x x x     
-----------   Début du tour 21 ----------
-    x x x     
-  o x x x x   
-o o o o x x x 
-o o x x x x x 
-o o o o o x x 
-  o o o x x   
-    x x x     
-----------   Début du tour 22 ----------
-    x x x     
-  o x x x x   
-o o o o x x x 
-o o x o x x x 
-o o o x o x x 
-  o o x x x   
-    x x x     
-----------   Début du tour 23 ----------
-    x x x     
-  o x x x x   
-o o o o x x x 
-x x o o x x x 
-o o o x o x x 
-  o o x x x   
-    x x x     
-----------   Début du tour 24 ----------
-    x x x     
-  x x x x x   
-o x o o x x x 
-x o o o x x x 
-o o o x o x x 
-  o o x x x   
-    x x x     
-----------   Début du tour 25 ----------
-    x x x     
-  x x x x x   
-o o x x x x x 
-x o o o x x x 
-o o o x o x x 
-  o o x x x   
-    x x x     
-----------   Début du tour 26 ----------
-    x x x     
-  x x x x x   
-x x o x x x x 
-x o o o x x x 
-o o o x o x x 
-  o o x x x   
-    x x x     
-----------   Début du tour 27 ----------
-    x x x     
-  x x x x x   
-x x o x x x x 
-x o o o x x x 
-o o o x o x x 
   x x o x x   
-    x x x     
-----------   Début du tour 28 ----------
-    x x x     
+x x o o o x x 
+x o o o o o x 
+x x x x x x x 
   x x x x x   
-x x o x x x x 
+    x x x     
+----------   Début du tour 1 ----------
+    x x x     
+  x x o x x   
 x x o o x x x 
-o x o x o x x 
-  o x o x x   
-    x x x     
-----------   Début du tour 29 ----------
-    x x x     
+x o o o x o x 
+x x x x o x x 
   x x x x x   
-x x o x x x x 
+    x x x     
+----------   Début du tour 2 ----------
+    x x x     
+  x x o x x   
 x x x o x x x 
-o x x x o x x 
-  o o o x x   
-    x x x     
-----------   Début du tour 30 ----------
-    x x x     
+x o x o x o x 
+x x o x o x x 
   x x x x x   
-x x o x x x x 
-x x x o x x x 
-o x x x o x x 
-  o x x o x   
     x x x     
-----------   Début du tour 31 ----------
+----------   Début du tour 3 ----------
     x x x     
-  x x x x x   
-x x o x x x x 
-x x x o o x x 
-o x x x x x x 
-  o x x x x   
-    x x x     
-----------   Début du tour 32 ----------
-    x x x     
-  x x x x x   
-x x o x x x x 
-x x o x x x x 
-o x x x x x x 
-  o x x x x   
-    x x x     
-----------   Début du tour 33 ----------
-    x x x     
-  x x x x x   
+  x x o x x   
 x x x x x x x 
+x o x x x o x 
+x x o o o x x 
+  x x x x x   
+    x x x     
+----------   Début du tour 4 ----------
+    x x x     
+  x x o x x   
 x x x x x x x 
-o x o x x x x 
-  o x x x x   
+x o x x x o x 
+x x o x x o x 
+  x x x x x   
+    x x x     
+----------   Début du tour 5 ----------
+    x x x     
+  x x o x x   
+x x x x x o x 
+x o x x x x x 
+x x o x x x x 
+  x x x x x   
     x x x     

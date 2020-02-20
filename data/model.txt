@@ -1,8 +1,7 @@
-  xxx
- xxxxx
-xxxxxxx
-xxxx.xx
-xxxxxxx
- xxxxx
-  xxx
-
+  ...
+ ..x..
+..xxx..
+.xxxxx.
+.......
+ .....
+  ...

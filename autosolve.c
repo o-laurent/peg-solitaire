@@ -23,46 +23,42 @@ float cost_f(state** board){
     return cost;
 }
 
-/*tant que non stop 
-    on regarde si il y a des mouvements possibles 
-        On construit la lignée 
-            On trie la lignée 
-                On choisit les deux meilleurs et on supprime les autres 
-                    si stop != 0 on arrête
-                    sinon on réitère le raisonnement 
-*/
+node* copyNode(node* sibling) {
+    -1;
+}
 
-/*stop = 0;
-trajectory* autosolve(trajectory* pTrajectory) {
+trajectoryNode* autosolve(trajectoryNode* pTrajectory) {
+    int stop = 0;
     if (stop) {
         return pTrajectory;
     }
     else {
-        movement move;
-        for (int i=0 ; i<7 ; i++) {
-            for (int j=0 ; j<7 ; j++) {
-                if (pTrajectory->node->board[i][j]==ball) {
-                    move.posix = i;
-                    move.posiy = j;
-                    for (k=0 ; k<4 ; k++) {
-                        move.dir = k;
-                        node* nodeV = copy(pTrajectory->node->child);
-                        if (correctMove(pTrajectory->board, &move)) {
-                            doMove(move, nodeV->board);
+        movement* pmove = malloc(sizeof(movement));
+        for (int i=0; i<7; i++) {
+            for (int j=0; j<7; j++) {
+                if (pTrajectory->cNode->board[i][j]==ball) {
+                    pmove->posix = i;
+                    pmove->posiy = j;
+                    for (int k=0; k<4; k++) {
+                        pmove->dir = k;
+                        node* nodeV = copyNode(pTrajectory->cNode->child);
+                        if (correctMove(pTrajectory->cNode->board, pmove)) {
+                            doMove(nodeV->board, pmove);
                             nodeV->cost = cost_f(nodeV->board);
-                            pTrajectory->node->childNb++;
+                            pTrajectory->cNode->childNb++;
                         }
                     }
                 }
             }
         }
-        sortNodes(pTrajectory->node->child);
-        child1 = pTrajectory->node->child;
-        pTrajectory = consT(pTrajectory, child1);
+        sortNodes(pTrajectory->cNode->lineage);
+        node* child1 = pTrajectory->cNode->child;
+        pTrajectory = consTN(child1, pTrajectory);
         autosolve(pTrajectory);
-        child2 = pTrajectory->node->child->next;
-        pTrajectory = consT(pTrajectory, child2);
+        node* child2 = pTrajectory->cNode->child->next;
+        pTrajectory = consTN(child2, pTrajectory);
         autosolve(pTrajectory);
         //Il faut que les 2 trajectoires soient différentes : peut-être un problème de mémoire ici 
     }
-}*/
+    return pTrajectory;
+}
