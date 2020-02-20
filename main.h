@@ -12,13 +12,6 @@ void doMove(state **board, movement* move);
 void userMove(state **board, int* pquit);
 void printBoard(state **board);
 
-typedef struct trajectory trajectory;
-struct trajectory {
-    //Remembers the different steps
-    state** board;
-    trajectory* next;
-};
-
 //data.c
 void saveGame (state** board, int turn, double time);
 void loadGame (state** board, long long int returned[2]);
@@ -27,29 +20,33 @@ int readNumberOfGames();
 double totalPlayingTime();
 void implementStats(double time);
 
-//readBoard.c
+//uiBoard.c
 void printBoardV(state **board, char lineNb, char colNb);
+void printTrajectory(trajectory* trajOrigin);
+void saveTrajectory(trajectory* trajOrigin);
 state** readBoard (char* fileName, char* lineNb, char* colNb);
+
 
 int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn);
 
-trajectory* consT (state** board, trajectory* pTrajectory) {
+trajectory* consT(state** board, trajectory* pTrajectory) {
     //Add a board on the top of the list
     trajectory* tmp = malloc(sizeof(trajectory));
-    if (tmp == NULL) {
+    if (tmp == NULL) { //Insufficent space
         printf("ERREUR");
         return NULL;
     }
+    pTrajectory->next = tmp; //Next Step
     tmp->board = board;
-    tmp->next = pTrajectory;
+    tmp->previous = pTrajectory; //Previous Step
 
     return tmp;
 }
 
 typedef struct node node;
-movementList* consML (movement* move, movementList* moveList);
+movementList* consML(movement* move, movementList* moveList);
 
-void copyBoard (state** boardI, state** boardO) {
+void copyBoard(state** boardI, state** boardO) {
     for(int i=0;i<7;i++){
         for(int j=0;j<7;j++){
             boardO[i][j] = boardI[i][j];

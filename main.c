@@ -175,10 +175,10 @@ void userMove(state **board, int* pquit) {
         printf("\033[0;34m");
         printf("verticale ");
         printf("\033[0m");
-        printf("de la balle à déplacer\n");
+        printf("de la bille à déplacer\n");
         fgets(line, 1024, stdin);
         sscanf(line, "%hhd", &(move.posix));
-        move.posix--;
+        move.posix--; //1 is equivalent to the 0 of the array
         
         //if user doesn't want to quit
         if (move.posix != -2) {
@@ -187,7 +187,7 @@ void userMove(state **board, int* pquit) {
             printf("\033[0;31m");
             printf("horizontale ");
             printf("\033[0m");
-            printf("de la balle à déplacer\n");
+            printf("de la bille à déplacer\n");
             fgets(line, 1024, stdin);
             sscanf(line, "%hhd", &(move.posiy));
             move.posiy--;
@@ -433,24 +433,33 @@ int main(){
                 savedTime = (double)returned[1];
                 remove("data/save.txt");
             }
+            else {
+                rmTrajectory(); //Delete the saved Trajectory (last game that user doesn't want to resume)
+            }
+        }
+        else {
+            rmTrajectory(); //Delete the saved Trajectory (last game which was finished)
         }
         time(&secondsStart); 
         trajectory* pTrajectory = malloc(sizeof(trajectory));
+        trajectory* ptrajOrigin = pTrajectory;
         //
         ballNumber = userGame(pquit, &pTrajectory, board, &turn);
         //
         time(&secondsEnd); 
         printBoardV(pTrajectory->board, 7, 7);
         if (*pquit!=1) {
+            saveTrajectory(ptrajOrigin);
             printf("Après %.2lf minutes, la partie s'est terminée avec %d billes sur le plateau. \n", ((double)secondsEnd-(double)secondsStart+savedTime)/60, ballNumber);
-            printf("Bravo !\n");
+            printf("Bravo !\n"); //CHANGE COLOR
+            printf("N'hésitez pas à aller récupérer les différentes étapes de la partie dans data/trajectory.txt avant de commencer la prochaine partie !\n");
             //history of the game
             //nb of games
             implementStats((double)secondsEnd-(double)secondsStart+savedTime);
             int x = readNumberOfGames();
             double y = totalPlayingTime();
-            printf("\n");
-            printf("Historique de Jeu \n");
+            printf("\n\n");
+            printf("Historique de Jeu :\n");
             printf("Nombre de parties jouées: %d\n", x);
             printf("Temps total de jeu: %lf minutes\n", (y+(double)secondsEnd-(double)secondsStart)/60);
         }
@@ -470,6 +479,7 @@ int main(){
             }
             if (save=='o') {
                 saveGame(pTrajectory->board, turn, (double)secondsEnd-(double)secondsStart+savedTime);
+                saveTrajectory(ptrajOrigin);
                 printf("\n");
                 printf("La partie a été sauvegardée !\n");
             }

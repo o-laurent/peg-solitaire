@@ -8,6 +8,14 @@ typedef struct node node;
 typedef struct movement movement;
 typedef struct movementList movementList;
 
+typedef struct trajectory trajectory;
+struct trajectory {
+    //Remembers the different steps
+    state** board;
+    trajectory* next;
+    trajectory* previous;
+};
+
 struct sorted_children {
     //List of nodes sorted by increasing costs
     node *child;

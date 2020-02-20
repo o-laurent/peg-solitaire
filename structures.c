@@ -43,13 +43,12 @@ void sortNodes(node** phead){
 
 node* sortedMerge(node* a, node* b) {
     node* result = NULL; 
-    if (a == NULL) {
+    if (a==NULL) {
         return (b); 
     }
-    else if(b == NULL){ 
+    else if (b==NULL) { 
         return (a); 
     }
-
     if (a->cost <= b->cost) { 
         result = a; 
         result->next = sortedMerge(a->next, b); 

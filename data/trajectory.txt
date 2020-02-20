@@ -1,0 +1,32 @@
+----------   Début du tour 21871 ----------
+    o o o     
+  o o o o o   
+o o o o o o o 
+o o o o x o o 
+o o o o o o o 
+  o o o o o   
+    o o o     
+----------   Début du tour 21872 ----------
+    o o o     
+  o o o o o   
+o o o o o o o 
+o o x x o o o 
+o o o o o o o 
+  o o o o o   
+    o o o     
+----------   Début du tour 21873 ----------
+    o o o     
+  o o o o o   
+o o o o o o o 
+o o x o x x o 
+o o o o o o o 
+  o o o o o   
+    o o o     
+----------   Début du tour 21874 ----------
+    o o o     
+  o o o o o   
+o o o o o o o 
+o o x o x x o 
+o o o o o o o 
+  o o o o o   
+    o o o     
