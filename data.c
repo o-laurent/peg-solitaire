@@ -18,6 +18,10 @@ void saveGame (state** board, int turn, double time) {
     fclose(out);
 }
 
+void rmSavedGame() {
+    remove("data/save.txt");
+}
+
 int isThereASavedGame() {
     // Returns 1 if there is a saved game that can be resumed
     FILE *in;
@@ -86,7 +90,7 @@ int readNumberOfGames() {
 
 //total time (second line of stats)
 //gives back 0 if there is nthg saved, otherwise it gives us the saved number
-double totalPlayingTime() {
+double totalPlayedTime() {
     FILE *in;
     int x;
     double y;
@@ -94,12 +98,12 @@ double totalPlayingTime() {
     if (in == NULL) {
         return 0;
     }
-    else if (feof (in)) {
+    else if (feof(in)) {
         return 0;
     }
     else {
         fscanf (in, "%d",&x);
-        fscanf (in, "%lf",&y);
+        fscanf (in, "%f",&y);
         return y;
     }
     fclose(in);
@@ -109,7 +113,7 @@ void implementStats(double time) {
     int x;
     double y;
     x=readNumberOfGames();
-    y=totalPlayingTime();
+    y=totalPlayedTime();
     x++;
     y=y+time;
     

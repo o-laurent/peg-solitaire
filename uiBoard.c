@@ -84,9 +84,7 @@ void printTrajectory(trajectory* trajOrigin) {
 
 //Saving functions
 void rmTrajectory() {
-    FILE* out;
-    out = fopen ("data/trajectory.txt", "w");
-    fclose(out);
+    remove("data/trajectory.txt");
 }
 
 void saveTrajectory(trajectory* trajOrigin) {

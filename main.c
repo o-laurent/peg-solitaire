@@ -65,7 +65,7 @@ void initBoard(state **board) {
                 board[i][j] = out;
             }
             else if (i==j && i==3) {
-                board[i][j] = empty; 
+                board[i][j-1] = empty; 
             }
             else {
                 board[i][j] = ball;
@@ -360,23 +360,35 @@ int main(){
     int turn = 1;
 
     //intro
-    printf("Bienvenue dans le Solitaire v1.0\n");
+    printf("Bienvenue dans le Solitaire v1.1\n");
     printf("\n");
 
     //Chose the mode
     do{
-        printf("Appuyez sur '0' pour les règles du jeu et le tutoriel, '1' pour jouer ou '2' pour une résolution automatique.\nAppuyez à tout moment sur '-1' pour quitter la partie :\n");
+        printf("Appuyez sur '0' pour les règles du jeu et le tutoriel, \n-'1' pour jouer \n-'2' pour une résolution automatique.\nAppuyez à tout moment sur '-1' pour quitter la partie\n");
         fgets(line, 1024, stdin);
         sscanf(line, "%hhd", &status);
-        printf("\n\n");
+        printf("\n");
         if (status==0) { //Rules
             printRules();
+            //Tutorial
+            char tutorial;
+            do {
+                printf("Voulez-vous poursuivre sur le tutoriel ? (o/n)\n");
+                fgets(line, 1024, stdin);
+                sscanf(line, "%c", &tutorial);
+                printf("\n\n");
+            }
+            while (tutorial!='o' && tutorial!='O' && tutorial!='N' && tutorial!='n' && tutorial!='\n');
+            if (tutorial=='o'||tutorial=='o'||tutorial=='\n') {
+                printf("TUTORIEL EN COURS DE REDACTION \n");
+            }
         }
-        else {
+        else if (status!=1 && status!=2 && status!=-1) {
             printf("Erreur lors de l'entrée. Veuillez réessayer;\n");
-            printf("Appuyez sur '0' pour les règles du jeu, '1' pour jouer ou '2' pour une résolution automatique.\nAppuyez à tout moment sur '-1' pour quitter la partie :\n");
+            printf("Appuyez sur '0' pour les règles du jeu, \n-'1' pour jouer ou \n-'2' pour une résolution automatique.\nAppuyez à tout moment sur '-1' pour quitter la partie\n");
             fgets(line, 1024, stdin);
-            sscanf(line, "%hhd", &status);
+            sscanf(line, "%c", &status);
         }
     }
     while (status!=1 && status!=2 && status!=-1); //checking for input errors
@@ -400,6 +412,7 @@ int main(){
         while (perso!='o' && perso!='O' && perso!='N' && perso!='n' && perso!='\n');
         if (perso=='N' || perso=='n' || perso=='\n') {
             initBoard(board);
+            printf("INIT");
         }
         else {
             char lineNb = 0;
@@ -425,20 +438,23 @@ int main(){
                 loadGame(board, returned);
                 turn = returned[0];
                 savedTime = (double)returned[1];
-                remove("data/save.txt");
+                rmSavedGame();
             }
             else {
                 rmTrajectory(); //Delete the saved Trajectory (last game that user doesn't want to resume)
+                rmSavedGame();
             }
         }
         else {
             rmTrajectory(); //Delete the saved Trajectory (last game which was finished)
+            rmSavedGame();
         }
         time(&secondsStart); 
         trajectory* pTrajectory = malloc(sizeof(trajectory));
         trajectory* ptrajOrigin = pTrajectory;
         //
         ballNumber = userGame(pquit, &pTrajectory, board, &turn);
+        printf("bNb %d quit %d", ballNumber, *pquit);
         //
         time(&secondsEnd); 
         printBoardV(pTrajectory->board, 7, 7);
@@ -451,11 +467,11 @@ int main(){
             //nb of games
             implementStats((double)secondsEnd-(double)secondsStart+savedTime);
             int x = readNumberOfGames();
-            double y = totalPlayingTime();
+            double y = totalPlayedTime();
             printf("\n\n");
             printf("Historique de Jeu :\n");
             printf("Nombre de parties jouées: %d\n", x);
-            printf("Temps total de jeu: %lf minutes\n", (y+(double)secondsEnd-(double)secondsStart)/60);
+            printf("Temps total de jeu: %f minutes\n", y/60);
         }
         else {
             char save;
