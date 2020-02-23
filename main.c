@@ -6,6 +6,7 @@
 
 int makePossibleMoves(state **board, movementList* moveList) {
     //Generates the linked list which contains all the moves
+    //and returns the number of moves that can be done
     int i = 0;
     int j = 0;
     int k = 0;
@@ -32,7 +33,7 @@ int makePossibleMoves(state **board, movementList* moveList) {
 int moveNb(state **board) {
     //Returns the number of possible moves
     int nb;
-    movementList moveList;
+    movementList moveList; //To provide enough arguments (but not used)
     nb = makePossibleMoves(board, &moveList);
     return nb;
 }
@@ -48,7 +49,7 @@ int moveFixed(state **board, movementList** moveList, unsigned char x, unsigned 
         for (k=0; k<4; k++) {
             move.dir = k;
             if (correctMove(board, &move)) {
-                *moveList = consML(&move, *moveList);
+                *moveList = consML(&move, *moveList); //Utilisation forcée de liste chaînée pour s'entraîner...
                 nb++;
             }
         }
@@ -58,7 +59,7 @@ int moveFixed(state **board, movementList** moveList, unsigned char x, unsigned 
 }
 
 void initBoard(state **board) {
-    //Initialise the board to a French solitaire
+    //Initialises the board to a French solitaire
     for (int i=0; i<7; i++) {
         for (int j=0; j<7; j++) {
             if ((i%6==0 && j%6==0) || (i%6==0 && j==1) || (i==1 && j%6==0) || (i%6==0 && j==5) || (i==5 && j%6==0)) {
@@ -310,7 +311,7 @@ void printBoard(state **board) {
     printf("\n");
 }
 
-int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn ) {
+int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn) {
     //Initialising the board and the trajectory
     (*pTrajectory)->next = NULL;
     (*pTrajectory)->board = board;
@@ -321,8 +322,9 @@ int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn ) {
     }
 
     while (possibleMove(board) && (!(*pquit))){
+        //If a mouvement is possible and user doesn't want to quit
         free(newBoard);
-        newBoard = malloc(sizeof(*newBoard) * 7);
+        newBoard = malloc(sizeof(*newBoard) * 7); //tmpBoard 
         for (int i=0;i<7;i++) {
             newBoard[i] = malloc(sizeof(**newBoard)*7);
         }
@@ -330,29 +332,38 @@ int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn ) {
 
         //printf("Valeur : %f", cost_f(newBoard));
         printf("----------   Début du tour %d ----------\n", *turn);
-        userMove(newBoard, pquit);
+        userMove(newBoard, pquit); //modify tmpBoard 
         (*turn)++;
 
         board = malloc(sizeof(*board) * 7);
         for (int i=0;i<7;i++) {
             board[i] = malloc(sizeof(**board)*7);
         }
-        copyBoard(newBoard, board);
+        copyBoard(newBoard, board); //copy board to tmpBoard
 
-        *pTrajectory = consT(board, *pTrajectory);
+        *pTrajectory = consT(board, *pTrajectory); //update the trajectory
     }
     return ballNb((*pTrajectory)->board);
 }
 
 int main(){ 
+    //Initialisation
     state **board = malloc(sizeof(*board) * 7);
     char status;
+
+    //time vars
     time_t secondsStart; 
     time_t secondsEnd; 
+
+    //to use sscanf (ask multiple questions to the user
     char line[1024];
-    int ballNumber = 36;
     int quit = 0;
     int* pquit = &quit;
+
+    //Defining the board's dimensions
+    char lineNb = 0;
+    char colNb = 0;
+    int ballNumber = 0;
 
     //Check if there is a saved game to load 
     int savedGame = isThereASavedGame();
@@ -412,11 +423,11 @@ int main(){
         while (perso!='o' && perso!='O' && perso!='N' && perso!='n' && perso!='\n');
         if (perso=='N' || perso=='n' || perso=='\n') {
             initBoard(board);
+            lineNb = 7;
+            colNb = 7;
             printf("INIT");
         }
         else {
-            char lineNb = 0;
-            char colNb = 0;
             board = readBoard("data/model.txt", &lineNb, &colNb);
         }
 
@@ -472,10 +483,12 @@ int main(){
             printf("Historique de Jeu :\n");
             printf("Nombre de parties jouées: %d\n", x);
             printf("Temps total de jeu: %f minutes\n", y/60);
+            rmSavedGame();
         }
+
         else {
             char save;
-            //ask the user if he wants to save game
+            //ask whether the user wants to save the game or not
             printf("\n");
             printf("Voulez-vous sauvegarder la partie ? (o/n)\n");
             fgets(line, 1024, stdin);
@@ -494,10 +507,19 @@ int main(){
                 printf("La partie a été sauvegardée !\n");
             }
         }
+        free(board);
+        freeT_P(pTrajectory);
     }
 
-    if (status==2) {
-        -1; //autosolve
+    else if (status==2) {
+        board = readBoard("data/model.txt", &lineNb, &colNb);
+        node* cNode = malloc(sizeof(node));
+        trajectoryNode* pTrajectory = malloc(sizeof(trajectory));
+        trajectoryNode* ptrajOrigin = pTrajectory;
+        pTrajectory->cNode = cNode;
+        pTrajectory->cNode->board = board;
+        int boardNb = 0;
+        autosolve(pTrajectory, &boardNb);
         //show solution or not
     }
 

@@ -187,7 +187,8 @@ state** readBoard (char* fileName, char* lineNb, char* colNb) {
 					board[l][i] = empty;
 				}
                 else {
-                    printf("ERREUR");
+                    printf("Erreur dans le fichier data/model.txt.\n Veuillez utiliser uniquement 'x' et '.'.\n");
+                    board[l][i] = empty; //If there is a wrong caracter, say it's empty
                 }
 				i++;
                 c = fgetc(fichier);

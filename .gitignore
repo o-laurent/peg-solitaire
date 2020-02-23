@@ -7,3 +7,4 @@ structures.o
 data/save.txt
 feasible.o
 autosolve.o
+rules.o

@@ -25,6 +25,19 @@
     sortNodes(children_nb, cost_list, children_array);        
 }*/
 
+//Utility
+void printSizes() {
+    printf("----- Affichage des tailles des objets utilisés -----\n");
+    printf("Taille de state : %ld\n", sizeof(state));
+    printf("Taille de trajectory : %ld\n", sizeof(trajectory));
+    printf("Taille de direction : %ld\n", sizeof(direction));
+    printf("Taille de movement : %ld\n", sizeof(movement));
+    printf("Taille de movementList : %ld\n", sizeof(movementList));
+    printf("Taille de node : %ld\n", sizeof(node));
+    printf("Taille de trajectoryNode : %ld\n", sizeof(trajectoryNode));
+}
+
+//Node functions
 void sortNodes(node** phead){
     node* head = *phead;
     if((phead==NULL) || ((*phead)->next==NULL)) {
@@ -92,6 +105,8 @@ movementList* consML (movement* move, movementList* moveList){
     return tmp;
 }
 
+
+//Trajectory basic functions
 trajectory* consT(state** board, trajectory* pTrajectory) {
     //Add a board on the top of the list
     trajectory* tmp = malloc(sizeof(trajectory));
@@ -106,6 +121,16 @@ trajectory* consT(state** board, trajectory* pTrajectory) {
     return tmp;
 }
 
+void freeT_P(trajectory* pTrajectory) {
+    //upper-way-recursive free
+    if (pTrajectory->previous!=NULL) {
+        freeT_P(pTrajectory->previous);
+    }
+    free(pTrajectory);
+}
+
+
+//TrajectoryNode basic functions
 trajectoryNode* consTN(node* child, trajectoryNode* pTrajectory) {
     //Add a node on the top of the list
     trajectoryNode* tmp = malloc(sizeof(trajectoryNode));
@@ -118,4 +143,12 @@ trajectoryNode* consTN(node* child, trajectoryNode* pTrajectory) {
     tmp->previous = pTrajectory; //Previous Step
 
     return tmp;
+}
+
+void freeTN_P(trajectoryNode* pTrajectory) {
+    //upper-way-recursive free
+    if (pTrajectory->previous!=NULL) {
+        freeTN_P(pTrajectory->previous);
+    }
+    free(pTrajectory);
 }

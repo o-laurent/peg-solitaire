@@ -53,9 +53,17 @@ struct movementList {
     movementList* next;
 };
 
+void printSizes();
+
 movementList* consML (movement* move, movementList* moveList);
+
+//trajectory functions
 trajectory* consT(state** board, trajectory* pTrajectory);
+void freeT_P(trajectory* pTrajectory);
+
+//trajectoryNode functions
 trajectoryNode* consTN(node* board, trajectoryNode* pTrajectory);
+void freeTN_P(trajectoryNode* pTrajectory);
 
 //void buildLineage(node* currentNode, sorted_children *lineage);
 void sortNodes(node** phead);

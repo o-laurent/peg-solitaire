@@ -24,12 +24,24 @@ float cost_f(state** board){
 }
 
 node* copyNode(node* sibling) {
-    -1;
+    node* nodeOut = malloc(sizeof(node));
+    nodeOut->board = sibling->board;
+    nodeOut->child = sibling->child;
+    nodeOut->childNb = sibling->childNb;
+    nodeOut->cost = sibling->cost;
+    nodeOut->lineage = sibling->lineage;
+    nodeOut->next = sibling->next;
+    nodeOut->parent = sibling->parent;
+    return nodeOut;
 }
 
-trajectoryNode* autosolve(trajectoryNode* pTrajectory) {
+trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb) {
     int stop = 0;
+    if (ballNb(pTrajectory->cNode->board)==1) {
+            stop++;
+    }
     if (stop) {
+        //If a solution has been found, keep the trajectory
         return pTrajectory;
     }
     else {
@@ -46,19 +58,21 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory) {
                             doMove(nodeV->board, pmove);
                             nodeV->cost = cost_f(nodeV->board);
                             pTrajectory->cNode->childNb++;
+                            *boardNb++;
                         }
                     }
                 }
             }
         }
-        sortNodes(pTrajectory->cNode->lineage);
+        /*sortNodes(pTrajectory->cNode->lineage);
         node* child1 = pTrajectory->cNode->child;
         pTrajectory = consTN(child1, pTrajectory);
-        autosolve(pTrajectory);
-        node* child2 = pTrajectory->cNode->child->next;
-        pTrajectory = consTN(child2, pTrajectory);
-        autosolve(pTrajectory);
-        //Il faut que les 2 trajectoires soient différentes : peut-être un problème de mémoire ici 
+        autosolve(pTrajectory, boardNb);
+        if (!stop) { //If a solution hasn't been found yet, try the other movement.
+            node* child2 = pTrajectory->cNode->child->next; //A CHANGER DOIT ETRE LE SUIVANT AVEC UNE VALEUR DIFFERENTE POUR GARANTIR UN MOUV DIFFERENT
+            pTrajectory = consTN(child2, pTrajectory); 
+            autosolve(pTrajectory, boardNb);
+        }*/
     }
     return pTrajectory;
 }

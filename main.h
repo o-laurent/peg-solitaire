@@ -2,6 +2,7 @@
 #define _MAIN_H_
 #include "structures.h"
 
+//main.c
 int makePossibleMoves(state **board, movementList* moveList);
 int moveNb(state **board);
 void initBoard(state **board);
@@ -11,6 +12,7 @@ int possibleMove(state **board);
 void doMove(state **board, movement* move);
 void userMove(state **board, int* pquit);
 void printBoard(state **board);
+int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn);
 
 //data.c
 void saveGame (state** board, int turn, double time);
@@ -31,7 +33,9 @@ state** readBoard (char* fileName, char* lineNb, char* colNb);
 //rules.c
 void printRules();
 
-int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn);
+//autosolve.c
+trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb);
+
 
 typedef struct node node;
 movementList* consML(movement* move, movementList* moveList);

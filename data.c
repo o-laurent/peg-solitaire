@@ -103,7 +103,7 @@ double totalPlayedTime() {
     }
     else {
         fscanf (in, "%d",&x);
-        fscanf (in, "%f",&y);
+        fscanf (in, "%lf",&y);
         return y;
     }
     fclose(in);
