@@ -522,7 +522,8 @@ int main(){
         pTrajectory->cNode->board = board;
         pTrajectory->cNode->childNb = 0;
         int boardNb = 0;
-        pTrajectory = autosolve(pTrajectory, &boardNb);
+        int stop = 0;
+        pTrajectory = autosolve(pTrajectory, &boardNb, &stop);
 
         printTrajectoryN(ptrajOrigin);
         printf("Nombre de solutions testées : %d\n", boardNb);

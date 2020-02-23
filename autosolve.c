@@ -47,21 +47,50 @@ node* copyNode(node* sibling) {
     return nodeOut;
 }
 
-trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb) {
-    int stop = 0;
-    if (ballNb(pTrajectory->cNode->board)==1) {
-            stop++;
-            return pTrajectory;
-    }
-    if (stop) {
-        //If a solution has been found, keep the trajectory
+trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop) {
+    
+    //printf("2");
+    if (*stop!=0 || ballNb(pTrajectory->cNode->board)<=1) {
+        //printf("stop : %d, ballNb %d\n")
+        printf("VICTOIRE\n");
+        (*stop)++;
         return pTrajectory;
     }
+    /*if (*stop) {
+        //If a solution has been found, keep the trajectory
+        //printf("SOLUTION FOUND");
+        return pTrajectory;
+    }*/
     else if (moveNb(pTrajectory->cNode->board)==0) {
-        pTrajectory->cNode = pTrajectory->cNode->parent;
+        /*printf("ECHEC\n");
+        printBoardV(pTrajectory->cNode->board,7,7);
+        printBoardV(pTrajectory->previous->cNode->board,7,7);
+        printBoardV(pTrajectory->previous->previous->cNode->board,7,7);
+        printBoardV(pTrajectory->previous->previous->previous->cNode->board,7,7);*/
+        /*printf("Pointeur vers ptrajectory->cNode %p \n", pTrajectory->cNode);
+        printf("Pointeur vers ptrajectory->cNode->child %p \n", pTrajectory->cNode->child);*/
+        /*while (pTrajectory->cNode->child!=NULL) {
+            printf("Pointeur vers ptrajectory->cNode %p \n", pTrajectory->cNode);
+            pTrajectory->cNode = pTrajectory->cNode->child;
+        }*/
+        /*if (pTrajectory->cNode!=NULL){
+            if (pTrajectory->cNode->child!=NULL) {
+                free(pTrajectory->cNode->child);
+            }
+            free(pTrajectory->cNode);
+        }*/
+        //pTrajectory = rmtTN(pTrajectory);
+        //printf("AFTER\n");
+        //printf("Pointeur vers ptrajectory->cNode->child %p \n", pTrajectory->cNode->child);
+        //printf("SUPPRESSION\n");
+        //pTrajectory->cNode = pTrajectory->cNode->parent;
+        //*stop = 1;
+        return rmtTN(pTrajectory);
     }
     else {
+        //printf("ELSE\n");
         movement* pmove = malloc(sizeof(movement));
+        //printf("BEFOREFOR");
         for (int i=0; i<7; i++) {
             for (int j=0; j<7; j++) {
                 if (pTrajectory->cNode->board[i][j]==ball) {
@@ -90,36 +119,32 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb) {
                             //printf("Next Child previous board: %p\n", pTrajectory->cNode->child->next->board);
                             pTrajectory->cNode->childNb++;
                             (*boardNb)++;
+                            //printf("%d\n", pTrajectory->cNode->childNb);
                         }
                     }
-                    //DELETE FIRST
                 }
             }
         }
+        free(pmove);
         node* tmpPointer = pTrajectory->cNode->child;
         pTrajectory->cNode->child = pTrajectory->cNode->child->next;
         free(tmpPointer);
-        printf("AFTERFOR\n");
-        /*sortNodes(&(pTrajectory->cNode->child));
-        node* child1 = pTrajectory->cNode->child;
-        pTrajectory = consTN(child1, pTrajectory);
-        autosolve(pTrajectory, boardNb);
-        if (!stop) { //If a solution hasn't been found yet, try the other movement.
-            node* child2 = pTrajectory->cNode->child->next; //A CHANGER DOIT ETRE LE SUIVANT AVEC UNE VALEUR DIFFERENTE POUR GARANTIR UN MOUV DIFFERENT
-            pTrajectory = consTN(child2, pTrajectory); 
-            autosolve(pTrajectory, boardNb);
-        }*/
         sortNodes(&(pTrajectory->cNode->child));
+        //ERREUR ICI : On récupère toujours le premier fils
         node* child1 = pTrajectory->cNode->child;
-        pTrajectory = consTN(child1, pTrajectory);
-        autosolve(pTrajectory, boardNb);
-        /*do {
-            printBoardV(pTrajectory->cNode->child->board, 7, 7);
-            pTrajectory->cNode->child = pTrajectory->cNode->child->next;
+        pTrajectory = autosolve(consTN(child1, pTrajectory), boardNb, stop);
+        ////printf("1");
+        while ((!(*stop))&&(pTrajectory->cNode->child->next!=NULL)) { //If a solution hasn't been found yet, try the other movements.
+            //printf("2");
+            node* child2 = pTrajectory->cNode->child->next; //A CHANGER DOIT ETRE LE SUIVANT AVEC UNE VALEUR DIFFERENTE POUR GARANTIR UN MOUV DIFFERENT
+            /*printf("CHILD2\n");
+            printBoardV(child2->board, 7, 7);*/
+            pTrajectory->cNode->child = child2;
+            pTrajectory = autosolve(consTN(child2, pTrajectory), boardNb, stop);
+            //printf("3");
         }
-        while (pTrajectory->cNode->child!=NULL);*/
-        
-
+    
+        return rmtTN(pTrajectory);
     }
-    return pTrajectory;
+
 }

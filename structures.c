@@ -39,7 +39,6 @@ void printSizes() {
 
 //Node functions
 void sortNodes(node** phead){
-    printf("ENTRY1");
     node* head = *phead;
     if((phead==NULL) || ((*phead)->next==NULL)) {
         return;
@@ -122,6 +121,11 @@ trajectory* consT(state** board, trajectory* pTrajectory) {
     return tmp;
 }
 
+trajectory* rmtT(trajectory* pTrajectory) {
+    //removes the top of the list
+    return pTrajectory->previous;
+}
+
 void freeT_P(trajectory* pTrajectory) {
     //upper-way-recursive free
     if (pTrajectory->previous!=NULL) {
@@ -146,13 +150,77 @@ trajectoryNode* consTN(node* child, trajectoryNode* pTrajectory) {
     return tmp;
 }
 
+/*void freeNode(node* cNode) {
+    /*if (node->next!=NULL) {
+        freeNode(node->next);
+    }
+    //printf("child : %p", cNode->child);
+    node* tmpNode1 = cNode;
+    //while (tmpNode1!=NULL) {
+        node* tmpNode = tmpNode1;
+        while (tmpNode->child!=NULL) {
+            tmpNode = tmpNode->child;
+        }
+        node* tmpNode2 = tmpNode->parent;
+        while (tmpNode2!=tmpNode1) {
+            //free(tmpNode);
+            tmpNode = tmpNode2;
+            tmpNode2 = tmpNode2->parent;
+        }
+        //tmpNode1 = tmpNode1->next;
+        //free(tmpNode);
+    //}
+    //free(cNode);
+}*/
+
+void freeNode(node* cNode, node* cNoder) {
+    if (cNode!=NULL) {
+        if (cNode->child!=NULL) {
+            freeNode(cNode->child, cNoder);
+            //free(cNode->child);
+        }
+        if (cNode!=cNoder){
+            if (cNode->next!=NULL) {
+                freeNode(cNode->next, cNoder);
+            }
+            free(cNode);
+        }
+    }
+}
+
+trajectoryNode* rmtTN(trajectoryNode* pTrajectory) {
+    //removes the top of the list
+    //printf("IN rm");
+    trajectoryNode* tmpPointer;
+    if (pTrajectory->previous==NULL) {
+        printf("ERREUR pas d'antécédent\n");
+        tmpPointer = pTrajectory;
+    }
+    else {
+        tmpPointer = pTrajectory->previous;
+        if (pTrajectory->cNode!=NULL){
+            //printf("child : %d", (pTrajectory->cNode->child!=NULL));
+            //freeNode(pTrajectory->cNode, pTrajectory->cNode);
+        }
+        free(pTrajectory->cNode);
+        free(pTrajectory);
+    }
+    tmpPointer->next = NULL;
+    //tmpPointer->cNode->child = tmpPointer->cNode->child->next;
+    //printBoardV(tmpPointer->cNode->board,7,7); 
+    //printf("END RM");
+    return tmpPointer;
+}
+
 void freeTN_P(trajectoryNode* pTrajectory) {
-    //upper-way-recursive free
+    //lower-recursive free
     if (pTrajectory->previous!=NULL) {
         freeTN_P(pTrajectory->previous);
     }
+    free(pTrajectory->cNode);
     free(pTrajectory);
 }
+
 
 /*lineage* consC(lineage* Lineage, node* nodeV) {
     //Add a node on the top of the list

@@ -35,7 +35,7 @@ state** readBoard (char* fileName, char* lineNb, char* colNb);
 void printRules();
 
 //autosolve.c
-trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb);
+trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop);
 
 
 typedef struct node node;

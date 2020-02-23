@@ -6,7 +6,8 @@
 #endif
 
 //autosolve.c
-trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb);
+trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop);
+trajectoryNode* rmtTN(trajectoryNode* pTrajectory);
 
 //main.c
 int correctMove(state **board, movement* move);

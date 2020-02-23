@@ -71,10 +71,13 @@ void freeT_P(trajectory* pTrajectory);
 
 //trajectoryNode functions
 trajectoryNode* consTN(node* board, trajectoryNode* pTrajectory);
+trajectoryNode* rmtTN(trajectoryNode* pTrajectory);
+void freeNode(node* cNode, node* cNoder);
 void freeTN_P(trajectoryNode* pTrajectory);
 
 //void buildLineage(node* currentNode, sorted_children *lineage);
 void sortNodes(node** phead);
 node* sortedMerge(node* a, node* b);
 void nodeSplit(node* source, node** frontRef, node** backRef);
+void printBoardV(state** board, char lineNb, char colNb);
 #endif
