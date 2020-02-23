@@ -68,10 +68,6 @@ void printBoardV(state** board, char lineNb, char colNb) {
 void printTrajectory(trajectory* trajOrigin) {
     //Prints the whole trajectory on the terminal
     int turn = 1;
-    state** board = malloc(sizeof(*board) * 7);
-    for (int i=0; i<7; i++) {
-        board[i] = malloc(sizeof(**board)*7);
-    }
     do{
         printf("----------   Début du tour %d ----------\n", turn);
         printBoardV(trajOrigin->board, 7, 7);
@@ -81,6 +77,17 @@ void printTrajectory(trajectory* trajOrigin) {
     while(trajOrigin!=NULL);
 }
 
+void printTrajectoryN(trajectoryNode* trajOrigin) {
+    //Prints the whole trajectory on the terminal
+    int turn = 1;
+    do{
+        printf("----------   Début du tour %d ----------\n", turn);
+        printBoardV(trajOrigin->cNode->board, 7, 7);
+        trajOrigin->cNode = trajOrigin->cNode->child;
+        turn++;
+    }
+    while(trajOrigin->cNode!=NULL);
+}
 
 //Saving functions
 void rmTrajectory() {

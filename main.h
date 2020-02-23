@@ -26,6 +26,7 @@ void implementStats(double time);
 //uiBoard.c
 void printBoardV(state **board, char lineNb, char colNb);
 void printTrajectory(trajectory* trajOrigin);
+void printTrajectoryN(trajectoryNode* trajOrigin);
 void rmTrajectory();
 void saveTrajectory(trajectory* trajOrigin);
 state** readBoard (char* fileName, char* lineNb, char* colNb);

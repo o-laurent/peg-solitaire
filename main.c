@@ -114,6 +114,7 @@ int correctMove(state **board, movement* move) {
     else {
         ok = 0;
         printf("UNEXPECTED ERROR 1");
+        printf("%d\n", board[x][y]);
     }
     return ok;    
 }
@@ -159,6 +160,7 @@ void doMove(state **board, movement* move) {
     }
     else {
         printf("UNEXPECTED ERROR");
+        printf("%d\n", move->dir);
     }
 }
 
@@ -518,8 +520,12 @@ int main(){
         trajectoryNode* ptrajOrigin = pTrajectory;
         pTrajectory->cNode = cNode;
         pTrajectory->cNode->board = board;
+        pTrajectory->cNode->childNb = 0;
         int boardNb = 0;
-        autosolve(pTrajectory, &boardNb);
+        pTrajectory = autosolve(pTrajectory, &boardNb);
+
+        printTrajectoryN(ptrajOrigin);
+        printf("Nombre de solutions testées : %d\n", boardNb);
         //show solution or not
     }
 

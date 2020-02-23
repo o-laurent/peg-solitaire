@@ -24,6 +24,14 @@ struct trajectoryNode {
     trajectoryNode* previous;
 };
 
+/*typedef struct lineage lineage;
+struct lineage {
+    //Double linked list which remembers the pointers to the different children nodes
+    node* pNode;
+    lineage* next;
+    lineage* previous;
+};*/
+
 struct sorted_children {
     //List of nodes sorted by increasing costs
     node *child;

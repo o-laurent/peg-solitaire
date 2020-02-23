@@ -6,6 +6,7 @@ void initBoard(state **board);
 //Printing functions
 void printBoardV(state **board, char lineNb, char colNb);
 void printTrajectory(trajectory* trajOrigin);
+void printTrajectoryN(trajectoryNode* trajOrigin);
 
 //Saving functions 
 void rmTrajectory();

@@ -39,6 +39,7 @@ void printSizes() {
 
 //Node functions
 void sortNodes(node** phead){
+    printf("ENTRY1");
     node* head = *phead;
     if((phead==NULL) || ((*phead)->next==NULL)) {
         return;
@@ -152,3 +153,17 @@ void freeTN_P(trajectoryNode* pTrajectory) {
     }
     free(pTrajectory);
 }
+
+/*lineage* consC(lineage* Lineage, node* nodeV) {
+    //Add a node on the top of the list
+    lineage* tmp = malloc(sizeof(node*));
+    if (tmp == NULL) { //Insufficent space
+        printf("ERREUR");
+        return NULL;
+    }
+    Lineage->next = tmp; //Next Step
+    tmp->pNode = nodeV;
+    tmp->previous = Lineage; //Previous Step
+
+    return tmp;
+}*/
