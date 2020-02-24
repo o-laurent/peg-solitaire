@@ -523,10 +523,18 @@ int main(){
         pTrajectory->cNode->childNb = 0;
         int boardNb = 0;
         int stop = 0;
-        pTrajectory = autosolve(pTrajectory, &boardNb, &stop);
+        int nodeAlloc = 0;
+        int boardAlloc = 0;
+        int nodeFree = 0;
+        int boardFree = 0;
+        pTrajectory = autosolve(pTrajectory, &boardNb, &stop, &nodeAlloc, &nodeFree, &boardAlloc, &boardFree);
 
         printTrajectoryN(ptrajOrigin);
         printf("Nombre de solutions testées : %d\n", boardNb);
+        printf("Nombre de noeuds alloués : %d\n", nodeAlloc);
+        printf("Nombre de noeuds libérés : %d\n", nodeFree);
+        printf("Nombre de boards alloués : %d\n", boardAlloc);
+        printf("Nombre de boards libérés : %d\n", boardFree);
         //show solution or not
     }
 

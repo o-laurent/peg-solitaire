@@ -173,22 +173,28 @@ trajectoryNode* consTN(node* child, trajectoryNode* pTrajectory) {
     //free(cNode);
 }*/
 
-void freeNode(node* cNode, node* cNoder) {
+void freeNode(node* cNode, node* cNoder, int* nodeFree, int* boardFree) {
     if (cNode!=NULL) {
         if (cNode->child!=NULL) {
-            freeNode(cNode->child, cNoder);
+            freeNode(cNode->child, cNoder, nodeFree, boardFree);
             //free(cNode->child);
         }
         if (cNode!=cNoder){
             if (cNode->next!=NULL) {
-                freeNode(cNode->next, cNoder);
+                freeNode(cNode->next, cNoder, nodeFree, boardFree);
             }
+            for (int i=0; i<7; i++) {
+                free(cNode->board[i]);
+            }
+            free(cNode->board);
+            (*boardFree)++;
             free(cNode);
+            (*nodeFree)++;
         }
     }
 }
 
-trajectoryNode* rmtTN(trajectoryNode* pTrajectory) {
+trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree) {
     //removes the top of the list
     //printf("IN rm");
     trajectoryNode* tmpPointer;
@@ -200,9 +206,10 @@ trajectoryNode* rmtTN(trajectoryNode* pTrajectory) {
         tmpPointer = pTrajectory->previous;
         if (pTrajectory->cNode!=NULL){
             //printf("child : %d", (pTrajectory->cNode->child!=NULL));
-            //freeNode(pTrajectory->cNode, pTrajectory->cNode);
+            freeNode(pTrajectory->cNode, pTrajectory->cNode, nodeFree, boardFree);
+            pTrajectory->cNode->child=NULL;
         }
-        free(pTrajectory->cNode);
+        //free(pTrajectory->cNode);
         free(pTrajectory);
     }
     tmpPointer->next = NULL;

@@ -6,8 +6,8 @@
 #endif
 
 //autosolve.c
-trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop);
-trajectoryNode* rmtTN(trajectoryNode* pTrajectory);
+trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, int* nodeAlloc, int* nodeFree, int* boardAlloc, int* boardFree);
+trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree);
 
 //main.c
 int correctMove(state **board, movement* move);
@@ -20,4 +20,4 @@ int moveNb(state **board);
 void printBoardV(state **board, char lineNb, char colNb);
 
 //current file
-float cost_f(state** board);
+int cost_f(state** board);

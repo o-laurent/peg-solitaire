@@ -40,13 +40,12 @@ struct sorted_children {
 
 struct node {
     //model of a node
-    float cost;
+    int cost;
     int childNb;
     state** board;
     node* child;
     node* next;
     node* parent;
-    node** lineage;
 };
 
 struct movement {
@@ -71,8 +70,8 @@ void freeT_P(trajectory* pTrajectory);
 
 //trajectoryNode functions
 trajectoryNode* consTN(node* board, trajectoryNode* pTrajectory);
-trajectoryNode* rmtTN(trajectoryNode* pTrajectory);
-void freeNode(node* cNode, node* cNoder);
+trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree);
+void freeNode(node* cNode, node* cNoder, int* nodeFree, int* boardFree);
 void freeTN_P(trajectoryNode* pTrajectory);
 
 //void buildLineage(node* currentNode, sorted_children *lineage);

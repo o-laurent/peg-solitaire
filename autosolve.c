@@ -5,7 +5,7 @@
 #include "autosolve.h"
 #endif
 
-float cost_f(state** board){
+int cost_f(state** board){
     float cost = 0;
     for(int i=0; i<7;i++){
         for(int j=0; j<7;j++){
@@ -13,7 +13,7 @@ float cost_f(state** board){
                 for(int k=i;k<7;k++){
                     for(int q=j; q<7; q++){
                         if (board[k][q]==ball) {
-                            cost = cost+(k-i)*(k-i)+(q-j)*(q-j);
+                            cost = cost+(k-i)*(k-i)+(q-j)*(q-j); //distance au carré
                         }
                     }
                 } 
@@ -26,8 +26,16 @@ float cost_f(state** board){
 node* copyNode(node* sibling) {
     node* nodeOut = malloc(sizeof(node));
     state** newBoard = malloc(sizeof(*newBoard) * 7);
+    if (newBoard==NULL) {
+        printf("Erreur 1 : plus de place disponible en RAM\n");
+        exit(1);
+    } 
     for (int i=0;i<7;i++) {
         newBoard[i] = malloc(sizeof(**newBoard)*7);
+        if (newBoard[i]==NULL) {
+            printf("Erreur 1 : plus de place disponible en RAM\n");
+            exit(1);
+        } 
     }
     copyBoard(sibling->board, newBoard); //Makes the boards independent
     /*printBoardV(sibling->board, 7, 7);
@@ -36,7 +44,6 @@ node* copyNode(node* sibling) {
     nodeOut->child = NULL;
     nodeOut->childNb = 0;
     nodeOut->cost = -1;
-    nodeOut->lineage = NULL;
     if (sibling->child!=NULL){
         nodeOut->next = sibling->child->next;
     }
@@ -47,8 +54,8 @@ node* copyNode(node* sibling) {
     return nodeOut;
 }
 
-trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop) {
-    
+trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, int* nodeAlloc, int* nodeFree, int* boardAlloc, int* boardFree) {
+    //printBoardV(pTrajectory->cNode->board,7,7);
     //printf("2");
     if (*stop!=0 || ballNb(pTrajectory->cNode->board)<=1) {
         //printf("stop : %d, ballNb %d\n")
@@ -85,12 +92,18 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop) 
         //printf("SUPPRESSION\n");
         //pTrajectory->cNode = pTrajectory->cNode->parent;
         //*stop = 1;
-        return rmtTN(pTrajectory);
+        return rmtTN(pTrajectory, nodeFree, boardFree);
     }
     else {
         //printf("ELSE\n");
         movement* pmove = malloc(sizeof(movement));
+        if (pmove==NULL) {
+            printf("Erreur 1 : plus de place disponible en RAM\n");
+            exit(1);
+        } 
         //printf("BEFOREFOR");
+        node* childN = malloc(sizeof(node));
+        (*nodeAlloc)++;
         for (int i=0; i<7; i++) {
             for (int j=0; j<7; j++) {
                 if (pTrajectory->cNode->board[i][j]==ball) {
@@ -98,53 +111,66 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop) 
                     pmove->posiy = j;
                     for (int k=0; k<4; k++) {
                         pmove->dir = k;
-                        /*printf("(i,j) : (%d,%d)\n",i,j);
-                        printf("board(i,j) : %d\n", pTrajectory->cNode->board[i][j]);
-                        printf("copyboard(i,j) : %d\n", nodeV->board[i][j]);*/
+
                         if (correctMove(pTrajectory->cNode->board, pmove)) {
                             node* tmpNode = copyNode(pTrajectory->cNode); //tmpNode
-                            //printf("tmpNode next child: %p", tmpNode->next);
+                            (*nodeAlloc)++;
+                            (*boardAlloc)++;
                             doMove(tmpNode->board, pmove);
                             tmpNode->cost = cost_f(tmpNode->board);
                             pTrajectory->cNode->child = tmpNode;
-                            //printf("next child: %p", pTrajectory->cNode->child->next);
+                            free(childN);
+                            (*nodeFree)++;
                             node* childN = malloc(sizeof(node)); //Adding NextNode
+                            (*nodeAlloc)++;
+                            if (childN==NULL) {
+                                printf("Erreur 1 : plus de place disponible en RAM\n");
+                                exit(1);
+                            } 
                             childN->next = pTrajectory->cNode->child;
-                            //printf("next child: %p", childN->next);
-                            //printf("next child: %p", childN->next->next);
+
                             childN->cost = -1;
-                            //printf("Previous Child board: %p", pTrajectory->cNode->child->board);
+
                             pTrajectory->cNode->child = childN;
-                            //printf(" Next Child board: %p\n", pTrajectory->cNode->child->board);
-                            //printf("Next Child previous board: %p\n", pTrajectory->cNode->child->next->board);
+
                             pTrajectory->cNode->childNb++;
                             (*boardNb)++;
-                            //printf("%d\n", pTrajectory->cNode->childNb);
+
                         }
                     }
                 }
             }
         }
         free(pmove);
-        node* tmpPointer = pTrajectory->cNode->child;
         pTrajectory->cNode->child = pTrajectory->cNode->child->next;
-        free(tmpPointer);
+        free(childN);
+        (*nodeFree)++;
+        
         sortNodes(&(pTrajectory->cNode->child));
         //ERREUR ICI : On récupère toujours le premier fils
+        
         node* child1 = pTrajectory->cNode->child;
-        pTrajectory = autosolve(consTN(child1, pTrajectory), boardNb, stop);
+        int preCost = child1->cost;
+        pTrajectory = autosolve(consTN(child1, pTrajectory), boardNb, stop, nodeAlloc, nodeFree, boardAlloc, boardFree);
         ////printf("1");
         while ((!(*stop))&&(pTrajectory->cNode->child->next!=NULL)) { //If a solution hasn't been found yet, try the other movements.
-            //printf("2");
+            //printf("2")
             node* child2 = pTrajectory->cNode->child->next; //A CHANGER DOIT ETRE LE SUIVANT AVEC UNE VALEUR DIFFERENTE POUR GARANTIR UN MOUV DIFFERENT
             /*printf("CHILD2\n");
             printBoardV(child2->board, 7, 7);*/
             pTrajectory->cNode->child = child2;
-            pTrajectory = autosolve(consTN(child2, pTrajectory), boardNb, stop);
+            if (child2->cost != preCost) {
+                preCost = child2->cost;
+                pTrajectory = autosolve(consTN(child2, pTrajectory), boardNb, stop, nodeAlloc, nodeFree, boardAlloc, boardFree);
+            }
             //printf("3");
         }
-    
-        return rmtTN(pTrajectory);
+        if (*stop) {
+            return pTrajectory;
+        }
+        else {
+            return rmtTN(pTrajectory, nodeFree, boardFree);
+        }
     }
 
 }
