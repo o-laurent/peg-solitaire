@@ -539,7 +539,7 @@ int main(){
     }
 
     printf("\n");
-    printf("Développé par Anthony Aoun, Maria El Haddad, Olivier Laurent et Johhny Yammine dans le cadre du projet de IN103 : Algorithmique en C. \n\n");
+    printf("Développé par Anthony Aoun, Maria El Haddad, Olivier Laurent et Johnny Yammine dans le cadre du projet de IN103 : Algorithmique en C. \n\n");
 
     printf("\n");
     printf("Merci d'avoir joué. Au revoir ^~^\n");
