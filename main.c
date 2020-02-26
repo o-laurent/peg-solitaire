@@ -427,7 +427,6 @@ int main(){
             initBoard(board);
             lineNb = 7;
             colNb = 7;
-            printf("INIT");
         }
         else {
             board = readBoard("data/model.txt", &lineNb, &colNb);
