@@ -348,6 +348,41 @@ int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn) {
     return ballNb((*pTrajectory)->board);
 }
 
+int userGameT(int* pquit, trajectory** pTrajectory, state** board, int* turn) {
+    //Initialising the board and the trajectory
+    (*pTrajectory)->next = NULL;
+    (*pTrajectory)->board = board;
+
+    state** newBoard = malloc(sizeof(*newBoard) * 7);
+    for (int i=0;i<7;i++) {
+        newBoard[i] = malloc(sizeof(**newBoard)*7);
+    }
+
+    
+        //If a mouvement is possible and user doesn't want to quit
+        free(newBoard);
+        newBoard = malloc(sizeof(*newBoard) * 7); //tmpBoard 
+        for (int i=0;i<7;i++) {
+            newBoard[i] = malloc(sizeof(**newBoard)*7);
+        }
+        copyBoard(board, newBoard);
+
+        //printf("Valeur : %f", cost_f(newBoard));
+        
+        userMove(newBoard, pquit); //modify tmpBoard 
+        (*turn)++;
+
+        board = malloc(sizeof(*board) * 7);
+        for (int i=0;i<7;i++) {
+            board[i] = malloc(sizeof(**board)*7);
+        }
+        copyBoard(newBoard, board); //copy board to tmpBoard
+
+        *pTrajectory = consT(board, *pTrajectory); //update the trajectory
+        printBoard(board);
+    return ballNb((*pTrajectory)->board);
+}
+
 int main(){ 
     //Initialisation
     state **board = malloc(sizeof(*board) * 7);
@@ -378,7 +413,7 @@ int main(){
 
     //Chose the mode
     do{
-        printf("Appuyez sur '0' pour les règles du jeu et le tutoriel, \n-'1' pour jouer \n-'2' pour une résolution automatique.\nAppuyez à tout moment sur '-1' pour quitter la partie\n");
+        printf("Appuyez sur:\n-'0' pour les règles du jeu et le tutoriel \n-'1' pour jouer \n-'2' pour une résolution automatique\nAppuyez à tout moment sur '-1' pour quitter la partie\n");
         fgets(line, 1024, stdin);
         sscanf(line, "%hhd", &status);
         printf("\n");
@@ -394,12 +429,32 @@ int main(){
             }
             while (tutorial!='o' && tutorial!='O' && tutorial!='N' && tutorial!='n' && tutorial!='\n');
             if (tutorial=='o'||tutorial=='o'||tutorial=='\n') {
-                printf("TUTORIEL EN COURS DE REDACTION \n");
+                printf("TUTORIEL \n");
+                printf("\nComme vous pouvez le voir le plateau est constitué de billes et d'un seul trou representé par un X.\nIci vous pouvez choisir les billes ayant les coordonnées suivantes:\n(4,1);(2,3);(4,5);(6,3)\nEt comme il y a juste un seul mouvement possible pour chacune, \nvous n'avez pas à rentrer une direction.\nA vous de jouer!\n");
+                state **board = malloc(sizeof(*board) * 7);  //Table which will contain the first configuration
+                long long int returned[2];
+                for (int i=0;i<7;i++) {
+                    board[i] = malloc(sizeof(**board)*7);
+                }
+                initBoard(board);
+                lineNb = 7;
+                colNb = 7;
+
+                rmTrajectory(); //Delete the saved Trajectory (last game which was finished)
+                rmSavedGame();
+                
+                trajectory* pTrajectory = malloc(sizeof(trajectory));
+                trajectory* ptrajOrigin = pTrajectory;
+
+                ballNumber = userGameT(pquit, &pTrajectory, board, &turn);
+                printf("\nBien joué! Vous pouvez commencer la partie!!\n");
+                printf("\n");
+
             }
         }
         else if (status!=1 && status!=2 && status!=-1) {
             printf("Erreur lors de l'entrée. Veuillez réessayer;\n");
-            printf("Appuyez sur '0' pour les règles du jeu, \n-'1' pour jouer ou \n-'2' pour une résolution automatique.\nAppuyez à tout moment sur '-1' pour quitter la partie\n");
+            printf("Appuyez sur:\n-'0' pour les règles du jeu\n-'1' pour jouer \n-'2' pour une résolution automatique\nAppuyez à tout moment sur '-1' pour quitter la partie\n");
             fgets(line, 1024, stdin);
             sscanf(line, "%c", &status);
         }
