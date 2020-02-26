@@ -44,12 +44,7 @@ node* copyNode(node* sibling) {
     nodeOut->child = NULL;
     nodeOut->childNb = 0;
     nodeOut->cost = -1;
-    if (sibling->child!=NULL){
-        nodeOut->next = sibling->child->next;
-    }
-    else {
-        nodeOut->next = sibling->child;
-    }
+    nodeOut->next = sibling->child;
     nodeOut->parent = sibling;
     return nodeOut;
 }
@@ -102,8 +97,6 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, 
             exit(1);
         } 
         //printf("BEFOREFOR");
-        node* childN = malloc(sizeof(node));
-        (*nodeAlloc)++;
         for (int i=0; i<7; i++) {
             for (int j=0; j<7; j++) {
                 if (pTrajectory->cNode->board[i][j]==ball) {
@@ -119,19 +112,6 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, 
                             doMove(tmpNode->board, pmove);
                             tmpNode->cost = cost_f(tmpNode->board);
                             pTrajectory->cNode->child = tmpNode;
-                            free(childN);
-                            (*nodeFree)++;
-                            node* childN = malloc(sizeof(node)); //Adding NextNode
-                            (*nodeAlloc)++;
-                            if (childN==NULL) {
-                                printf("Erreur 1 : plus de place disponible en RAM\n");
-                                exit(1);
-                            } 
-                            childN->next = pTrajectory->cNode->child;
-
-                            childN->cost = -1;
-
-                            pTrajectory->cNode->child = childN;
 
                             pTrajectory->cNode->childNb++;
                             (*boardNb)++;
@@ -142,10 +122,6 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, 
             }
         }
         free(pmove);
-        pTrajectory->cNode->child = pTrajectory->cNode->child->next;
-        free(childN);
-        (*nodeFree)++;
-        
         sortNodes(&(pTrajectory->cNode->child));
         //ERREUR ICI : On récupère toujours le premier fils
         
