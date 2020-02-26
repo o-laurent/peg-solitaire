@@ -87,7 +87,7 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, 
         //printf("SUPPRESSION\n");
         //pTrajectory->cNode = pTrajectory->cNode->parent;
         //*stop = 1;
-        return rmtTN(pTrajectory, nodeFree, boardFree);
+        return rmtTN_Node(pTrajectory, nodeFree, boardFree);
     }
     else {
         //printf("ELSE\n");

@@ -8,7 +8,7 @@
 //autosolve.c
 trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, int* nodeAlloc, int* nodeFree, int* boardAlloc, int* boardFree);
 trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree);
-
+trajectoryNode* rmtTN_Node(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree);
 //main.c
 int correctMove(state **board, movement* move);
 void doMove(state **board, movement* move);

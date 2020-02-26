@@ -175,14 +175,7 @@ trajectoryNode* consTN(node* child, trajectoryNode* pTrajectory) {
 
 void freeNode(node* cNode, node* cNoder, int* nodeFree, int* boardFree) {
     if (cNode!=NULL) {
-        if (cNode->child!=NULL) {
-            freeNode(cNode->child, cNoder, nodeFree, boardFree);
-            //free(cNode->child);
-        }
-        if (cNode!=cNoder){
-            if (cNode->next!=NULL) {
-                freeNode(cNode->next, cNoder, nodeFree, boardFree);
-            }
+        while (cNode->child != NULL) {
             for (int i=0; i<7; i++) {
                 free(cNode->board[i]);
             }
@@ -190,7 +183,9 @@ void freeNode(node* cNode, node* cNoder, int* nodeFree, int* boardFree) {
             (*boardFree)++;
             free(cNode);
             (*nodeFree)++;
+            cNode->child = cNode->child->next;
         }
+        
     }
 }
 
@@ -205,17 +200,35 @@ trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree
     else {
         tmpPointer = pTrajectory->previous;
         if (pTrajectory->cNode!=NULL){
-            //printf("child : %d", (pTrajectory->cNode->child!=NULL));
             freeNode(pTrajectory->cNode, pTrajectory->cNode, nodeFree, boardFree);
-            pTrajectory->cNode->child=NULL;
+            pTrajectory->cNode=NULL;
         }
-        //free(pTrajectory->cNode);
         free(pTrajectory);
     }
-    tmpPointer->next = NULL;
-    //tmpPointer->cNode->child = tmpPointer->cNode->child->next;
-    //printBoardV(tmpPointer->cNode->board,7,7); 
-    //printf("END RM");
+    //tmpPointer->next = NULL;
+    return tmpPointer;
+}
+
+trajectoryNode* rmtTN_Node(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree) {
+    //removes the first
+    trajectoryNode* tmpPointer;
+    if (pTrajectory->previous==NULL) {
+        tmpPointer = pTrajectory;
+    }
+    else {
+        tmpPointer = pTrajectory->previous;
+        if (pTrajectory->cNode!=NULL){
+            for (int i=0; i<7; i++) {
+                free(pTrajectory->cNode->board[i]);
+            }
+            free(pTrajectory->cNode->board);
+            (*boardFree)++;
+            free(pTrajectory->cNode);
+            (*nodeFree)++;
+            pTrajectory->cNode=NULL;
+        }
+        free(pTrajectory);
+    }
     return tmpPointer;
 }
 

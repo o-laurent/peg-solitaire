@@ -51,7 +51,7 @@ void printBoardV(state** board, char lineNb, char colNb) {
                 }
                 else if (i<lineNb && j<colNb && board[i][j]==empty) {
                     printf("\033[37;2m"); //Grey 
-                    printf("X  ");
+                    printf("x  ");
                     printf("\033[0m");
                 }
                 else {
