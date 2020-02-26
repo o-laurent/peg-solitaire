@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include "uiBoard.h"
 
 
@@ -31,7 +32,7 @@ void printBoardV(state** board, char lineNb, char colNb) {
                 }
                 else if (i<lineNb && j<colNb && board[i][j]==empty) {
                     printf("\033[37;2m"); //Grey 
-                    printf("X ");
+                    printf("x ");
                     printf("\033[0m");
                 }
                 else {
@@ -55,7 +56,7 @@ void printBoardV(state** board, char lineNb, char colNb) {
                     printf("\033[0m");
                 }
                 else {
-                    printf("   ");
+                    printf("  ");
                 }
             }
             
@@ -68,11 +69,12 @@ void printBoardV(state** board, char lineNb, char colNb) {
 void printTrajectory(trajectory* trajOrigin) {
     //Prints the whole trajectory on the terminal
     int turn = 1;
-    do{
+    do {
         printf("----------   Début du tour %d ----------\n", turn);
         printBoardV(trajOrigin->board, 7, 7);
         trajOrigin = trajOrigin->next;
         turn++;
+        sleep(2);
     }
     while(trajOrigin!=NULL);
 }
@@ -80,13 +82,16 @@ void printTrajectory(trajectory* trajOrigin) {
 void printTrajectoryN(trajectoryNode* trajOrigin) {
     //Prints the whole trajectory on the terminal
     int turn = 1;
-    do{
+    printf("---------- Début de la trajectoire ----------\n");
+    do {
+        sleep(1.5);
         printf("----------   Début du tour %d ----------\n", turn);
         printBoardV(trajOrigin->cNode->board, 7, 7);
         trajOrigin->cNode = trajOrigin->cNode->child;
         turn++;
     }
     while(trajOrigin->cNode!=NULL);
+    printf("---------- Fin de la trajectoire ----------\n");
 }
 
 //Saving functions

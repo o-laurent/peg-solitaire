@@ -430,7 +430,7 @@ int main(){
             while (tutorial!='o' && tutorial!='O' && tutorial!='N' && tutorial!='n' && tutorial!='\n');
             if (tutorial=='o'||tutorial=='o'||tutorial=='\n') {
                 printf("TUTORIEL \n");
-                printf("\nComme vous pouvez le voir le plateau est constitué de billes et d'un seul trou representé par un X.\nIci vous pouvez choisir les billes ayant les coordonnées suivantes:\n(4,1);(2,3);(4,5);(6,3)\nEt comme il y a juste un seul mouvement possible pour chacune, \nvous n'avez pas à rentrer une direction.\nA vous de jouer!\n");
+                printf("\nComme vous pouvez le voir, le plateau est constitué de billes \033[1m o \033[0m et d'un seul trou representé par un \033[37;2m x \033[0m.\nIci vous pouvez choisir les billes ayant les coordonnées suivantes:\n(4,1);(2,3);(4,5);(6,3)\nEt comme il y a juste un seul mouvement possible pour chacune, \nvous n'avez pas à rentrer une direction.\nA vous de jouer!\n");
                 state **board = malloc(sizeof(*board) * 7);  //Table which will contain the first configuration
                 long long int returned[2];
                 for (int i=0;i<7;i++) {
@@ -582,8 +582,17 @@ int main(){
         int nodeFree = 0;
         int boardFree = 0;
         pTrajectory = autosolve(pTrajectory, &boardNb, &stop, &nodeAlloc, &nodeFree, &boardAlloc, &boardFree);
-
-        printTrajectoryN(ptrajOrigin);
+        char traj;
+        do {
+            printf("Voulez-vous regarder la trajectoire ? (o/n)\n");
+            fgets(line, 1024, stdin);
+            sscanf(line, "%c", &traj);
+            printf("\n\n");
+        } 
+        while (traj!='o' && traj!='O' && traj!='N' && traj!='n' && traj!='\n'); 
+        if (traj=='o' || traj=='O') {
+            printTrajectoryN(ptrajOrigin);
+        }
         printf("Nombre de solutions testées : %d\n", boardNb);
         printf("Nombre de noeuds alloués : %d\n", nodeAlloc);
         printf("Nombre de noeuds libérés : %d\n", nodeFree);
