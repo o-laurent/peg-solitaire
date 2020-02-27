@@ -5,15 +5,16 @@
 #include "autosolve.h"
 #endif
 
-/*int cost_f(state** board){
-    float cost = 0;
-    for(int i=0; i<7;i++){
-        for(int j=0; j<7;j++){
+int cost_f(state** board, char lineNb, char colNb){
+    int cost = 0;
+    for(int i=0; i<lineNb;i++){
+        for(int j=0; j<colNb;j++){
             if(board[i][j]==ball){
-                for(int k=i;k<7;k++){
-                    for(int q=j; q<7; q++){
+                for(int k=i;k<lineNb;k++){
+                    for(int q=j; q<colNb; q++){
                         if (board[k][q]==ball) {
                             cost = cost+(k-i)*(k-i)+(q-j)*(q-j); //distance au carré
+                            printf("cost : %d\n", cost);
                         }
                     }
                 } 
@@ -21,12 +22,12 @@
         }
     }
     return cost;
-}*/
+}
 
-int cost_f(state** board, char lineNb, char colNb){
-    int somme1 = 0;
-    int somme2 = 0;
-    int somme3 = 0;
+/*float cost_f(state** board, char lineNb, char colNb){
+    float somme1 = 0;
+    float somme2 = 0;
+    float somme3 = 0;
     for(int i=0; i<lineNb; i++){
         for(int j=0; j<colNb; j++){
             if(board[i][j]==ball){
@@ -37,7 +38,7 @@ int cost_f(state** board, char lineNb, char colNb){
         }
     }
     return somme1 - somme2*somme2 -somme3*somme3;
-}
+}*/
 
 void freePartTrajectoryN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree, int threshold, char lineNb, char colNb) {
     node* tmpNode = pTrajectory->cNode;
@@ -107,8 +108,8 @@ node* copyNode(node* sibling, char lineNb, char colNb) {
 }
 
 trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, int beamWidth, int* nodeAlloc, int* nodeFree, int* boardAlloc, int* boardFree, char lineNb, char colNb) {
-    printf("%d %d", lineNb, colNb);
-    printf("\n %d\n", moveNb(pTrajectory->cNode->board, lineNb, colNb)==0);
+    //printf("%d %d", lineNb, colNb);
+    //printf("\n %d %d\n", moveNb(pTrajectory->cNode->board, lineNb, colNb), ballNb(pTrajectory->cNode->board, lineNb, colNb));
     if (*stop!=0 || ballNb(pTrajectory->cNode->board, lineNb, colNb)<=1) {
         //exit(1);
         //printf("stop : %d, ballNb %d\n")
@@ -119,6 +120,7 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, 
 
     else if (moveNb(pTrajectory->cNode->board, lineNb, colNb)==0) {
         printf("ELSEIF");
+        //printf("%d %d", lineNb, colNb);printBoardV(pTrajectory->cNode->board, lineNb, colNb);
         //free this node only : We are on a leaf
         return rmtTN(pTrajectory, nodeFree, boardFree, lineNb);
     }
@@ -126,6 +128,7 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, 
         printf("ELSE");
         //allocating the movement
         movement* pmove = malloc(sizeof(movement));
+        pTrajectory->cNode->child = NULL;
         if (pmove==NULL) {
             printf("Erreur 1 : plus de place disponible en RAM\n");
             exit(1);
@@ -161,15 +164,17 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, 
         free(pmove);
         //Sorting the node by increasing costs
         sortNodes(&(pTrajectory->cNode->child));
-        //printBoardV(pTrajectory->cNode->child->board, 6, 7);
+        printBoardV(pTrajectory->cNode->board, lineNb, colNb);
+
         //freePartTrajectoryN(pTrajectory, nodeFree, boardFree, beamWidth, lineNb, colNb);
 
         int preCost = -1; //Impossible to get : always different
         node* cChild = pTrajectory->cNode->child;
         int i = 0;
         do {
+            //printf("%d",pTrajectory->cNode->child->cost);
             pTrajectory->cNode->child = cChild;
-            //printBoardV(pTrajectory->cNode->child->board, 6, 7);
+            //printBoardV(pTrajectory->cNode->child->board, lineNb, colNb);
             if (cChild->cost != preCost) {
                 preCost = cChild->cost; //update the cost
                 pTrajectory = autosolve(consTN(cChild, pTrajectory), boardNb, stop, beamWidth, nodeAlloc, nodeFree, boardAlloc, boardFree, lineNb, colNb);

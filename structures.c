@@ -168,6 +168,7 @@ trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree
             (*nodeFree)++;
             pTrajectory->cNode=NULL;
         }
+
         free(pTrajectory);
     }
     return tmpPointer;
