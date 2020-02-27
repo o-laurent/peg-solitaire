@@ -407,7 +407,7 @@ int main(){
     int turn = 1;
 
     //intro
-    printf("Bienvenue dans le Solitaire v1.1\n");
+    printf("Bienvenue dans le \033[4mSolitaire v2.0\033[0m\n");
     printf("\n");
 
     //Chose the mode
@@ -491,7 +491,7 @@ int main(){
         }
 
         //Load saved game ?
-        if (savedGame) { //ask whether the user wants to load game or not
+        if (savedGame) { //ask whether the user wants to load the game or not
             char resume; //'o' if the user wants to resume the game
             printf("\n");
             printf("Voulez-vous continuer la partie précédente ? (o/n)\n");
@@ -511,7 +511,7 @@ int main(){
                 rmSavedGame();
             }
             else {
-                rmTrajectory(); //Delete the saved Trajectory (last game that user doesn't want to resume)
+                rmTrajectory(); //Delete the saved Trajectory (last game that the user doesn't want to resume)
                 rmSavedGame();
             }
         }
@@ -519,9 +519,10 @@ int main(){
             rmTrajectory(); //Delete the saved Trajectory (last game which was finished)
             rmSavedGame();
         }
-        time(&secondsStart); 
+        
         trajectory* pTrajectory = malloc(sizeof(trajectory));
         trajectory* ptrajOrigin = pTrajectory;
+        time(&secondsStart); 
         //
         ballNumber = userGame(pquit, &pTrajectory, board, &turn, lineNb, colNb);
         //
@@ -529,7 +530,7 @@ int main(){
         printBoardV(pTrajectory->board, lineNb, colNb);
         if (*pquit!=1) {
             saveTrajectory(ptrajOrigin);
-            printf("Après %.2lf minutes, la partie s'est terminée avec %d billes sur le plateau. \n", ((double)secondsEnd-(double)secondsStart+savedTime)/60, ballNumber);
+            printf("\nAprès %.2lf minutes, la partie s'est terminée avec %d billes sur le plateau. \n", ((double)secondsEnd-(double)secondsStart+savedTime)/60, ballNumber);
             printf("\033[1;36mBravo !\033[0m\n"); //CHANGE COLOR
             printf("N'hésitez pas à aller récupérer les différentes étapes de la partie dans data/trajectory.txt avant de commencer la prochaine partie !\n");
             //history of the game
@@ -568,6 +569,7 @@ int main(){
         }
         free(board);
         freeT_P(pTrajectory);
+        return 0;
     }
 
     else if (status==2) {
@@ -585,7 +587,7 @@ int main(){
         pTrajectory->cNode->board = board;
         pTrajectory->cNode->childNb = 0;
 
-        //Several initialisations
+        //Several initializations
         int boardNb = 0;
         int stop = 0;
         int nodeAlloc = 0;
@@ -594,10 +596,18 @@ int main(){
         int boardFree = 0;
 
         //main
+        printf("\n\nRecherche d'une solution à la configuration personnalisée en cours...\n");
+        printf("Veuillez patienter...\n");
+        time(&secondsStart); 
         pTrajectory = autosolve(pTrajectory, &boardNb, &stop, &nodeAlloc, &nodeFree, &boardAlloc, &boardFree);
+        time(&secondsEnd); 
+        printf("\nUne solution à la configuration a été trouvée !\n");
+        printf("Le temps nécessaire pour trouver cette solution a été de %.2f minutes.\n", ((double)secondsEnd-(double)secondsStart)/60);
+        saveTrajectoryN(ptrajOrigin, secondsEnd-secondsStart, boardNb);
 
         //UI
         char traj;
+        //show solution or not
         do {
             printf("Voulez-vous regarder la trajectoire ? (o/n)\n");
             fgets(line, 1024, stdin);
@@ -608,11 +618,12 @@ int main(){
         if (traj=='o' || traj=='O') {
             printTrajectoryN(ptrajOrigin);
         }
-        printf("Nombre de solutions testées : %d\n", boardNb);
+        printf("Nombre de configurations testées : %d\n", boardNb);
         printf("Nombre de noeuds alloués : %d\n", nodeAlloc);
         printf("Nombre de noeuds libérés : %d\n", nodeFree);
         printf("Nombre de boards alloués : %d\n", boardAlloc);
-        printf("Nombre de boards libérés : %d\n", boardFree);
+        printf("Nombre de boards libérés : %d\n\n", boardFree);
+        printf("N'hésitez pas à aller récupérer les différentes étapes de la partie\ndans data/trajectory.txt avant de commencer la prochaine partie !\n");
         //show solution or not
     }
 

@@ -91,7 +91,7 @@ void printTrajectoryN(trajectoryNode* trajOrigin) {
         turn++;
     }
     while(trajOrigin->cNode!=NULL);
-    printf("----------------- Fin de la Trajectoire -----------------\n");
+    printf("----------------- Fin de la Trajectoire -----------------\n\n");
 }
 
 //Saving functions
@@ -107,8 +107,9 @@ void saveTrajectory(trajectory* trajOrigin) {
     if (out == NULL) {
         printf("La sauvegarde a échoué. Le fichier spécifié pour la sauvegarde n'existe pas.\n");
     }
+    fprintf(out,"--------------- Début de la Trajectoire ------------------\n\n");
     do{
-        fprintf(out, "----------   Début du tour %d ----------\n", turn);
+        fprintf(out, "      ----------   Début du tour %d ----------\n", turn);
         for (int i=0; i<7; i++) {
             for (int j=0; j<7; j++) {
                 if (trajOrigin->board[i][j]==ball) {
@@ -127,9 +128,53 @@ void saveTrajectory(trajectory* trajOrigin) {
         turn++;
     }
     while(trajOrigin!=NULL);
+    fprintf(out,"----------------- Fin de la Trajectoire -----------------\n\n");
+    fprintf(out,"Développé par Anthony Aoun, Maria El Haddad, Olivier Laurent et Johnny Yammine \ndans le cadre du projet de IN103 : Algorithmique en C. \n\n");
+
+    fprintf(out,"\n");
+    fprintf(out,"Merci d'avoir joué.\n");
     fclose(out);
 };
 
+//Equivalent but with TrajectoryNodes
+void saveTrajectoryN(trajectoryNode* trajOrigin, long int time, int boardNumber) {
+    FILE* out;
+    int turn = 0;
+    out = fopen ("data/ComputedTrajectory.txt", "wa");
+    fprintf(out,"Début de la partie : \n\n");
+    if (out == NULL) {
+        printf("La sauvegarde a échoué. Le fichier spécifié pour la sauvegarde n'existe pas.\n");
+    }
+    fprintf(out,"--------------- Début de la Trajectoire ------------------\n\n");
+    do{
+        fprintf(out, "      ----------   Début du tour %d ----------\n", turn);
+        for (int i=0; i<7; i++) {
+            for (int j=0; j<7; j++) {
+                if (trajOrigin->cNode->board[i][j]==ball) {
+                    fprintf(out, "o ");
+                }
+                else if (trajOrigin->cNode->board[i][j]==empty) {
+                    fprintf(out, "x ");
+                }
+                else {
+                    fprintf(out, "  ");
+                }
+            }
+            fprintf(out, "\n");
+        }
+        trajOrigin = trajOrigin->next;
+        turn++;
+        fprintf(out, "\n");
+    }
+    while(trajOrigin!=NULL);
+    fprintf(out,"----------------- Fin de la Trajectoire -----------------\n\n");
+    fprintf(out,"Cette résolution a nécessité de visiter %d configuration en %ld secondes.\n\n", boardNumber, time);
+    fprintf(out,"Développé par Anthony Aoun, Maria El Haddad, Olivier Laurent et Johnny Yammine \ndans le cadre du projet de IN103 : Algorithmique en C. \n\n");
+
+    fprintf(out,"\n");
+    fprintf(out,"Merci d'avoir joué.\n");
+    fclose(out);
+};
 
 //Reading function
 state** readBoard (char* fileName, char* lineNb, char* colNb) {

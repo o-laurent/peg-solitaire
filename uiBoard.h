@@ -11,6 +11,7 @@ void printTrajectoryN(trajectoryNode* trajOrigin);
 //Saving functions 
 void rmTrajectory();
 void saveTrajectory(trajectory* trajOrigin);
+void saveTrajectoryN(trajectoryNode* trajOrigin, long int time, int boardNumber);
 
 //Reading function
 state** readBoard (char* fileName, char* lineNb, char* colNb);

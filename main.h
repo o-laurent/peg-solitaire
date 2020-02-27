@@ -29,6 +29,7 @@ void printTrajectory(trajectory* trajOrigin);
 void printTrajectoryN(trajectoryNode* trajOrigin);
 void rmTrajectory();
 void saveTrajectory(trajectory* trajOrigin);
+void saveTrajectoryN(trajectoryNode* trajOrigin, long int time, int boardNumber);
 state** readBoard (char* fileName, char* lineNb, char* colNb);
 
 //rules.c

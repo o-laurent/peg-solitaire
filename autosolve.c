@@ -52,7 +52,7 @@ node* copyNode(node* sibling) {
 trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, int* nodeAlloc, int* nodeFree, int* boardAlloc, int* boardFree) {
     if (*stop!=0 || ballNb(pTrajectory->cNode->board, 7, 7)<=1) {
         //printf("stop : %d, ballNb %d\n")
-        printf("VICTOIRE\n");
+        //printf("VICTOIRE\n");
         (*stop)++;
         return pTrajectory;
     }
