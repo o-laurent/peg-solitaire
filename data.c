@@ -76,16 +76,18 @@ int readNumberOfGames() {
     int x;
     in = fopen ("data/stats.txt", "rb");
     if (in == NULL) {
+        fclose(in);
         return 0;
     }
     else if (feof (in)) {
+        fclose(in);
         return 0;
     }
     else {
         fscanf (in, "%d",&x);
+        fclose(in);
         return x;
     }
-    fclose(in);
 }
 
 //total time (second line of stats)
@@ -96,17 +98,19 @@ double totalPlayedTime() {
     double y;
     in = fopen ("data/stats.txt", "rb");
     if (in == NULL) {
+        fclose(in);
         return 0;
     }
     else if (feof(in)) {
+        fclose(in);
         return 0;
     }
     else {
         fscanf (in, "%d",&x);
         fscanf (in, "%lf",&y);
+        fclose(in);
         return y;
     }
-    fclose(in);
 }
 
 void implementStats(double time) {
@@ -121,4 +125,5 @@ void implementStats(double time) {
     out = fopen ("data/stats.txt", "wb");
     fprintf(out, "%d\n",x);
     fprintf(out, "%lf\n",y);
+    fclose(out);
 }

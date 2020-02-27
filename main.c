@@ -538,7 +538,6 @@ int main(){
             implementStats((double)secondsEnd-(double)secondsStart+savedTime);
             int x = readNumberOfGames();
             double y = totalPlayedTime();
-            printf("%f, %lf, %f, %lf", y, y, y/60, y/60);
             printf("\n\n");
             printf("Historique de Jeu :\n");
             printf("Nombre de parties jouées: %d\n", x);
