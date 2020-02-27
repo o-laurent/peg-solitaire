@@ -66,12 +66,12 @@ void printBoardV(state** board, char lineNb, char colNb) {
     printf("\n");
 }
 
-void printTrajectory(trajectory* trajOrigin) {
+void printTrajectory(trajectory* trajOrigin, char lineNb, char colNb) {
     //Prints the whole trajectory on the terminal
     int turn = 1;
     do {
         printf("----------   Début du tour %d ----------\n", turn);
-        printBoardV(trajOrigin->board, 7, 7);
+        printBoardV(trajOrigin->board, lineNb, colNb);
         trajOrigin = trajOrigin->next;
         turn++;
         sleep(2);
@@ -79,13 +79,13 @@ void printTrajectory(trajectory* trajOrigin) {
     while(trajOrigin!=NULL);
 }
 
-void printTrajectoryN(trajectoryNode* trajOrigin) {
+void printTrajectoryN(trajectoryNode* trajOrigin, char lineNb, char colNb) {
     //Prints the whole trajectory on the terminal
     int turn = 1;
     printf("--------------- Début de la Trajectoire ------------------\n\n");
     do {
         printf("      ----------   Début du tour %d ----------\n", turn);
-        printBoardV(trajOrigin->cNode->board, 7, 7);
+        printBoardV(trajOrigin->cNode->board, lineNb, colNb);
         sleep(1.5);
         trajOrigin->cNode = trajOrigin->cNode->child;
         turn++;
@@ -99,7 +99,7 @@ void rmTrajectory() {
     remove("data/trajectory.txt");
 }
 
-void saveTrajectory(trajectory* trajOrigin) {
+void saveTrajectory(trajectory* trajOrigin, char lineNb, char colNb) {
     FILE* out;
     int turn = 0;
     out = fopen ("data/trajectory.txt", "wa");
@@ -110,8 +110,8 @@ void saveTrajectory(trajectory* trajOrigin) {
     fprintf(out,"--------------- Début de la Trajectoire ------------------\n\n");
     do{
         fprintf(out, "      ----------   Début du tour %d ----------\n", turn);
-        for (int i=0; i<7; i++) {
-            for (int j=0; j<7; j++) {
+        for (int i=0; i<lineNb; i++) {
+            for (int j=0; j<colNb; j++) {
                 if (trajOrigin->board[i][j]==ball) {
                     fprintf(out, "o ");
                 }
@@ -137,7 +137,7 @@ void saveTrajectory(trajectory* trajOrigin) {
 };
 
 //Equivalent but with TrajectoryNodes
-void saveTrajectoryN(trajectoryNode* trajOrigin, long int time, int boardNumber) {
+void saveTrajectoryN(trajectoryNode* trajOrigin, long int time, int boardNumber, char lineNb, char colNb) {
     FILE* out;
     int turn = 0;
     out = fopen ("data/ComputedTrajectory.txt", "wa");
@@ -148,8 +148,8 @@ void saveTrajectoryN(trajectoryNode* trajOrigin, long int time, int boardNumber)
     fprintf(out,"--------------- Début de la Trajectoire ------------------\n\n");
     do{
         fprintf(out, "      ----------   Début du tour %d ----------\n", turn);
-        for (int i=0; i<7; i++) {
-            for (int j=0; j<7; j++) {
+        for (int i=0; i<lineNb; i++) {
+            for (int j=0; j<colNb; j++) {
                 if (trajOrigin->cNode->board[i][j]==ball) {
                     fprintf(out, "o ");
                 }

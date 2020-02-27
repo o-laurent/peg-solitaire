@@ -19,7 +19,7 @@ int makePossibleMoves(state **board, movementList* moveList, char lineNb, char c
                 move.posiy = j;
                 for (k=0; k<4; k++) {
                     move.dir = k;
-                    if (correctMove(board, &move)) {
+                    if (correctMove(board, &move, lineNb, colNb)) {
                         consML(&move, moveList);
                         nb++;
                     }
@@ -38,7 +38,7 @@ int moveNb(state **board, char lineNb, char colNb) {
     return nb;
 }
 
-int moveFixed(state **board, movementList** moveList, unsigned char x, unsigned char y) {
+int moveFixed(state **board, movementList** moveList, unsigned char x, unsigned char y, char lineNb, char colNb) {
     //Returns the moves
     int nb = 0;
     int k = 0;
@@ -48,7 +48,7 @@ int moveFixed(state **board, movementList** moveList, unsigned char x, unsigned 
         move.posiy = y;
         for (k=0; k<4; k++) {
             move.dir = k;
-            if (correctMove(board, &move)) {
+            if (correctMove(board, &move, lineNb, colNb)) {
                 *moveList = consML(&move, *moveList); //Utilisation forcée de liste chaînée pour s'entraîner...
                 nb++;
             }
@@ -88,7 +88,7 @@ int ballNb(state **board, char lineNb, char colNb) {
     return count;
 }
 
-int correctMove(state **board, movement* move) {
+int correctMove(state **board, movement* move, char lineNb, char colNb) {
     int ok;
     //Check if the position is ball and if the next positions are empty
     int x = move->posix;
@@ -98,10 +98,10 @@ int correctMove(state **board, movement* move) {
         if ((dir==north) && x!=0 && x!=1 && (board[x-1][y]==ball) && (board[x-2][y]==empty)) {
             ok = 1;
         }
-        else if ((dir==south) && x!=5 && x!=6 && (board[x+1][y]==ball) && (board[x+2][y]==empty)) {
+        else if ((dir==south) && x!=lineNb-2 && x!=lineNb-1 && (board[x+1][y]==ball) && (board[x+2][y]==empty)) {
             ok = 1;
         }
-        else if ((dir==east) && y!=5 && y!=6 && (board[x][y+1]==ball) && (board[x][y+2]==empty)) {
+        else if ((dir==east) && y!=colNb-2 && y!=colNb-1 && (board[x][y+1]==ball) && (board[x][y+2]==empty)) {
             ok = 1;
         }
         else if ((dir==west) && y!=0 && y!=1 && (board[x][y-1]==ball) && (board[x][y-2]==empty)) {
@@ -199,10 +199,10 @@ void userMove(state **board, int* pquit, char lineNb, char colNb) {
                 printf("\n");
 
                 int ok = 0;
-                if (moveFixed(board, &moveList, move.posix, move.posiy)==1) {
+                if (moveFixed(board, &moveList, move.posix, move.posiy, lineNb, colNb)==1) {
                     ok = 1;
                     move = moveList->move;
-                    goodMove = correctMove(board, &move);
+                    goodMove = correctMove(board, &move, lineNb, colNb);
                 }
                 else if (board[move.posix][move.posiy]==ball) {
                     while(!ok && !goodMove) {
@@ -234,7 +234,7 @@ void userMove(state **board, int* pquit, char lineNb, char colNb) {
                                 printf("Erreur lors de l'entrée \n");
                             }
                         
-                            goodMove = correctMove(board, &move);
+                            goodMove = correctMove(board, &move, lineNb, colNb);
                             printf("%d \n", goodMove);
                             if (goodMove==0){
                                 printf("\033[1;31m"); //Red
@@ -529,7 +529,7 @@ int main(){
         time(&secondsEnd); 
         printBoardV(pTrajectory->board, lineNb, colNb);
         if (*pquit!=1) {
-            saveTrajectory(ptrajOrigin);
+            saveTrajectory(ptrajOrigin, lineNb, colNb);
             printf("\nAprès %.2lf minutes, la partie s'est terminée avec %d billes sur le plateau. \n", ((double)secondsEnd-(double)secondsStart+savedTime)/60, ballNumber);
             printf("\033[1;36mBravo !\033[0m\n"); //CHANGE COLOR
             printf("N'hésitez pas à aller récupérer les différentes étapes de la partie dans data/trajectory.txt avant de commencer la prochaine partie !\n");
@@ -562,7 +562,7 @@ int main(){
             }
             if (save=='o') {
                 saveGame(pTrajectory->board, turn, (double)secondsEnd-(double)secondsStart+savedTime);
-                saveTrajectory(ptrajOrigin);
+                saveTrajectory(ptrajOrigin, lineNb, colNb);
                 printf("\n");
                 printf("La partie a été sauvegardée !\n");
             }
@@ -574,13 +574,11 @@ int main(){
 
     else if (status==2) {
         //We use the personnalized board by default
-        lineNb = 7;
-        colNb = 7;
         node* cNode = malloc(sizeof(node));
         trajectoryNode* pTrajectory = malloc(sizeof(trajectory));
         trajectoryNode* ptrajOrigin = pTrajectory;
         //Several initializations
-        int beamWidth = 1;
+        int beamWidth = 2;
         int boardNb = 0;
         int stop = 0;
         int nodeAlloc = 0;
@@ -595,29 +593,31 @@ int main(){
         do {
             //Allocating the root
             //And its trajectory
-            freeTN_P(pTrajectory);
+            //freeTN_P(pTrajectory, lineNb);
+            lineNb = 0;
+            colNb = 0; 
             state** board = readBoard("data/model.txt", &lineNb, &colNb);
+            printBoardV(board, lineNb, colNb);
             pTrajectory = malloc(sizeof(trajectory));
             ptrajOrigin = pTrajectory;
             node* cNode = malloc(sizeof(node));
             pTrajectory->cNode = cNode;
             pTrajectory->cNode->board = board;
             pTrajectory->cNode->childNb = 0;
-            printf("Largeur du faisceau : %d\n", beamWidth);  
-            pTrajectory = autosolve(pTrajectory, &boardNb, &stop, beamWidth, &nodeAlloc, &nodeFree, &boardAlloc, &boardFree);
+            printf("%d", ballNb(pTrajectory->cNode->board, lineNb, colNb));
+            printf("%d %d", lineNb, colNb);
+            printf("La largeur du faisceau est désormais de %d.\n", beamWidth);  
+            pTrajectory = autosolve(pTrajectory, &boardNb, &stop, beamWidth, &nodeAlloc, &nodeFree, &boardAlloc, &boardFree, lineNb, colNb);
+            printf("%d %d", lineNb, colNb);
             beamWidth++;
-            printf("Nombre de noeuds alloués : %d\n", nodeAlloc);
-            printf("Nombre de noeuds libérés : %d\n", nodeFree);
-            printf("Nombre de boards alloués : %d\n", boardAlloc);
-            printf("Nombre de boards libérés : %d\n\n", boardFree);
         }
-        while (ballNb(pTrajectory->cNode->board, 7, 7)!=1);
+        while (ballNb(pTrajectory->cNode->board, lineNb, colNb)!=1);
             
         
         time(&secondsEnd); 
         printf("\nUne solution à la configuration a été trouvée !\n");
         printf("Le temps nécessaire pour trouver cette solution a été de %.2f minutes.\n", ((double)secondsEnd-(double)secondsStart)/60);
-        saveTrajectoryN(ptrajOrigin, secondsEnd-secondsStart, boardNb);
+        saveTrajectoryN(ptrajOrigin, secondsEnd-secondsStart, boardNb, lineNb, colNb);
 
         //UI
         char traj;
@@ -630,7 +630,7 @@ int main(){
         } 
         while (traj!='o' && traj!='O' && traj!='N' && traj!='n' && traj!='\n'); 
         if (traj=='o' || traj=='O') {
-            printTrajectoryN(ptrajOrigin);
+            printTrajectoryN(ptrajOrigin, lineNb, colNb);
         }
         printf("Nombre de configurations testées : %d\n", boardNb);
         printf("Nombre de noeuds alloués : %d\n", nodeAlloc);
