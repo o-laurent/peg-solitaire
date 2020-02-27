@@ -134,14 +134,16 @@ void saveTrajectory(trajectory* trajOrigin) {
 //Reading function
 state** readBoard (char* fileName, char* lineNb, char* colNb) {
     //reads the board depicted in fileName
+    *lineNb = 0;
+    *colNb = 0;
 	FILE* fichier = fopen(fileName, "r");
 	if (fichier==NULL) { //The model does not exist		
         printf("ERREUR lors de la lecture du fichier model.txt.\n");
         printf("En l'absence de model.txt, nous passons en mode 'Partie Standard'.\n");
-        printf("Si vous souhaitez faire une partie personnalisée, veuillez ajouter un fichier model.txt dans le fichier data et relancer le jeu.\n");
-		state** board = malloc(sizeof(*board)*(*lineNb));
-        for (int i=0; i<*lineNb; i++) {
-                board[i] = malloc(sizeof(**board)*(*colNb));
+        printf("Si vous souhaitez faire une partie personnalisée, veuillez ajouter un fichier model.txt dans le dossier data et relancer le jeu.\n");
+		state** board = malloc(sizeof(*board)*(7));
+        for (int i=0; i<7; i++) {
+                board[i] = malloc(sizeof(**board)*(7));
         }
         initBoard(board);
         return board;	
@@ -155,22 +157,19 @@ state** readBoard (char* fileName, char* lineNb, char* colNb) {
                 s[l]++;
                 c = fgetc(fichier);
             }
-            else if (c=='\n') {
+            else {
                 (*lineNb)++;
-                l++;//on descend d'une ligne qd on a '\0'
+                l++;//on descend d'une ligne qd on a '\n'
                 c = fgetc(fichier);
                 if (c==EOF) { //The last line is empty
                     l--;
                 }
             }
-            else {
-                c = fgetc(fichier);
-            }
 		}
         
 
 		fclose(fichier);	
-		//trouvons le nbr max de caractère dans une ligne pour savoir la taille de la grille qu' on fera
+		//trouvons le nbr max de caractère dans une ligne pour savoir la taille de la grille qu'on fera
 		l = 0;	
 		while (l<*lineNb) {
 			if (s[l]>*colNb) {
@@ -178,6 +177,7 @@ state** readBoard (char* fileName, char* lineNb, char* colNb) {
 			}
 			l++;
 		}
+        printf("Le nombre de lignes est %d et de colonnes : %d", *lineNb, *colNb);
         state** board = malloc(sizeof(*board)*(*lineNb));
         for (int i=0; i<*lineNb; i++) {
                 board[i] = malloc(sizeof(**board)*(*colNb));
@@ -214,11 +214,3 @@ state** readBoard (char* fileName, char* lineNb, char* colNb) {
         return board;
     }
 }
-
-/*int main() {
-    char lineNb = 0;
-    char colNb = 0;
-    state** board = readBoard("data/model.txt", &lineNb, &colNb);
-    printBoardV(board, lineNb, colNb);
-    return 0;
-}*/

@@ -2,6 +2,7 @@
 #include "rules.h"
 
 void printRules() {
+    char line[1024];
     printf("\033[1;4m"); //Bold Underlined
     printf("Règles du jeu de base :");
     printf("\033[0m");
@@ -13,6 +14,12 @@ void printRules() {
     "dessus la seconde se trouvant à coté pour aller rejoindre le trou vide.\nLa bille qui aura été sautée est alors sortie du jeu.\n"
     "Il faut savoir qu’à chaque coup, le joueur ne peut prendre qu’une seule bille à la fois et que cette dernière est prise par une autre "
     "bille venant verticalement ou horizontalement à elle.\n\n");
+    
+    printf("\033[37;2m");
+    printf("Tapez sur une touche pour lire la suite...");
+    printf("\033[0m");
+    fgets(line, 1024, stdin);
+    printf("\n");
 
     printf("\033[1;4m"); //Bold Underlined
     printf("Règles spécifiques à cette émulation du solitaire :");
@@ -20,11 +27,18 @@ void printRules() {
     printf("\n");
     printf("Tout d'abord, souvenez-vous que vous pouvez arrêter la partie à n'importe quel moment en tapant '-1'."
     " Vous pourrez alors sauvegarder la partie et la reprendre ou vous en étiez quand vous voulez.\n"
+    "Les billes sont représentées par des \033[1mo\033[0m et les trous par des \033[37;2mx\033[0m.\n"
     "À chaque étape, le jeu vous demandera de fournir les coordonnées de la bille que vous voulez déplacer.\n"
     "Le déplacement de celle-ci est automatique si il n'y a qu'un couple (direction, sens) possible.\n"
     "Si il y en a plusieurs, vous devrez alors fournir le couple (direction, sens) souhaité sous la forme (n, s, e, o) :\n"
     "nord / sud / est / ouest"
     "\n\n");
+
+    printf("\033[37;2m");
+    printf("Tapez sur une touche pour lire la suite...");
+    printf("\033[0m");
+    fgets(line, 1024, stdin);
+    printf("\n");
 
     printf("\033[1;4m"); //Bold Underlined
     printf("Quelques détails supplémentaires :");
