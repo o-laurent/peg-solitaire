@@ -1,4 +1,6 @@
 #include "feasible.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 
 int ruleOftheThree(state** board) {
@@ -9,8 +11,6 @@ int ruleOftheThree(state** board) {
 
 
 int** board2Square3(state** board) {
-    int x=4;
-    int y=4;
 
     int **boardNum;
     boardNum = malloc(sizeof(*boardNum) * 7);
