@@ -3,16 +3,16 @@
 #include "structures.h"
 
 //main.c
-int makePossibleMoves(state **board, movementList* moveList);
-int moveNb(state **board);
+int makePossibleMoves(state **board, movementList* moveList, char lineNb, char colNb);
+int moveNb(state **board, char lineNb, char colNb);
 void initBoard(state **board);
-int ballNb(state **board);
+int ballNb(state **board, char lineNb, char colNb);
 int correctMove(state **board, movement* move);
-int possibleMove(state **board);
+int possibleMove(state **board, char lineNb, char colNb);
 void doMove(state **board, movement* move);
-void userMove(state **board, int* pquit);
+void userMove(state **board, int* pquit, char lineNb, char colNb);
 void printBoard(state **board);
-int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn);
+int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn, char lineNb, char colNb);
 
 //data.c
 void saveGame (state** board, int turn, double time);
@@ -41,9 +41,9 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, 
 typedef struct node node;
 movementList* consML(movement* move, movementList* moveList);
 
-void copyBoard(state** boardI, state** boardO) {
-    for(int i=0;i<7;i++){
-        for(int j=0;j<7;j++){
+void copyBoard(state** boardI, state** boardO, char length, char width) {
+    for(int i=0;i<length;i++){
+        for(int j=0;j<width;j++){
             boardO[i][j] = boardI[i][j];
         }
     }

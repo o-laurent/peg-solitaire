@@ -12,9 +12,9 @@ trajectoryNode* rmtTN_Node(trajectoryNode* pTrajectory, int* nodeFree, int* boar
 //main.c
 int correctMove(state **board, movement* move);
 void doMove(state **board, movement* move);
-int ballNb(state **board);
-void copyBoard(state** boardI, state** boardO);
-int moveNb(state **board);
+int ballNb(state **board, char lineNb, char colNb);
+void copyBoard(state** boardI, state** boardO, char lineNb, char colNb);
+int moveNb(state **board, char lineNb, char colNb);
 
 //uiBoard.c
 void printBoardV(state **board, char lineNb, char colNb);

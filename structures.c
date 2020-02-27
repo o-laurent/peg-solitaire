@@ -150,69 +150,56 @@ trajectoryNode* consTN(node* child, trajectoryNode* pTrajectory) {
     return tmp;
 }
 
-/*void freeNode(node* cNode) {
-    /*if (node->next!=NULL) {
-        freeNode(node->next);
-    }
-    //printf("child : %p", cNode->child);
-    node* tmpNode1 = cNode;
-    //while (tmpNode1!=NULL) {
-        node* tmpNode = tmpNode1;
-        while (tmpNode->child!=NULL) {
-            tmpNode = tmpNode->child;
-        }
-        node* tmpNode2 = tmpNode->parent;
-        while (tmpNode2!=tmpNode1) {
-            //free(tmpNode);
-            tmpNode = tmpNode2;
-            tmpNode2 = tmpNode2->parent;
-        }
-        //tmpNode1 = tmpNode1->next;
-        //free(tmpNode);
-    //}
-    //free(cNode);
-}*/
-
-void freeNode(node* cNode, node* cNoder, int* nodeFree, int* boardFree) {
+void freeNode(node* cNode, int* nodeFree, int* boardFree) {
     if (cNode!=NULL) {
         while (cNode->child != NULL) {
             for (int i=0; i<7; i++) {
-                free(cNode->board[i]);
+                free(cNode->child->board[i]);
             }
-            free(cNode->board);
+            free(cNode->child->board);
+            cNode->child->board=NULL;
             (*boardFree)++;
-            free(cNode);
-            (*nodeFree)++;
+
             cNode->child = cNode->child->next;
         }
-        
+        free(cNode->child);
+        (*nodeFree)++;
     }
 }
 
 trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree) {
-    //removes the top of the list
-    //printf("IN rm");
+    //removes the top of the list and free the children
     trajectoryNode* tmpPointer;
     if (pTrajectory->previous==NULL) {
+        //Impossible to do : this should not happend
         printf("ERREUR pas d'antécédent\n");
         tmpPointer = pTrajectory;
     }
     else {
         tmpPointer = pTrajectory->previous;
         if (pTrajectory->cNode!=NULL){
-            freeNode(pTrajectory->cNode, pTrajectory->cNode, nodeFree, boardFree);
+            //freeNode(pTrajectory->cNode, nodeFree, boardFree);
+            for (int i=0; i<7; i++) {
+                free(pTrajectory->cNode->board[i]);
+            }
+            free(pTrajectory->cNode->board);
+            (*boardFree)++;
+            pTrajectory->cNode->board=NULL;
+            free(pTrajectory->cNode);
+            (*nodeFree)++;
             pTrajectory->cNode=NULL;
         }
         free(pTrajectory);
     }
-    //tmpPointer->next = NULL;
     return tmpPointer;
 }
 
 trajectoryNode* rmtTN_Node(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree) {
-    //removes the first
+    //removes the element when on a leaf
     trajectoryNode* tmpPointer;
     if (pTrajectory->previous==NULL) {
+        //Impossible to do : this should not happend
+        printf("ERREUR pas d'antécédent\n");
         tmpPointer = pTrajectory;
     }
     else {
@@ -223,6 +210,7 @@ trajectoryNode* rmtTN_Node(trajectoryNode* pTrajectory, int* nodeFree, int* boar
             }
             free(pTrajectory->cNode->board);
             (*boardFree)++;
+            //pTrajectory->cNode->board=NULL;
             free(pTrajectory->cNode);
             (*nodeFree)++;
             pTrajectory->cNode=NULL;

@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include "main.h"
 
-int makePossibleMoves(state **board, movementList* moveList) {
+int makePossibleMoves(state **board, movementList* moveList, char lineNb, char colNb) {
     //Generates the linked list which contains all the moves
     //and returns the number of moves that can be done
     int i = 0;
@@ -12,8 +12,8 @@ int makePossibleMoves(state **board, movementList* moveList) {
     int k = 0;
     int nb = 0;
     movement move;
-    for (i=0; i<7; i++) {
-        for (j=0; j<7; j++) {
+    for (i=0; i<lineNb; i++) {
+        for (j=0; j<colNb; j++) {
             if (board[i][j]==ball) {
                 move.posix = i;
                 move.posiy = j;
@@ -30,11 +30,11 @@ int makePossibleMoves(state **board, movementList* moveList) {
     return nb;
 }
 
-int moveNb(state **board) {
+int moveNb(state **board, char lineNb, char colNb) {
     //Returns the number of possible moves
     int nb;
     movementList moveList; //To provide enough arguments (but not used)
-    nb = makePossibleMoves(board, &moveList);
+    nb = makePossibleMoves(board, &moveList, lineNb, colNb);
     return nb;
 }
 
@@ -75,11 +75,11 @@ void initBoard(state **board) {
     }
 }
 
-int ballNb(state **board) {
+int ballNb(state **board, char lineNb, char colNb) {
     //Counts the number of balls on the board
     int count =0;
-    for (int i=0; i<7; i++) {
-        for (int j=0; j<7; j++) {
+    for (int i=0; i<lineNb; i++) {
+        for (int j=0; j<colNb; j++) {
             if (board[i][j]==ball) {
                 count++;
             }
@@ -119,10 +119,10 @@ int correctMove(state **board, movement* move) {
     return ok;    
 }
 
-int possibleMove(state **board) {
+int possibleMove(state **board, char lineNb, char colNb) {
     //Returns 1 if one move can still be done
     int doable;
-    if ((ballNb(board)>=2) && (moveNb(board)>=1)) {
+    if ((ballNb(board, lineNb, colNb)>=2) && (moveNb(board, lineNb, colNb)>=1)) {
         //ballNb for optimality (allows not to go through moveNb)
         doable = 1;
     }
@@ -164,7 +164,7 @@ void doMove(state **board, movement* move) {
     }
 }
 
-void userMove(state **board, int* pquit) {
+void userMove(state **board, int* pquit, char lineNb, char colNb) {
     //Allows the user to chose the movement he desires
     char dir;
     char line[1024];
@@ -173,7 +173,7 @@ void userMove(state **board, int* pquit) {
     movementList* moveList = malloc(sizeof(movementList));
     while (!goodMove) {
         //Print the board
-        printBoardV(board, 7, 7);    
+        printBoardV(board, lineNb, colNb);    
         printf("Entrez la coordonnée ");
         printf("\033[0;34m");
         printf("verticale ");
@@ -313,43 +313,44 @@ void printBoard(state **board) {
     printf("\n");
 }
 
-int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn) {
+int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn, char lineNb, char colNb) {
     //Initialising the board and the trajectory
     (*pTrajectory)->next = NULL;
     (*pTrajectory)->board = board;
 
-    state** newBoard = malloc(sizeof(*newBoard) * 7);
-    for (int i=0;i<7;i++) {
-        newBoard[i] = malloc(sizeof(**newBoard)*7);
+    state** newBoard = malloc(sizeof(*newBoard)*lineNb);
+    for (int i=0; i<lineNb; i++) {
+        newBoard[i] = malloc(sizeof(**newBoard)*colNb);
     }
 
-    while (possibleMove(board) && (!(*pquit))){
+    while (possibleMove(board, lineNb, colNb) && (!(*pquit))){
         //If a mouvement is possible and user doesn't want to quit
         free(newBoard);
-        newBoard = malloc(sizeof(*newBoard) * 7); //tmpBoard 
-        for (int i=0;i<7;i++) {
-            newBoard[i] = malloc(sizeof(**newBoard)*7);
+        newBoard = malloc(sizeof(*newBoard)*lineNb); //tmpBoard 
+        for (int i=0; i<lineNb; i++) {
+            newBoard[i] = malloc(sizeof(**newBoard)*colNb);
         }
-        copyBoard(board, newBoard);
+        copyBoard(board, newBoard, lineNb, colNb);
 
         //printf("Valeur : %f", cost_f(newBoard));
         printf("----------   Début du tour %d ----------\n", *turn);
-        userMove(newBoard, pquit); //modify tmpBoard 
+        userMove(newBoard, pquit, lineNb, colNb); //modify tmpBoard 
         (*turn)++;
 
-        board = malloc(sizeof(*board) * 7);
-        for (int i=0;i<7;i++) {
-            board[i] = malloc(sizeof(**board)*7);
+        board = malloc(sizeof(*board) * lineNb);
+        for (int i=0; i<lineNb; i++) {
+            board[i] = malloc(sizeof(**board)*colNb);
         }
-        copyBoard(newBoard, board); //copy board to tmpBoard
+        copyBoard(newBoard, board, lineNb, colNb); //copy board to tmpBoard
 
         *pTrajectory = consT(board, *pTrajectory); //update the trajectory
     }
-    return ballNb((*pTrajectory)->board);
+    return ballNb((*pTrajectory)->board, lineNb, colNb);
 }
 
 int userGameT(int* pquit, trajectory** pTrajectory, state** board, int* turn) {
-    //Initialising the board and the trajectory
+    //Initialising the board and the trajectory and execute one turn ONLY 
+    //TUTORIAL ONLY
     (*pTrajectory)->next = NULL;
     (*pTrajectory)->board = board;
 
@@ -357,36 +358,36 @@ int userGameT(int* pquit, trajectory** pTrajectory, state** board, int* turn) {
     for (int i=0;i<7;i++) {
         newBoard[i] = malloc(sizeof(**newBoard)*7);
     }
+    //If a mouvement is possible and user doesn't want to quit
+    free(newBoard);
+    newBoard = malloc(sizeof(*newBoard) * 7); //tmpBoard 
+    for (int i=0;i<7;i++) {
+        newBoard[i] = malloc(sizeof(**newBoard)*7);
+    }
+    copyBoard(board, newBoard, 7, 7);
 
+    //printf("Valeur : %f", cost_f(newBoard));
     
-        //If a mouvement is possible and user doesn't want to quit
-        free(newBoard);
-        newBoard = malloc(sizeof(*newBoard) * 7); //tmpBoard 
-        for (int i=0;i<7;i++) {
-            newBoard[i] = malloc(sizeof(**newBoard)*7);
-        }
-        copyBoard(board, newBoard);
+    userMove(newBoard, pquit, 7, 7); //modify tmpBoard 
+    (*turn)++;
 
-        //printf("Valeur : %f", cost_f(newBoard));
-        
-        userMove(newBoard, pquit); //modify tmpBoard 
-        (*turn)++;
+    board = malloc(sizeof(*board) * 7);
+    for (int i=0;i<7;i++) {
+        board[i] = malloc(sizeof(**board)*7);
+    }
+    copyBoard(newBoard, board, 7, 7); //copy board to tmpBoard
 
-        board = malloc(sizeof(*board) * 7);
-        for (int i=0;i<7;i++) {
-            board[i] = malloc(sizeof(**board)*7);
-        }
-        copyBoard(newBoard, board); //copy board to tmpBoard
-
-        *pTrajectory = consT(board, *pTrajectory); //update the trajectory
-        printBoard(board);
-    return ballNb((*pTrajectory)->board);
+    *pTrajectory = consT(board, *pTrajectory); //update the trajectory
+    printBoard(board);
+    return ballNb((*pTrajectory)->board, 7, 7);
 }
 
 int main(){ 
     //Initialisation
-    state **board = malloc(sizeof(*board) * 7);
     char status;
+
+    char lineNb = 7;
+    char colNb = 7;
 
     //time vars
     time_t secondsStart; 
@@ -398,8 +399,6 @@ int main(){
     int* pquit = &quit;
 
     //Defining the board's dimensions
-    char lineNb = 0;
-    char colNb = 0;
     int ballNumber = 0;
 
     //Check if there is a saved game to load 
@@ -430,15 +429,16 @@ int main(){
             while (tutorial!='o' && tutorial!='O' && tutorial!='N' && tutorial!='n' && tutorial!='\n');
             if (tutorial=='o'||tutorial=='o'||tutorial=='\n') {
                 printf("TUTORIEL \n");
-                printf("\nComme vous pouvez le voir, le plateau est constitué de billes \033[1m o \033[0m et d'un seul trou representé par un \033[37;2m x \033[0m.\nIci vous pouvez choisir les billes ayant les coordonnées suivantes:\n(4,1);(2,3);(4,5);(6,3)\nEt comme il y a juste un seul mouvement possible pour chacune, \nvous n'avez pas à rentrer une direction.\nA vous de jouer!\n");
+                printf("\nComme vous pouvez le voir, le plateau est constitué de billes \033[1m o \033[0m et d'un seul trou representé par un \033[37;2m x \033[0m.\n"
+                "Ici vous pouvez choisir les billes ayant les coordonnées suivantes:\n(4,1)\n(2,3)\n(4,5)\n(6,3)"
+                "\nEt comme il y a juste un seul mouvement possible pour chacune, "
+                "\nvous n'avez pas à rentrer une direction.\nA vous de jouer!\n");
                 state **board = malloc(sizeof(*board) * 7);  //Table which will contain the first configuration
                 long long int returned[2];
                 for (int i=0;i<7;i++) {
                     board[i] = malloc(sizeof(**board)*7);
                 }
                 initBoard(board);
-                lineNb = 7;
-                colNb = 7;
 
                 rmTrajectory(); //Delete the saved Trajectory (last game which was finished)
                 rmSavedGame();
@@ -464,12 +464,9 @@ int main(){
 
     //game
     if (status==1) {
-        //Allocating the board
-        state **board = malloc(sizeof(*board) * 7);  //Table which will contain the first configuration
+        state **board;
+        //Table which will contain the first configuration
         long long int returned[2];
-        for (int i=0;i<7;i++) {
-            board[i] = malloc(sizeof(**board)*7);
-        }
         //Personalized game ?
         char perso;
         do {
@@ -479,12 +476,18 @@ int main(){
         }
         while (perso!='o' && perso!='O' && perso!='N' && perso!='n' && perso!='\n');
         if (perso=='N' || perso=='n' || perso=='\n') {
+            board = malloc(sizeof(*board) * 7);
+            for (int i=0;i<7;i++) {
+                board[i] = malloc(sizeof(**board)*7);
+            }
             initBoard(board);
             lineNb = 7;
             colNb = 7;
         }
         else {
+            //Read the personnalized board in data/model.txt
             board = readBoard("data/model.txt", &lineNb, &colNb);
+            printBoardV(board, lineNb, colNb);
         }
 
         //Load saved game ?
@@ -520,10 +523,10 @@ int main(){
         trajectory* pTrajectory = malloc(sizeof(trajectory));
         trajectory* ptrajOrigin = pTrajectory;
         //
-        ballNumber = userGame(pquit, &pTrajectory, board, &turn);
+        ballNumber = userGame(pquit, &pTrajectory, board, &turn, lineNb, colNb);
         //
         time(&secondsEnd); 
-        printBoardV(pTrajectory->board, 7, 7);
+        printBoardV(pTrajectory->board, lineNb, colNb);
         if (*pquit!=1) {
             saveTrajectory(ptrajOrigin);
             printf("Après %.2lf minutes, la partie s'est terminée avec %d billes sur le plateau. \n", ((double)secondsEnd-(double)secondsStart+savedTime)/60, ballNumber);
@@ -568,20 +571,32 @@ int main(){
     }
 
     else if (status==2) {
-        board = readBoard("data/model.txt", &lineNb, &colNb);
+        //We use the personnalized board by default
+        lineNb = 7;
+        colNb = 7;
+        state** board = readBoard("data/model.txt", &lineNb, &colNb);
+        
+        //Allocating the root
         node* cNode = malloc(sizeof(node));
+        //And its trajectory
         trajectoryNode* pTrajectory = malloc(sizeof(trajectory));
         trajectoryNode* ptrajOrigin = pTrajectory;
         pTrajectory->cNode = cNode;
         pTrajectory->cNode->board = board;
         pTrajectory->cNode->childNb = 0;
+
+        //Several initialisations
         int boardNb = 0;
         int stop = 0;
         int nodeAlloc = 0;
         int boardAlloc = 0;
         int nodeFree = 0;
         int boardFree = 0;
+
+        //main
         pTrajectory = autosolve(pTrajectory, &boardNb, &stop, &nodeAlloc, &nodeFree, &boardAlloc, &boardFree);
+
+        //UI
         char traj;
         do {
             printf("Voulez-vous regarder la trajectoire ? (o/n)\n");

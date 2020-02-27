@@ -24,20 +24,6 @@ struct trajectoryNode {
     trajectoryNode* previous;
 };
 
-/*typedef struct lineage lineage;
-struct lineage {
-    //Double linked list which remembers the pointers to the different children nodes
-    node* pNode;
-    lineage* next;
-    lineage* previous;
-};*/
-
-struct sorted_children {
-    //List of nodes sorted by increasing costs
-    node *child;
-    sorted_children *next;
-};
-
 struct node {
     //model of a node
     int cost;
@@ -71,7 +57,7 @@ void freeT_P(trajectory* pTrajectory);
 //trajectoryNode functions
 trajectoryNode* consTN(node* board, trajectoryNode* pTrajectory);
 trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree);
-void freeNode(node* cNode, node* cNoder, int* nodeFree, int* boardFree);
+void freeNode(node* cNode, int* nodeFree, int* boardFree);
 void freeTN_P(trajectoryNode* pTrajectory);
 trajectoryNode* rmtTN_Node(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree);
 

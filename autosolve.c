@@ -37,7 +37,7 @@ node* copyNode(node* sibling) {
             exit(1);
         } 
     }
-    copyBoard(sibling->board, newBoard); //Makes the boards independent
+    copyBoard(sibling->board, newBoard, 7, 7); //Makes the boards independent
     /*printBoardV(sibling->board, 7, 7);
     printBoardV(newBoard,7 , 7);*/
     nodeOut->board = newBoard;
@@ -50,19 +50,20 @@ node* copyNode(node* sibling) {
 }
 
 trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, int* nodeAlloc, int* nodeFree, int* boardAlloc, int* boardFree) {
-    //printBoardV(pTrajectory->cNode->board,7,7);
-    if (*stop!=0 || ballNb(pTrajectory->cNode->board)<=1) {
+    if (*stop!=0 || ballNb(pTrajectory->cNode->board, 7, 7)<=1) {
         //printf("stop : %d, ballNb %d\n")
         printf("VICTOIRE\n");
         (*stop)++;
         return pTrajectory;
     }
 
-    else if (moveNb(pTrajectory->cNode->board)==0) {
+    else if (moveNb(pTrajectory->cNode->board, 7, 7)==0) {
+        //printf("ELSEIF");
         //free this node only : We are on a leaf
         return rmtTN_Node(pTrajectory, nodeFree, boardFree);
     }
     else {
+        //printf("ELSE");
         //allocating the movement
         movement* pmove = malloc(sizeof(movement));
         if (pmove==NULL) {
@@ -95,12 +96,13 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, 
                 }
             }
         }
-        
+        //printf("%d\n", *boardNb);
         //Freeing the movement
         free(pmove);
         
         //Sorting the node by increasing costs
         sortNodes(&(pTrajectory->cNode->child));
+        //printBoardV(pTrajectory->cNode->child->board,7,7);
         int preCost = -1; //Impossible to get : always different
         node* cChild = pTrajectory->cNode->child;
 
@@ -108,22 +110,24 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, 
             pTrajectory->cNode->child = cChild;
 
             if (cChild->cost != preCost) {
-                preCost = cChild->cost;
+                preCost = cChild->cost; //update the cost
                 pTrajectory = autosolve(consTN(cChild, pTrajectory), boardNb, stop, nodeAlloc, nodeFree, boardAlloc, boardFree);
             }
 
             if (!(*stop)) {
+                //If it is not finished, go to the next node
                 cChild = pTrajectory->cNode->child;
                 cChild = cChild->next;
             }
         }
-        while (!(*stop) && cChild!=NULL); //If a solution hasn't been found yet, try the other movements.
+        //If a solution hasn't been found yet, try the other movements.
+        while (!(*stop) && cChild!=NULL); 
+
         if (*stop) {
             return pTrajectory;
         }
         else {
             return rmtTN(pTrajectory, nodeFree, boardFree);
         }
-        
     }
 }

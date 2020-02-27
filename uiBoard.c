@@ -82,16 +82,16 @@ void printTrajectory(trajectory* trajOrigin) {
 void printTrajectoryN(trajectoryNode* trajOrigin) {
     //Prints the whole trajectory on the terminal
     int turn = 1;
-    printf("---------- Début de la trajectoire ----------\n");
+    printf("--------------- Début de la Trajectoire ------------------\n\n");
     do {
-        sleep(1.5);
-        printf("----------   Début du tour %d ----------\n", turn);
+        printf("      ----------   Début du tour %d ----------\n", turn);
         printBoardV(trajOrigin->cNode->board, 7, 7);
+        sleep(1.5);
         trajOrigin->cNode = trajOrigin->cNode->child;
         turn++;
     }
     while(trajOrigin->cNode!=NULL);
-    printf("---------- Fin de la trajectoire ----------\n");
+    printf("----------------- Fin de la Trajectoire -----------------\n");
 }
 
 //Saving functions
@@ -177,7 +177,7 @@ state** readBoard (char* fileName, char* lineNb, char* colNb) {
 			}
 			l++;
 		}
-        printf("Le nombre de lignes est %d et de colonnes : %d", *lineNb, *colNb);
+        //printf("Le nombre de lignes est %d et de colonnes : %d", *lineNb, *colNb);
         state** board = malloc(sizeof(*board)*(*lineNb));
         for (int i=0; i<*lineNb; i++) {
                 board[i] = malloc(sizeof(**board)*(*colNb));
