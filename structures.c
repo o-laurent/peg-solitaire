@@ -147,7 +147,7 @@ void freeNode(node* cNode, int* nodeFree, int* boardFree) {
     }
 }
 
-trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree) {
+trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree, int lineNb) {
     //removes the top of the list and free the children
     trajectoryNode* tmpPointer;
     if (pTrajectory->previous==NULL) {
@@ -158,8 +158,7 @@ trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree
     else {
         tmpPointer = pTrajectory->previous;
         if (pTrajectory->cNode!=NULL){
-            //freeNode(pTrajectory->cNode, nodeFree, boardFree);
-            for (int i=0; i<7; i++) {
+            for (int i=0; i<lineNb; i++) {
                 free(pTrajectory->cNode->board[i]);
             }
             free(pTrajectory->cNode->board);
@@ -174,38 +173,16 @@ trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree
     return tmpPointer;
 }
 
-trajectoryNode* rmtTN_Node(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree) {
-    //removes the element when on a leaf
-    trajectoryNode* tmpPointer;
-    if (pTrajectory->previous==NULL) {
-        //Impossible to do : this should not happend
-        printf("ERREUR pas d'antécédent\n");
-        tmpPointer = pTrajectory;
-    }
-    else {
-        tmpPointer = pTrajectory->previous;
-        if (pTrajectory->cNode!=NULL){
-            for (int i=0; i<7; i++) {
-                free(pTrajectory->cNode->board[i]);
-            }
-            free(pTrajectory->cNode->board);
-            (*boardFree)++;
-            //pTrajectory->cNode->board=NULL;
-            free(pTrajectory->cNode);
-            (*nodeFree)++;
-            pTrajectory->cNode=NULL;
-        }
-        free(pTrajectory);
-    }
-    return tmpPointer;
-}
-
-void freeTN_P(trajectoryNode* pTrajectory) {
+void freeTN_P(trajectoryNode* pTrajectory, int lineNb) {
     //lower-recursive free
     if (pTrajectory!=NULL){
         if (pTrajectory->previous!=NULL) {
-            freeTN_P(pTrajectory->previous);
+            freeTN_P(pTrajectory->previous, lineNb);
         }
+        for (int i=0; i<lineNb; i++) {
+                free(pTrajectory->cNode->board[i]);
+            }
+        free(pTrajectory->cNode->board);
         free(pTrajectory->cNode);
         free(pTrajectory);
     }

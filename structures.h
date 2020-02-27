@@ -56,10 +56,9 @@ void freeT_P(trajectory* pTrajectory);
 
 //trajectoryNode functions
 trajectoryNode* consTN(node* board, trajectoryNode* pTrajectory);
-trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree);
+trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree, int lineNb);
 void freeNode(node* cNode, int* nodeFree, int* boardFree);
-void freeTN_P(trajectoryNode* pTrajectory);
-trajectoryNode* rmtTN_Node(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree);
+void freeTN_P(trajectoryNode* pTrajectory, int lineNb);
 
 //void buildLineage(node* currentNode, sorted_children *lineage);
 void sortNodes(node** phead);
