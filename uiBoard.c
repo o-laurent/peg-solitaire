@@ -183,7 +183,7 @@ state** readBoard (char* fileName, char* lineNb, char* colNb) {
     *colNb = 0;
 	FILE* fichier = fopen(fileName, "r");
 	if (fichier==NULL) { //The model does not exist		
-        printf("ERREUR lors de la lecture du fichier model.txt.\n");
+        printf("ERREUR lors de la lecture du fichier filename.txt.\n");
         printf("En l'absence de model.txt, nous passons en mode 'Partie Standard'.\n");
         printf("Si vous souhaitez faire une partie personnalisée, veuillez ajouter un fichier model.txt dans le dossier data et relancer le jeu.\n");
 		state** board = malloc(sizeof(*board)*(7));
@@ -229,7 +229,7 @@ state** readBoard (char* fileName, char* lineNb, char* colNb) {
         }
 		l = 0; 
         int i = 0;
-		FILE* fichier = fopen("data/model.txt", "r");
+		FILE* fichier = fopen(fileName, "r");
 		while (l<*lineNb) {
 			i = 0;
             c = fgetc(fichier);

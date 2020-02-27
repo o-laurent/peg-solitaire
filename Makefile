@@ -1,7 +1,7 @@
 all: solitaire
 
 solitaire: structures.o feasible.o autosolve.o uiBoard.o data.o rules.o main.o
-	gcc -o solitaire structures.o feasible.o autosolve.o uiBoard.o data.o rules.o main.o -g
+	gcc -o solitaire structures.o feasible.o autosolve.o uiBoard.o data.o rules.o main.o -ggdb3
 
 structures.o: structures.c
 	gcc -Wall structures.c -o structures.o -c 

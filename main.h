@@ -30,21 +30,21 @@ void printTrajectoryN(trajectoryNode* trajOrigin);
 void rmTrajectory();
 void saveTrajectory(trajectory* trajOrigin);
 void saveTrajectoryN(trajectoryNode* trajOrigin, long int time, int boardNumber);
-state** readBoard (char* fileName, char* lineNb, char* colNb);
+state** readBoard(char* fileName, char* lineNb, char* colNb);
 
 //rules.c
 void printRules();
 
 //autosolve.c
-trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, int* nodeAlloc, int* nodeFree, int* boardAlloc, int* boardFree);
+trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, int beamWidth, int* nodeAlloc, int* nodeFree, int* boardAlloc, int* boardFree);
 
 
 typedef struct node node;
 movementList* consML(movement* move, movementList* moveList);
 
 void copyBoard(state** boardI, state** boardO, char length, char width) {
-    for(int i=0;i<length;i++){
-        for(int j=0;j<width;j++){
+    for(int i=0; i<length; i++){
+        for(int j=0; j<width; j++){
             boardO[i][j] = boardI[i][j];
         }
     }

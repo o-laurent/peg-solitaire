@@ -576,18 +576,11 @@ int main(){
         //We use the personnalized board by default
         lineNb = 7;
         colNb = 7;
-        state** board = readBoard("data/model.txt", &lineNb, &colNb);
-        
-        //Allocating the root
         node* cNode = malloc(sizeof(node));
-        //And its trajectory
         trajectoryNode* pTrajectory = malloc(sizeof(trajectory));
         trajectoryNode* ptrajOrigin = pTrajectory;
-        pTrajectory->cNode = cNode;
-        pTrajectory->cNode->board = board;
-        pTrajectory->cNode->childNb = 0;
-
         //Several initializations
+        int beamWidth = 1;
         int boardNb = 0;
         int stop = 0;
         int nodeAlloc = 0;
@@ -598,8 +591,29 @@ int main(){
         //main
         printf("\n\nRecherche d'une solution à la configuration personnalisée en cours...\n");
         printf("Veuillez patienter...\n");
-        time(&secondsStart); 
-        pTrajectory = autosolve(pTrajectory, &boardNb, &stop, &nodeAlloc, &nodeFree, &boardAlloc, &boardFree);
+        time(&secondsStart);
+        do {
+            //Allocating the root
+            //And its trajectory
+            freeTN_P(pTrajectory);
+            state** board = readBoard("data/model.txt", &lineNb, &colNb);
+            pTrajectory = malloc(sizeof(trajectory));
+            ptrajOrigin = pTrajectory;
+            node* cNode = malloc(sizeof(node));
+            pTrajectory->cNode = cNode;
+            pTrajectory->cNode->board = board;
+            pTrajectory->cNode->childNb = 0;
+            printf("Largeur du faisceau : %d\n", beamWidth);  
+            pTrajectory = autosolve(pTrajectory, &boardNb, &stop, beamWidth, &nodeAlloc, &nodeFree, &boardAlloc, &boardFree);
+            beamWidth++;
+            printf("Nombre de noeuds alloués : %d\n", nodeAlloc);
+            printf("Nombre de noeuds libérés : %d\n", nodeFree);
+            printf("Nombre de boards alloués : %d\n", boardAlloc);
+            printf("Nombre de boards libérés : %d\n\n", boardFree);
+        }
+        while (ballNb(pTrajectory->cNode->board, 7, 7)!=1);
+            
+        
         time(&secondsEnd); 
         printf("\nUne solution à la configuration a été trouvée !\n");
         printf("Le temps nécessaire pour trouver cette solution a été de %.2f minutes.\n", ((double)secondsEnd-(double)secondsStart)/60);

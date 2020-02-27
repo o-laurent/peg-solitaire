@@ -5,26 +5,6 @@
 #include "structures.h"
 #endif
 
-/*void buildLineage(node* currentNode, sorted_children *lineage){
-    node *child = currentNode;
-    unsigned int children_nb = 0;
-    while(child != NULL){
-        children_nb ++;
-        child = child->next;
-    }
-
-    int cost_list[children_nb];
-    node *children_array[children_nb];
-    int i=0;
-    for(i=0; i<children_nb; i++){
-        children_array[i] = child;
-        cost_list[i] = cost_f(child);
-        child = child->brother;
-    }
-
-    sortNodes(children_nb, cost_list, children_array);        
-}*/
-
 //Utility
 void printSizes() {
     printf("----- Affichage des tailles des objets utilisés -----\n");
@@ -222,24 +202,11 @@ trajectoryNode* rmtTN_Node(trajectoryNode* pTrajectory, int* nodeFree, int* boar
 
 void freeTN_P(trajectoryNode* pTrajectory) {
     //lower-recursive free
-    if (pTrajectory->previous!=NULL) {
-        freeTN_P(pTrajectory->previous);
+    if (pTrajectory!=NULL){
+        if (pTrajectory->previous!=NULL) {
+            freeTN_P(pTrajectory->previous);
+        }
+        free(pTrajectory->cNode);
+        free(pTrajectory);
     }
-    free(pTrajectory->cNode);
-    free(pTrajectory);
 }
-
-
-/*lineage* consC(lineage* Lineage, node* nodeV) {
-    //Add a node on the top of the list
-    lineage* tmp = malloc(sizeof(node*));
-    if (tmp == NULL) { //Insufficent space
-        printf("ERREUR");
-        return NULL;
-    }
-    Lineage->next = tmp; //Next Step
-    tmp->pNode = nodeV;
-    tmp->previous = Lineage; //Previous Step
-
-    return tmp;
-}*/

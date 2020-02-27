@@ -5,7 +5,7 @@
 #include "autosolve.h"
 #endif
 
-int cost_f(state** board){
+/*int cost_f(state** board){
     float cost = 0;
     for(int i=0; i<7;i++){
         for(int j=0; j<7;j++){
@@ -21,6 +21,22 @@ int cost_f(state** board){
         }
     }
     return cost;
+}*/
+
+int cost_f(state** board){
+    int somme1 = 0;
+    int somme2 = 0;
+    int somme3 = 0;
+    for(int i=0; i<7;i++){
+        for(int j=0; j<7;j++){
+            if(board[i][j]==ball){
+                somme1 += i*i+j*j;
+                somme2 += i;
+                somme3 += j;
+            }
+        }
+    }
+    return somme1 - somme2*somme2 -somme3*somme3;
 }
 
 node* copyNode(node* sibling) {
@@ -49,7 +65,7 @@ node* copyNode(node* sibling) {
     return nodeOut;
 }
 
-trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, int* nodeAlloc, int* nodeFree, int* boardAlloc, int* boardFree) {
+trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, int beamWidth, int* nodeAlloc, int* nodeFree, int* boardAlloc, int* boardFree) {
     if (*stop!=0 || ballNb(pTrajectory->cNode->board, 7, 7)<=1) {
         //printf("stop : %d, ballNb %d\n")
         //printf("VICTOIRE\n");
@@ -60,7 +76,7 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, 
     else if (moveNb(pTrajectory->cNode->board, 7, 7)==0) {
         //printf("ELSEIF");
         //free this node only : We are on a leaf
-        return rmtTN_Node(pTrajectory, nodeFree, boardFree);
+        return rmtTN(pTrajectory, nodeFree, boardFree);
     }
     else {
         //printf("ELSE");
@@ -78,7 +94,7 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, 
                     pmove->posiy = j;
                     for (int k=0; k<4; k++) {
                         pmove->dir = k;
-                        if (correctMove(pTrajectory->cNode->board, pmove)) {
+                        if (correctMove(pTrajectory->cNode->board, pmove)&&pTrajectory->cNode->childNb<beamWidth) {
                     /*The tmpNode is the exact copy of its parent Yet, it has no child, 
                     its next is the previous child, and the parent is the parent...*/
                             node* tmpNode = copyNode(pTrajectory->cNode); 
@@ -96,22 +112,24 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, 
                 }
             }
         }
+         
         //printf("%d\n", *boardNb);
         //Freeing the movement
         free(pmove);
         
         //Sorting the node by increasing costs
         sortNodes(&(pTrajectory->cNode->child));
-        //printBoardV(pTrajectory->cNode->child->board,7,7);
+        
         int preCost = -1; //Impossible to get : always different
         node* cChild = pTrajectory->cNode->child;
-
+        int i = 0;
         do {
             pTrajectory->cNode->child = cChild;
 
             if (cChild->cost != preCost) {
                 preCost = cChild->cost; //update the cost
-                pTrajectory = autosolve(consTN(cChild, pTrajectory), boardNb, stop, nodeAlloc, nodeFree, boardAlloc, boardFree);
+                pTrajectory = autosolve(consTN(cChild, pTrajectory), boardNb, stop, beamWidth, nodeAlloc, nodeFree, boardAlloc, boardFree);
+                i++;
             }
 
             if (!(*stop)) {
@@ -121,7 +139,7 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, 
             }
         }
         //If a solution hasn't been found yet, try the other movements.
-        while (!(*stop) && cChild!=NULL); 
+        while (!(*stop) && cChild!=NULL && i<beamWidth); 
 
         if (*stop) {
             return pTrajectory;
