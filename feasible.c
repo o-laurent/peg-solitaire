@@ -104,7 +104,7 @@ int** board2Square3(state** board) {
     }
 
     for(int i=0;i<3;i++){
-        for(intj=0;j<3;j++){
+        for(int j=0;j<3;j++){
             square[i][j]=boardNum[i+2][j+2];
         }
     }
