@@ -6,9 +6,9 @@
 #endif
 
 //autosolve.c
-trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, int beamWidth, int* nodeAlloc, int* nodeFree, int* boardAlloc, int* boardFree, char lineNb, char colNb);
+trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, int beamWidth, int* nodeAlloc, int* nodeFree, int* boardAlloc, int* boardFree, int* trajectoryAlloc, int* trajectoryFree, char lineNb, char colNb);
 //trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree, int lineNb);
-trajectoryNode* rmtTN_Node(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree, char lineNb);
+//trajectoryNode* rmtTN_Node(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree, int* trajectoryFree, char lineNb);
 //main.c
 int correctMove(state **board, movement* move, char lineNb, char colNb);
 void doMove(state **board, movement* move);

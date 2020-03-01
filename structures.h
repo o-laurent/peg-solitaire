@@ -55,8 +55,8 @@ trajectory* consT(state** board, trajectory* pTrajectory);
 void freeT_P(trajectory* pTrajectory);
 
 //trajectoryNode functions
-trajectoryNode* consTN(node* board, trajectoryNode* pTrajectory);
-trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree, int lineNb);
+trajectoryNode* consTN(node* board, trajectoryNode* pTrajectory, int* trajectoryFree);
+trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree, int* trajectoryFree, int lineNb);
 void freeNode(node* cNode, int* nodeFree, int* boardFree);
 void freeTN_P(trajectoryNode* pTrajectory, int lineNb);
 

@@ -4,10 +4,10 @@
 #include <unistd.h>
 #include "main.h"
 
-int makePossibleMoves(state **board, movementList* moveList, char lineNb, char colNb) {
+/*int makePossibleMoves(state **board, /*movementList* moveList,*/ //char lineNb, char colNb) {
     //Generates the linked list which contains all the moves
     //and returns the number of moves that can be done
-    int i = 0;
+    /*int i = 0;
     int j = 0;
     int k = 0;
     int nb = 0;
@@ -20,7 +20,7 @@ int makePossibleMoves(state **board, movementList* moveList, char lineNb, char c
                 for (k=0; k<4; k++) {
                     move.dir = k;
                     if (correctMove(board, &move, lineNb, colNb)) {
-                        consML(&move, moveList);
+                        //consML(&move, moveList);
                         nb++;
                     }
                 }
@@ -28,13 +28,41 @@ int makePossibleMoves(state **board, movementList* moveList, char lineNb, char c
         }
     }
     return nb;
+}*/
+
+int makePossibleMoves(state **board, char lineNb, char colNb) {
+    //Generates the linked list which contains all the moves
+    //and returns the number of moves that can be done
+    int i = 0;
+    int j = 0;
+    int k = 0;
+    int nb = 0;
+    movement move;
+    while (i<lineNb && nb==0) {
+        j=0;
+        while (j<colNb && nb==0) {
+            if (board[i][j]==ball) {
+                move.posix = i;
+                move.posiy = j;
+                for (k=0; k<4; k++) {
+                    move.dir = k;
+                    if (correctMove(board, &move, lineNb, colNb)) {
+                        nb++;
+                    }
+                }
+            }
+            j++;
+        }
+        i++;
+    }
+    return nb;
 }
 
 int moveNb(state **board, char lineNb, char colNb) {
-    //Returns the number of possible moves
+    //1 if there is one or more 
     int nb;
-    movementList moveList; //To provide enough arguments (but not used)
-    nb = makePossibleMoves(board, &moveList, lineNb, colNb);
+    //movementList moveList; //To provide enough arguments (but not used)
+    nb = makePossibleMoves(board, /*&moveList,*/ lineNb, colNb);
     return nb;
 }
 
@@ -94,7 +122,7 @@ int correctMove(state **board, movement* move, char lineNb, char colNb) {
     int x = move->posix;
     int y = move->posiy;
     direction dir = move->dir;
-    if (board[x][y]==ball){
+    if (board[x][y]==ball) {
         if ((dir==north) && x!=0 && x!=1 && (board[x-1][y]==ball) && (board[x-2][y]==empty)) {
             ok = 1;
         }
@@ -532,7 +560,7 @@ int main(){
             saveTrajectory(ptrajOrigin, lineNb, colNb);
             printf("\nAprès %.2lf minutes, la partie s'est terminée avec %d billes sur le plateau. \n", ((double)secondsEnd-(double)secondsStart+savedTime)/60, ballNumber);
             printf("\033[1;36mBravo !\033[0m\n"); //CHANGE COLOR
-            printf("N'hésitez pas à aller récupérer les différentes étapes de la partie dans data/trajectory.txt avant de commencer la prochaine partie !\n");
+            printf("N'hésitez pas à aller retrouver les différentes étapes de la partie dans data/trajectory.txt avant de commencer la prochaine partie !\n");
             //history of the game
             //nb of games
             implementStats((double)secondsEnd-(double)secondsStart+savedTime);
@@ -582,8 +610,10 @@ int main(){
         int stop = 0;
         int nodeAlloc = 0;
         int boardAlloc = 0;
+        int trajectoryAlloc = 0;
         int nodeFree = 0;
         int boardFree = 0;
+        int trajectoryFree = 0;
 
         //main
         printf("\n\nRecherche d'une solution à la configuration personnalisée en cours...\n");
@@ -596,18 +626,24 @@ int main(){
             lineNb = 0;
             colNb = 0; 
             state** board = readBoard("data/model.txt", &lineNb, &colNb);
-            printBoardV(board, lineNb, colNb);
             pTrajectory = malloc(sizeof(trajectory));
             ptrajOrigin = pTrajectory;
             node* cNode = malloc(sizeof(node));
             pTrajectory->cNode = cNode;
             pTrajectory->cNode->board = board;
             pTrajectory->cNode->childNb = 0;
-            printf("%d", ballNb(pTrajectory->cNode->board, lineNb, colNb));
-            printf("%d %d", lineNb, colNb);
+            //printf("%d", ballNb(pTrajectory->cNode->board, lineNb, colNb));
+            //printf("%d %d", lineNb, colNb);
             printf("La largeur du faisceau est désormais de %d.\n", beamWidth);  
-            pTrajectory = autosolve(pTrajectory, &boardNb, &stop, beamWidth, &nodeAlloc, &nodeFree, &boardAlloc, &boardFree, lineNb, colNb);
-            printf("%d %d", lineNb, colNb);
+            pTrajectory = autosolve(pTrajectory, &boardNb, &stop, beamWidth, &nodeAlloc, &nodeFree, &boardAlloc, &boardFree, &trajectoryAlloc, &trajectoryFree, lineNb, colNb);
+            printf("Nombre de configurations testées : %d\n", boardNb);
+            printf("Nombre de noeuds alloués : %d\n", nodeAlloc);
+            printf("Nombre de noeuds libérés : %d\n", nodeFree);
+            printf("Nombre de boards alloués : %d\n", boardAlloc);
+            printf("Nombre de boards libérés : %d\n\n", boardFree);
+            printf("Nombre de trajectoires allouées : %d\n", trajectoryAlloc);
+            printf("Nombre de trajectoires libérées : %d\n\n", trajectoryFree);
+            //printf("%d %d", lineNb, colNb);
             beamWidth++;
         }
         while (ballNb(pTrajectory->cNode->board, lineNb, colNb)!=1);
@@ -615,7 +651,7 @@ int main(){
         
         time(&secondsEnd); 
         printf("\nUne solution à la configuration a été trouvée !\n");
-        printf("Le temps nécessaire pour trouver cette solution a été de %.2f minutes.\n", ((double)secondsEnd-(double)secondsStart)/60);
+        printf("Le temps nécessaire pour trouver cette solution a été de %ld secondes.\n", (secondsEnd-secondsStart));
         saveTrajectoryN(ptrajOrigin, secondsEnd-secondsStart, boardNb, lineNb, colNb);
 
         //UI
@@ -636,7 +672,7 @@ int main(){
         printf("Nombre de noeuds libérés : %d\n", nodeFree);
         printf("Nombre de boards alloués : %d\n", boardAlloc);
         printf("Nombre de boards libérés : %d\n\n", boardFree);
-        printf("N'hésitez pas à aller récupérer les différentes étapes de la partie\ndans data/trajectory.txt avant de commencer la prochaine partie !\n");
+        printf("N'hésitez pas à aller retrouver les différentes étapes de la partie\ndans data/ComputedTrajectory.txt avant de commencer la prochaine partie !\n");
         //show solution or not
     }
 

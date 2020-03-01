@@ -3,7 +3,7 @@
 #include "structures.h"
 
 //main.c
-int makePossibleMoves(state **board, movementList* moveList, char lineNb, char colNb);
+int makePossibleMoves(state **board, /*movementList* moveList,*/ char lineNb, char colNb);
 int moveNb(state **board, char lineNb, char colNb);
 void initBoard(state **board);
 int ballNb(state **board, char lineNb, char colNb);
@@ -36,7 +36,7 @@ state** readBoard(char* fileName, char* lineNb, char* colNb);
 void printRules();
 
 //autosolve.c
-trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, int beamWidth, int* nodeAlloc, int* nodeFree, int* boardAlloc, int* boardFree, int lineNb, int colNb);
+trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, int beamWidth, int* nodeAlloc, int* nodeFree, int* boardAlloc, int* boardFree, int* trajectoryAlloc, int* trajectoryFree, int lineNb, int colNb);
 
 
 typedef struct node node;

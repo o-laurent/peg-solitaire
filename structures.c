@@ -116,13 +116,14 @@ void freeT_P(trajectory* pTrajectory) {
 
 
 //TrajectoryNode basic functions
-trajectoryNode* consTN(node* child, trajectoryNode* pTrajectory) {
+trajectoryNode* consTN(node* child, trajectoryNode* pTrajectory, int* trajectoryAlloc) {
     //Add a node on the top of the list
     trajectoryNode* tmp = malloc(sizeof(trajectoryNode));
     if (tmp == NULL) { //Insufficent space
         printf("ERREUR");
         return NULL;
     }
+    (*trajectoryAlloc)++;
     pTrajectory->next = tmp; //Next Step
     tmp->cNode = child;
     tmp->previous = pTrajectory; //Previous Step
@@ -147,29 +148,27 @@ void freeNode(node* cNode, int* nodeFree, int* boardFree) {
     }
 }
 
-trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree, int lineNb) {
+trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree, int* trajectoryFree, int lineNb) {
     //removes the top of the list and free the children
     trajectoryNode* tmpPointer;
     if (pTrajectory->previous==NULL) {
-        //Impossible to do : this should not happend
-        printf("ERREUR pas d'antécédent\n");
+        //Happends only when at the root
+        printf("Le faisceau a été entièrement visité.\n\n");
         tmpPointer = pTrajectory;
     }
     else {
         tmpPointer = pTrajectory->previous;
-        if (pTrajectory->cNode!=NULL){
-            for (int i=0; i<lineNb; i++) {
-                free(pTrajectory->cNode->board[i]);
-            }
-            free(pTrajectory->cNode->board);
-            (*boardFree)++;
-            pTrajectory->cNode->board=NULL;
-            free(pTrajectory->cNode);
-            (*nodeFree)++;
-            pTrajectory->cNode=NULL;
+        for (int i=0; i<lineNb; i++) {
+            free(pTrajectory->cNode->board[i]);
         }
-
+        free(pTrajectory->cNode->board);
+        (*boardFree)++;
+        pTrajectory->cNode->board=NULL;
+        free(pTrajectory->cNode);
+        (*nodeFree)++;
+        pTrajectory->cNode=NULL;
         free(pTrajectory);
+        (*trajectoryFree)++;
     }
     return tmpPointer;
 }
@@ -181,8 +180,8 @@ void freeTN_P(trajectoryNode* pTrajectory, int lineNb) {
             freeTN_P(pTrajectory->previous, lineNb);
         }
         for (int i=0; i<lineNb; i++) {
-                free(pTrajectory->cNode->board[i]);
-            }
+            free(pTrajectory->cNode->board[i]);
+        }
         free(pTrajectory->cNode->board);
         free(pTrajectory->cNode);
         free(pTrajectory);
