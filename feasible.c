@@ -111,19 +111,36 @@ int** board2Square3(state** board) {
     return(square);
 
 }
-/*
-int** useEquiv(int square2[2][2]) {
-    // tu appliques d'abord les les 2 dernières règles 
-    Puis ensuite les premières dans les 6 directions (3verticales, 3 horizontales) avec des if 
 
+int** useEquiv(int square2[2][2]) {
+    int **square_mod=malloc(sizeof(*square_mod) * 2);
+    for (int i=0;i<2;i++) {
+       square_mod[i] = malloc(sizeof(**square_mod)*2);
+    }
+    for (int i=0; i<2; i++) {
+        for  (int j=0; j<2; j++) {
+            square_mod[i][j]=square_mod[i][j]%2;
+        }
+    }
+    return square_mod;
 }
 
 int** square32Square2(int square3[3][3]) {
-    // Juste des sommes (regarde  sur le site)
+    int **square=malloc(sizeof(*square) * 2);
+    for (int i=0;i<2;i++) {
+       square[i] = malloc(sizeof(**square)*2);
+    }
+    square[0][0]=square3[0][0]+square3[0][2]+square3[1][0]+square3[1][2];
+    square[0][1]=square3[0][1]+square3[1][1]+square3[0][2]+square3[1][2];
+    square[1][0]=square3[0][0]+square3[1][0]+square3[0][2]+square3[2][2];
+    square[1][1]=square3[1][1]+square3[0][2]+square3[0][1]+square3[1][2];
 
+    return square;
 }
 
 int squareEqual(int square1[2][2], int square2[2][2]) {
-    //returns 1 if all coeffs are the same
+    if (square1[0][0]==square2[0][0] && square1[1][0]==square2[1][0] && square1[0][1]==square2[0][1] &&square1[1][1]==square2[1][1]) {
+        return 1;
+    }
+    else return 0;
 }
-*/
