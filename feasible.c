@@ -5,8 +5,11 @@
 
 int ruleOftheThree(state** board) {
     
-
-    return 1;
+    int** matrice3 = board2Square3(board);
+    int** matrice2 = square32Square2(matrice3);
+    int** matriceequiv2= useEquiv(matrice2);
+    if (squareEqual(matrice2,matriceequiv2)==1) return 1;
+    else return 0;
 }
 
 
