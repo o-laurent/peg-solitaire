@@ -4,32 +4,6 @@
 #include <unistd.h>
 #include "main.h"
 
-/*int makePossibleMoves(state **board, /*movementList* moveList,*/ //char lineNb, char colNb) {
-    //Generates the linked list which contains all the moves
-    //and returns the number of moves that can be done
-    /*int i = 0;
-    int j = 0;
-    int k = 0;
-    int nb = 0;
-    movement move;
-    for (i=0; i<lineNb; i++) {
-        for (j=0; j<colNb; j++) {
-            if (board[i][j]==ball) {
-                move.posix = i;
-                move.posiy = j;
-                for (k=0; k<4; k++) {
-                    move.dir = k;
-                    if (correctMove(board, &move, lineNb, colNb)) {
-                        //consML(&move, moveList);
-                        nb++;
-                    }
-                }
-            }
-        }
-    }
-    return nb;
-}*/
-
 int makePossibleMoves(state **board, char lineNb, char colNb) {
     //Generates the linked list which contains all the moves
     //and returns the number of moves that can be done
@@ -57,6 +31,32 @@ int makePossibleMoves(state **board, char lineNb, char colNb) {
     }
     return nb;
 }
+
+/*int makePossibleMoves(state **board, /*movementList* moveList,*/ //char lineNb, char colNb) {
+    //Generates the linked list which contains all the moves
+    //and returns the number of moves that can be done
+    /*int i = 0;
+    int j = 0;
+    int k = 0;
+    int nb = 0;
+    movement move;
+    for (i=0; i<lineNb; i++) {
+        for (j=0; j<colNb; j++) {
+            if (board[i][j]==ball) {
+                move.posix = i;
+                move.posiy = j;
+                for (k=0; k<4; k++) {
+                    move.dir = k;
+                    if (correctMove(board, &move, lineNb, colNb)) {
+                        //consML(&move, moveList);
+                        nb++;
+                    }
+                }
+            }
+        }
+    }
+    return nb;
+}*/
 
 int moveNb(state **board, char lineNb, char colNb) {
     //1 if there is one or more 
@@ -482,9 +482,6 @@ int main(){
         }
         else if (status!=1 && status!=2 && status!=-1) {
             printf("Erreur lors de l'entrée. Veuillez réessayer;\n");
-            printf("Appuyez sur:\n-'0' pour les règles du jeu\n-'1' pour jouer \n-'2' pour une résolution automatique\nAppuyez à tout moment sur '-1' pour quitter la partie\n");
-            fgets(line, 1024, stdin);
-            sscanf(line, "%c", &status);
         }
     }
     while (status!=1 && status!=2 && status!=-1); //checking for input errors
@@ -516,6 +513,7 @@ int main(){
             //Read the personnalized board in data/model.txt
             board = readBoard("data/model.txt", &lineNb, &colNb);
             printBoardV(board, lineNb, colNb);
+            printf("%d\n", ruleOftheThree(board));
         }
 
         //Load saved game ?
@@ -559,7 +557,7 @@ int main(){
         if (*pquit!=1) {
             saveTrajectory(ptrajOrigin, lineNb, colNb);
             printf("\nAprès %.2lf minutes, la partie s'est terminée avec %d billes sur le plateau. \n", ((double)secondsEnd-(double)secondsStart+savedTime)/60, ballNumber);
-            printf("\033[1;36mBravo !\033[0m\n"); //CHANGE COLOR
+            printf("\033[1;36mBravo !\033[0m\n");
             printf("N'hésitez pas à aller retrouver les différentes étapes de la partie dans data/trajectory.txt avant de commencer la prochaine partie !\n");
             //history of the game
             //nb of games

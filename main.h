@@ -38,6 +38,8 @@ void printRules();
 //autosolve.c
 trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, int beamWidth, int* nodeAlloc, int* nodeFree, int* boardAlloc, int* boardFree, int* trajectoryAlloc, int* trajectoryFree, int lineNb, int colNb);
 
+//feasible.c
+int ruleOftheThree(state** board);
 
 typedef struct node node;
 movementList* consML(movement* move, movementList* moveList);
