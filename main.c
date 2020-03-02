@@ -1,3 +1,6 @@
+/*Remarque générale :
+Nous n'avons pas géré la libération de la mémoire */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
