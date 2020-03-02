@@ -3,21 +3,15 @@ Début de la partie :
 --------------- Début de la Trajectoire ------------------
 
       ----------   Début du tour 0 ----------
-    x x x     
-  x x x x x   
-x x x o x x x 
-x x x o x x x 
-x x x x x x x 
-  x x x x x   
-    x x x     
+x x x 
+x o x 
+x o x 
+x x x 
       ----------   Début du tour 1 ----------
-    x x x     
-  x x o x x   
-x x x x x x x 
-x x x x x x x 
-x x x x x x x 
-  x x x x x   
-    x x x     
+x x x 
+x x x 
+x x x 
+x o x 
 ----------------- Fin de la Trajectoire -----------------
 
 Développé par Anthony Aoun, Maria El Haddad, Olivier Laurent et Johnny Yammine 

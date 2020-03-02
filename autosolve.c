@@ -1,3 +1,4 @@
+/*Recherche dans l'arbre par faisceau*/ 
 #ifndef AUTOSOLVE_C_
 #define AUTOSOLVE_C_
 #include <stdio.h>

@@ -1,5 +1,8 @@
 /*Remarque générale :
-Nous n'avons pas géré la libération de la mémoire */
+Nous n'avons pas géré la libération de la mémoire quand il s'agit d'une partie utilisateur 
+car très peu de données sont en jeu.
+Nous avons au contraire concentré nos efforts sur la mémoire de la résolution automatiques où 
+chaque petites pertes a des conséquences dramatiques vu le nombre d'étapes... */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -214,9 +217,9 @@ void userMove(state **board, int* pquit, char lineNb, char colNb) {
         sscanf(line, "%hhd", &(move.posix));
         move.posix--; //1 is equivalent to the 0 of the array
         
-        //if user doesn't want to quit
+        //if the user doesn't want to quit
         if (move.posix != -2) {
-
+            //get the coordinates
             printf("Entrez la coordonnée ");
             printf("\033[0;31m");
             printf("horizontale ");
@@ -225,7 +228,7 @@ void userMove(state **board, int* pquit, char lineNb, char colNb) {
             fgets(line, 1024, stdin);
             sscanf(line, "%hhd", &(move.posiy));
             move.posiy--;
-            //if user doesn't want to quit
+            //if the user doesn't want to quit
             if (move.posiy != -2) {
                 printf("\n");
 
@@ -240,8 +243,8 @@ void userMove(state **board, int* pquit, char lineNb, char colNb) {
                         printf("Entrez la direction du mouvement (n, s, e, o) : \n");
                         fgets(line, 1024, stdin);
                         sscanf(line, "%c", &dir);
-
-                        //if user doesn't want to quit
+                        //if the user doesn't want to quit
+                        //get the direction
                         if (dir != -1) {
 
                             if (dir=='n') {
@@ -308,6 +311,7 @@ void userMove(state **board, int* pquit, char lineNb, char colNb) {
 }
 
 void printBoard(state **board) {
+    //prints the board with a fixed size (not used anymore)
     printf("\n");
     for (int i=0 ; i<8 ; i++) {
         if (i==0 || i==7) {
@@ -355,7 +359,7 @@ int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn, cha
     }
 
     while (possibleMove(board, lineNb, colNb) && (!(*pquit))){
-        //If a mouvement is possible and user doesn't want to quit
+        //If a mouvement is possible and the user doesn't want to quit
         free(newBoard);
         newBoard = malloc(sizeof(*newBoard)*lineNb); //tmpBoard 
         for (int i=0; i<lineNb; i++) {
@@ -363,7 +367,6 @@ int userGame(int* pquit, trajectory** pTrajectory, state** board, int* turn, cha
         }
         copyBoard(board, newBoard, lineNb, colNb);
 
-        //printf("Valeur : %f", cost_f(newBoard));
         printf("----------   Début du tour %d ----------\n", *turn);
         userMove(newBoard, pquit, lineNb, colNb); //modify tmpBoard 
         (*turn)++;
@@ -417,20 +420,19 @@ int main(){
     //Initialisation
     char status;
 
-    char lineNb = 7;
-    char colNb = 7;
-
     //time vars
     time_t secondsStart; 
     time_t secondsEnd; 
 
-    //to use sscanf (ask multiple questions to the user
+    //to use sscanf (ask multiple questions to the user)
     char line[1024];
     int quit = 0;
     int* pquit = &quit;
 
     //Defining the board's dimensions
     int ballNumber = 0;
+    char lineNb = 7;
+    char colNb = 7;
 
     //Check if there is a saved game to load 
     int savedGame = isThereASavedGame();
@@ -515,8 +517,9 @@ int main(){
         else {
             //Read the personnalized board in data/model.txt
             board = readBoard("data/model.txt", &lineNb, &colNb);
-            printBoardV(board, lineNb, colNb);
-            printf("%d\n", ruleOftheThree(board));
+            /*if lineNb == 7 && colNb ==7 { //Not finished 
+            printf("%d\n", ruleOftheThree(board));*
+            }*/
         }
 
         //Load saved game ?
@@ -568,9 +571,11 @@ int main(){
             int x = readNumberOfGames();
             double y = totalPlayedTime();
             printf("\n\n");
+            printf("\033[1;4m"); 
             printf("Historique de Jeu :\n");
+            printf("\033[0m"); 
             printf("Nombre de parties jouées: %d\n", x);
-            printf("Temps total de jeu: %f minutes\n", y/60);
+            printf("Temps total de jeu: %.2f minutes\n", y/60);
             rmSavedGame();
         }
 
@@ -605,6 +610,7 @@ int main(){
         node* cNode = malloc(sizeof(node));
         trajectoryNode* pTrajectory = malloc(sizeof(trajectory));
         trajectoryNode* ptrajOrigin = pTrajectory;
+
         //Several initializations
         int beamWidth = 2;
         int boardNb = 0;
@@ -621,9 +627,7 @@ int main(){
         printf("Veuillez patienter...\n");
         time(&secondsStart);
         do {
-            //Allocating the root
-            //And its trajectory
-            //freeTN_P(pTrajectory, lineNb);
+            //Allocating the root and its trajectory
             lineNb = 0;
             colNb = 0; 
             state** board = readBoard("data/model.txt", &lineNb, &colNb);
@@ -633,18 +637,9 @@ int main(){
             pTrajectory->cNode = cNode;
             pTrajectory->cNode->board = board;
             pTrajectory->cNode->childNb = 0;
-            //printf("%d", ballNb(pTrajectory->cNode->board, lineNb, colNb));
-            //printf("%d %d", lineNb, colNb);
             printf("La largeur du faisceau est désormais de %d.\n", beamWidth);  
+            //beam search of the tree
             pTrajectory = autosolve(pTrajectory, &boardNb, &stop, beamWidth, &nodeAlloc, &nodeFree, &boardAlloc, &boardFree, &trajectoryAlloc, &trajectoryFree, lineNb, colNb);
-            printf("Nombre de configurations testées : %d\n", boardNb);
-            printf("Nombre de noeuds alloués : %d\n", nodeAlloc);
-            printf("Nombre de noeuds libérés : %d\n", nodeFree);
-            printf("Nombre de boards alloués : %d\n", boardAlloc);
-            printf("Nombre de boards libérés : %d\n\n", boardFree);
-            printf("Nombre de trajectoires allouées : %d\n", trajectoryAlloc);
-            printf("Nombre de trajectoires libérées : %d\n\n", trajectoryFree);
-            //printf("%d %d", lineNb, colNb);
             beamWidth++;
         }
         while (ballNb(pTrajectory->cNode->board, lineNb, colNb)!=1);
@@ -668,13 +663,15 @@ int main(){
         if (traj=='o' || traj=='O') {
             printTrajectoryN(ptrajOrigin, lineNb, colNb);
         }
+        //Memory check
         printf("Nombre de configurations testées : %d\n", boardNb);
         printf("Nombre de noeuds alloués : %d\n", nodeAlloc);
         printf("Nombre de noeuds libérés : %d\n", nodeFree);
         printf("Nombre de boards alloués : %d\n", boardAlloc);
-        printf("Nombre de boards libérés : %d\n\n", boardFree);
+        printf("Nombre de boards libérés : %d\n", boardFree);
+        printf("Nombre de trajectoryNodes allouées : %d\n", trajectoryAlloc);
+        printf("Nombre de trajectoryNodes libérées : %d\n", trajectoryFree);
         printf("N'hésitez pas à aller retrouver les différentes étapes de la partie\ndans data/ComputedTrajectory.txt avant de commencer la prochaine partie !\n");
-        //show solution or not
     }
 
     printf("\n");
