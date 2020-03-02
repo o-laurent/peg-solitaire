@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "data.h"
 
+//Cette fonction sauvegarde dans le fichier save.txt le plateau actuel, le nombre de tours ainsi que le temps de la partie
 void saveGame (state** board, int turn, double time) {
     FILE *out;
     out = fopen ("data/save.txt", "wb");
@@ -18,12 +19,14 @@ void saveGame (state** board, int turn, double time) {
     fclose(out);
 }
 
+//Effacer le fichier de sauvegarde
 void rmSavedGame() {
     remove("data/save.txt");
 }
 
+//Verifie s'il y a une partie sauvegardée
 int isThereASavedGame() {
-    // Returns 1 if there is a saved game that can be resumed
+    // Retourne 1 s'il y a un partie sauvegardée 
     FILE *in;
     in = fopen ("data/save.txt", "rb");
     if (in == NULL) {
@@ -32,8 +35,8 @@ int isThereASavedGame() {
     return 1;
 }
 
-//we have to initialize an empty board before calling the function
-//the function will change the values of this board
+//Il faut initialiser un plateau vide avant d'apeler cette fonction
+//La fonction charge le plateau sauvegardé
 void loadGame (state** board, long long int returned[2]) {
     FILE *in;
     int x;
@@ -69,8 +72,7 @@ void loadGame (state** board, long long int returned[2]) {
     fclose(in);
 }
 
-//nb of games (first line of stats)
-//gives back 0 if there is nthg saved, otherwise it gives us the saved number
+//Renvoie 0 s'il n'y a rien de sauvegardé et le nombre de parties jouées sinon
 int readNumberOfGames() {
     FILE *in;
     int x;
@@ -90,8 +92,7 @@ int readNumberOfGames() {
     }
 }
 
-//total time (second line of stats)
-//gives back 0 if there is nthg saved, otherwise it gives us the saved number
+//Renvoie 0 s'il n'y a rien de sauvegardé et la durée de l'ensemble des parties jouées sinon
 double totalPlayedTime() {
     FILE *in;
     int x;
@@ -113,6 +114,8 @@ double totalPlayedTime() {
     }
 }
 
+//Prend en entrée la durée de la partie actuelle, l'ajoute au temps total de jeux 
+//Implémente de 1 le nombre total de parties jouées
 void implementStats(double time) {
     int x;
     double y;
