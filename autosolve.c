@@ -1,4 +1,6 @@
-/*Recherche dans l'arbre par faisceau*/ 
+/*Recherche dans l'arbre par faisceau
+Quelques idées ont été prises ici : https://c.developpez.com/defis/2-Solitaire/
+Sans que l'on ait jamais regardé les solutions des participants*/ 
 #ifndef AUTOSOLVE_C_
 #define AUTOSOLVE_C_
 #include <stdio.h>
@@ -86,25 +88,26 @@ void freePartTrajectoryN(trajectoryNode* pTrajectory, int* nodeFree, int* boardF
     node* tmpNode = pTrajectory->cNode->child;
     node* tmpNode2 = tmpNode;
     if (tmpNode->next!=NULL) {
-        int count = 0;
+        int count = 1;
         int counter = 0;
         //Go as far as permitted
         while (count<threshold && tmpNode->next!=NULL) {
             tmpNode2 = tmpNode;
             tmpNode = tmpNode->next;
+            //printf("pointer : %p ", tmpNode);
             count++;
         } 
+        //printf("node->next : %p \n", tmpNode->next);
         //separate and clean the second part
-        if (tmpNode!=NULL){
+        if (tmpNode->next!=NULL){
             //Check that we leave the while because of "count<threshold"
-            tmpNode = tmpNode2;
             tmpNode2 = tmpNode->next;
             tmpNode->next = NULL;
             //Deletion starting with tmpNode2
             tmpNode = tmpNode2;
-            //printf("tmpNode2 : %p ", tmpNode2);
+            //printf("tmpNode2 : %p \n", tmpNode2);
             if (tmpNode->next==NULL) {
-                counter++;
+                //printf("ONNE");
                 //Only one more node
                 for (int i=0; i<lineNb; i++) {
                     free(tmpNode->board[i]);
@@ -114,12 +117,12 @@ void freePartTrajectoryN(trajectoryNode* pTrajectory, int* nodeFree, int* boardF
                 tmpNode->board = NULL;
                 free(tmpNode);
                 (*nodeFree)++;
+                counter++;
             }
             else {
                 //more than one node
                 tmpNode2 = tmpNode->next;
                 while (tmpNode!=NULL) {
-                    counter++;
                     for (int i=0; i<lineNb; i++) {
                         free(tmpNode->board[i]);
                     }
@@ -132,9 +135,11 @@ void freePartTrajectoryN(trajectoryNode* pTrajectory, int* nodeFree, int* boardF
                     if (tmpNode!=NULL){
                         tmpNode2 = tmpNode->next;
                     }
+                    counter++;
                 }
             }
         }
+       // printf("count : %d counter : %d\n", count, counter);
     }
 }
 
@@ -165,6 +170,7 @@ node* copyNode(node* sibling, char lineNb, char colNb) {
 
 trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, int beamWidth, int* nodeAlloc, int* nodeFree, int* boardAlloc, int* boardFree, int* trajectoryAlloc, int* trajectoryFree, char lineNb, char colNb) {
     //Main function
+    //printBoardV(pTrajectory->cNode->board, lineNb, colNb);
     if (*stop!=0 || ballNb(pTrajectory->cNode->board, lineNb, colNb)<=1) {
         (*stop)++;
         return pTrajectory;
@@ -207,7 +213,6 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, 
                 }
             }
         }
-    
         //Freeing the movement
         free(pmove);
         //Sorting the node by increasing costs
@@ -225,7 +230,6 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, 
             if (cChild->cost != preCost) {
                 preCost = cChild->cost; //update the cost
                 pTrajectory = autosolve(consTN(cChild, pTrajectory, trajectoryAlloc), boardNb, stop, beamWidth, nodeAlloc, nodeFree, boardAlloc, boardFree, trajectoryAlloc, trajectoryFree, lineNb, colNb);
-                i++;
             }
 
             if (!(*stop)) {
@@ -233,6 +237,7 @@ trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, 
                 cChild = pTrajectory->cNode->child;
                 cChild = cChild->next;
             }
+            i++;
         }
         //If a solution hasn't been found yet, try the other movements.
         while (!(*stop) && cChild!=NULL && i<beamWidth); 

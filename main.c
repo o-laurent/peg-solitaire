@@ -1,7 +1,7 @@
 /*Remarque générale :
 Nous n'avons pas géré la libération de la mémoire quand il s'agit d'une partie utilisateur 
 car très peu de données sont en jeu.
-Nous avons au contraire concentré nos efforts sur la mémoire de la résolution automatiques où 
+Nous avons au contraire concentré nos efforts (à grands coups de valgrind) sur la mémoire de la résolution automatique où 
 chaque petites pertes a des conséquences dramatiques vu le nombre d'étapes... */
 
 #include <stdio.h>
@@ -445,7 +445,7 @@ int main(){
 
     //Chose the mode
     do{
-        printf("Appuyez sur:\n-'0' pour les règles du jeu et le tutoriel \n-'1' pour jouer \n-'2' pour une résolution automatique\nAppuyez à tout moment sur '-1' pour quitter la partie\n");
+        printf("Appuyez sur:\n-'0' pour les règles du jeu et le tutoriel \n-'1' pour jouer \n-'2' pour une résolution automatique (changez au préalable data/model.txt)\nAppuyez à tout moment sur '-1' pour quitter la partie\n");
         fgets(line, 1024, stdin);
         sscanf(line, "%hhd", &status);
         printf("\n");
@@ -500,7 +500,7 @@ int main(){
         //Personalized game ?
         char perso;
         do {
-            printf("Voulez-vous utiliser un modèle personnalisé ? (o/n)\n");
+            printf("Voulez-vous utiliser un modèle personnalisé ? (o/n)\n(changez au préalable data/model.txt)\n");
             fgets(line, 1024, stdin);
             sscanf(line, "%c", &perso);
         }
@@ -641,7 +641,7 @@ int main(){
             //beam search of the tree
             pTrajectory = autosolve(pTrajectory, &boardNb, &stop, beamWidth, &nodeAlloc, &nodeFree, &boardAlloc, &boardFree, &trajectoryAlloc, &trajectoryFree, lineNb, colNb);
             beamWidth++;
-        }
+            }
         while (ballNb(pTrajectory->cNode->board, lineNb, colNb)!=1);
             
         
@@ -670,7 +670,7 @@ int main(){
         printf("Nombre de boards alloués : %d\n", boardAlloc);
         printf("Nombre de boards libérés : %d\n", boardFree);
         printf("Nombre de trajectoryNodes allouées : %d\n", trajectoryAlloc);
-        printf("Nombre de trajectoryNodes libérées : %d\n", trajectoryFree);
+        printf("Nombre de trajectoryNodes libérées : %d\n\n", trajectoryFree);
         printf("N'hésitez pas à aller retrouver les différentes étapes de la partie\ndans data/ComputedTrajectory.txt avant de commencer la prochaine partie !\n");
     }
 

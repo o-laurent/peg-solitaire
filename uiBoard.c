@@ -222,7 +222,7 @@ state** readBoard (char* fileName, char* lineNb, char* colNb) {
 			}
 			l++;
 		}
-        //printf("Le nombre de lignes est %d et de colonnes : %d", *lineNb, *colNb);
+        
         state** board = malloc(sizeof(*board)*(*lineNb));
         for (int i=0; i<*lineNb; i++) {
                 board[i] = malloc(sizeof(**board)*(*colNb));
