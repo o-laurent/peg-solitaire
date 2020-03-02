@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+//On est pas arrivé à un résultat final, mais on s'est pas-mal rapproché
+//Afin de comprendre la résolution mathématique, il est fortement conseillé de visiter le site ci-dessous:
+//http://eternitygames.free.fr/Solitaire.html?fbclid=IwAR1kuBnqjPf0ZKgkrfL7jdbDzuJ_2RHW1gx9TtFngIwVLSUcgi17B-M8R98#La%20r%C3%A8gle%20de%20trois
+
+//cette fonction crèe un plateau de taille 7x7 formé uniquement de 0
 int** emptyBoard(state** board) {
     int **boardNum;
     boardNum = malloc(sizeof(*boardNum) * 7);
@@ -19,6 +24,8 @@ int** emptyBoard(state** board) {
 
     return boardNum;
 }
+
+//bord2Square3, comme son nom l'indique prend en entrée un plateau et le transforme en une matrice 3x3 en établissant des mouvements de billes qui convergent vers le carré central
 int** board2Square3(state** board) {
 
     int **boardNum;
@@ -121,19 +128,7 @@ int** board2Square3(state** board) {
 
 }
 
-int** useEquiv(int** square2) {
-    int **square_mod=malloc(sizeof(*square_mod)*2);
-    for (int i=0;i<2;i++) {
-       square_mod[i] = malloc(sizeof(**square_mod)*2);
-    }
-    for (int i=0; i<2; i++) {
-        for  (int j=0; j<2; j++) {
-            square_mod[i][j]=square_mod[i][j]%2;
-        }
-    }
-    return square_mod;
-}
-
+//On tranforme notre matrice 3x3 en matrice 2x2
 int** square32Square2(int** square3) {
     int **square=malloc(sizeof(*square) * 2);
     for (int i=0;i<2;i++) {
@@ -147,6 +142,22 @@ int** square32Square2(int** square3) {
     return square;
 }
 
+
+//On trouve l'équivalent de notre matrice 2x2
+int** useEquiv(int** square2) {
+    int **square_mod=malloc(sizeof(*square_mod)*2);
+    for (int i=0;i<2;i++) {
+       square_mod[i] = malloc(sizeof(**square_mod)*2);
+    }
+    for (int i=0; i<2; i++) {
+        for  (int j=0; j<2; j++) {
+            square_mod[i][j]=square_mod[i][j]%2;
+        }
+    }
+    return square_mod;
+}
+
+//On compare nos deux matrices 2x2 (il y a une petite confusion au niveau mathématique)
 int squareEqual(int** square1, int** square2) {
     if (square1[0][0]==square2[0][0] && square1[1][0]==square2[1][0] && square1[0][1]==square2[0][1] &&square1[1][1]==square2[1][1]) {
         return 1;
@@ -154,7 +165,7 @@ int squareEqual(int** square1, int** square2) {
     else return 0;
 }
 
-
+//Dans cette fonction on est censé pouvoir dire si un plateau est peut-etre faisable ou non
 int ruleOftheThree(state** board) {
     char lineNb = 7;
     char colNb = 7;
