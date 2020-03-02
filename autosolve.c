@@ -1,6 +1,4 @@
-/*Recherche dans l'arbre par faisceau
-Quelques idées ont été prises ici : https://c.developpez.com/defis/2-Solitaire/
-Sans que l'on ait jamais regardé les solutions des participants*/ 
+/*Recherche dans l'arbre par faisceau*/ 
 #ifndef AUTOSOLVE_C_
 #define AUTOSOLVE_C_
 #include <stdio.h>

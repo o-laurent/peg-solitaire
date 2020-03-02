@@ -3,332 +3,152 @@ Début de la partie :
 --------------- Début de la Trajectoire ------------------
 
       ----------   Début du tour 0 ----------
-    o o o     
-  o o o o o   
+    x x x     
+  x x o x x   
+x x o o o x x 
+x o o o o o x 
 o o o o o o o 
-o o o o x o o 
-o o o o o o o 
-  o o o o o   
-    o o o     
+  x x x x x   
+    x x x     
 
       ----------   Début du tour 1 ----------
-    o o o     
-  o o o o o   
-o o o o o o o 
-o o o o o o o 
-o o o o x o o 
-  o o o x o   
-    o o o     
+    x x x     
+  x x o x x   
+x x o o o x x 
+x x o o o o x 
+o x o o o o o 
+  o x x x x   
+    x x x     
 
       ----------   Début du tour 2 ----------
-    o o o     
-  o o o o o   
-o o o o o o o 
-o o o o o o o 
-o o o o o x x 
-  o o o x o   
-    o o o     
+    x x x     
+  x x o x x   
+x x o o o x x 
+x x x o o o x 
+o x x o o o o 
+  o o x x x   
+    x x x     
 
       ----------   Début du tour 3 ----------
-    o o o     
-  o o o o o   
-o o o o o o o 
-o o o o x o o 
-o o o o x x x 
-  o o o o o   
-    o o o     
+    x x x     
+  x x o x x   
+x x o o o x x 
+x x x o o o x 
+o x o x x o o 
+  o o x x x   
+    x x x     
 
       ----------   Début du tour 4 ----------
-    o o o     
-  o o o o o   
-o o o o o o o 
-o o o o x o o 
-o o o o o x x 
-  o o o x o   
-    o o x     
+    x x x     
+  x x o x x   
+x x o o o x x 
+x x x o o o x 
+o x o x o x x 
+  o o x x x   
+    x x x     
 
       ----------   Début du tour 5 ----------
-    o o o     
-  o o o o o   
-o o o o o o o 
-o o o o o x x 
-o o o o o x x 
-  o o o x o   
-    o o x     
+    x x x     
+  x x o x x   
+x x o x o x x 
+x x x x o o x 
+o x o o o x x 
+  o o x x x   
+    x x x     
 
       ----------   Début du tour 6 ----------
-    o o o     
-  o o o o o   
-o o o o o o o 
-o o o o o x x 
-o o o o o x x 
-  o o o x o   
-    x x o     
+    x x x     
+  x x o x x   
+x x o x o x x 
+x x x x o o x 
+o o x x o x x 
+  o o x x x   
+    x x x     
 
       ----------   Début du tour 7 ----------
-    o o o     
-  o o o o o   
-o o o o o o o 
-o o o o o x x 
-o o o x o x x 
-  o o x x o   
-    x o o     
+    x x x     
+  x x o x x   
+x x o x o x x 
+x x x x o o x 
+x x o x o x x 
+  o o x x x   
+    x x x     
 
       ----------   Début du tour 8 ----------
-    o o o     
-  o o o o o   
-o o o o o o o 
-o o o o o x x 
-o o o x o x x 
-  o o x x o   
-    o x x     
+    x x x     
+  x x o o x   
+x x o x x x x 
+x x x x x o x 
+x x o x o x x 
+  o o x x x   
+    x x x     
 
       ----------   Début du tour 9 ----------
-    o o o     
-  o o o o o   
-o o o o o o o 
-o o o o x x x 
-o o o x x x x 
-  o o x o o   
-    o x x     
+    x x x     
+  x x o o x   
+x x o x x x x 
+x x x x x o x 
+x x o x o x x 
+  x x o x x   
+    x x x     
 
       ----------   Début du tour 10 ----------
-    o o o     
-  o o o o o   
-o o o o o o o 
-o o o o x x x 
-o o o x x x x 
-  o o o x x   
-    o x x     
+    x x x     
+  x o x x x   
+x x o x x x x 
+x x x x x o x 
+x x o x o x x 
+  x x o x x   
+    x x x     
 
       ----------   Début du tour 11 ----------
-    o o o     
-  o o o o o   
-o o o o o o o 
-o o o o x x x 
-o o o x x x x 
-  o x x o x   
-    o x x     
+    x x x     
+  x x x x x   
+x x x x x x x 
+x x o x x o x 
+x x o x o x x 
+  x x o x x   
+    x x x     
 
       ----------   Début du tour 12 ----------
-    o o o     
-  o o o o o   
-o o o o o o o 
-o o x o x x x 
-o o x x x x x 
-  o o x o x   
-    o x x     
+    x x x     
+  x x x x x   
+x x x x x x x 
+x x x x x o x 
+x x x x o x x 
+  x o o x x   
+    x x x     
 
       ----------   Début du tour 13 ----------
-    o o o     
-  o o o o o   
-o o o o o o o 
-o o x o x x x 
-o o o x x x x 
-  o x x o x   
+    x x x     
+  x x x x x   
+x x x x x x x 
+x x x x x o x 
+x x x x o x x 
+  x x x o x   
     x x x     
 
       ----------   Début du tour 14 ----------
-    o o o     
-  o x o o o   
-o o x o o o o 
-o o o o x x x 
-o o o x x x x 
-  o x x o x   
+    x x x     
+  x x x x x   
+x x x x x x x 
+x x x x o o x 
+x x x x x x x 
+  x x x x x   
     x x x     
 
       ----------   Début du tour 15 ----------
-    o o o     
-  o x o o o   
-x x o o o o o 
-o o o o x x x 
-o o o x x x x 
-  o x x o x   
-    x x x     
-
-      ----------   Début du tour 16 ----------
-    o o o     
-  o o x x o   
-x x o o o o o 
-o o o o x x x 
-o o o x x x x 
-  o x x o x   
-    x x x     
-
-      ----------   Début du tour 17 ----------
-    o o o     
-  x x o x o   
-x x o o o o o 
-o o o o x x x 
-o o o x x x x 
-  o x x o x   
-    x x x     
-
-      ----------   Début du tour 18 ----------
-    o o o     
-  x x o x o   
-x x o o o o o 
-o o x x o x x 
-o o o x x x x 
-  o x x o x   
-    x x x     
-
-      ----------   Début du tour 19 ----------
-    o o o     
-  x x o o o   
-x x o o x o o 
-o o x x x x x 
-o o o x x x x 
-  o x x o x   
-    x x x     
-
-      ----------   Début du tour 20 ----------
-    o o o     
-  x x o o o   
-x x o o o x x 
-o o x x x x x 
-o o o x x x x 
-  o x x o x   
-    x x x     
-
-      ----------   Début du tour 21 ----------
-    o o o     
-  x o x x o   
-x x o o o x x 
-o o x x x x x 
-o o o x x x x 
-  o x x o x   
-    x x x     
-
-      ----------   Début du tour 22 ----------
-    o o o     
-  x o x x o   
-x x o o o x x 
-x x o x x x x 
-o o o x x x x 
-  o x x o x   
-    x x x     
-
-      ----------   Début du tour 23 ----------
-    o o o     
-  x o x x o   
-x x o o o x x 
-x x x x x x x 
-o o x x x x x 
-  o o x o x   
-    x x x     
-
-      ----------   Début du tour 24 ----------
-    o o o     
-  x o x x o   
-x o x x o x x 
-x x x x x x x 
-o o x x x x x 
-  o o x o x   
-    x x x     
-
-      ----------   Début du tour 25 ----------
-    o o o     
-  x o x x o   
-x o x x o x x 
-x x x x x x x 
-o o x x x x x 
-  x x o o x   
-    x x x     
-
-      ----------   Début du tour 26 ----------
-    o o o     
-  x o x x o   
-x o x x o x x 
-x x x x x x x 
-o o x x x x x 
-  x o x x x   
-    x x x     
-
-      ----------   Début du tour 27 ----------
-    x o o     
-  x x x x o   
-x o o x o x x 
-x x x x x x x 
-o o x x x x x 
-  x o x x x   
-    x x x     
-
-      ----------   Début du tour 28 ----------
-    x o o     
-  x x x x o   
-x o o x o x x 
-x x x x x x x 
-x x o x x x x 
-  x o x x x   
-    x x x     
-
-      ----------   Début du tour 29 ----------
-    x o o     
-  x x x x o   
-x o o x o x x 
-x x o x x x x 
-x x x x x x x 
-  x x x x x   
-    x x x     
-
-      ----------   Début du tour 30 ----------
-    x o o     
-  x o x x o   
-x o x x o x x 
-x x x x x x x 
-x x x x x x x 
-  x x x x x   
-    x x x     
-
-      ----------   Début du tour 31 ----------
-    o x x     
-  x o x x o   
-x o x x o x x 
-x x x x x x x 
-x x x x x x x 
-  x x x x x   
-    x x x     
-
-      ----------   Début du tour 32 ----------
-    x x x     
-  x x x x o   
-x o o x o x x 
-x x x x x x x 
-x x x x x x x 
-  x x x x x   
-    x x x     
-
-      ----------   Début du tour 33 ----------
-    x x x     
-  x x x x o   
-x x x o o x x 
-x x x x x x x 
-x x x x x x x 
-  x x x x x   
-    x x x     
-
-      ----------   Début du tour 34 ----------
-    x x x     
-  x x x x o   
-x x x x x o x 
-x x x x x x x 
-x x x x x x x 
-  x x x x x   
-    x x x     
-
-      ----------   Début du tour 35 ----------
     x x x     
   x x x x x   
 x x x x x x x 
-x x x x x o x 
+x x x o x x x 
 x x x x x x x 
   x x x x x   
     x x x     
 
 ----------------- Fin de la Trajectoire -----------------
 
-Cette résolution a nécessité de visiter 277554 configuration en 0 secondes.
+Cette résolution a nécessité de visiter 58108 configuration en 0 secondes.
 
 Développé par Anthony Aoun, Maria El Haddad, Olivier Laurent et Johnny Yammine 
 dans le cadre du projet de IN103 : Algorithmique en C. 
