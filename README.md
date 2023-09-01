@@ -2,14 +2,16 @@
 
 ## Contents of the software
 
-The software let's you play the peg solitaire on a custom board in the terminal. It also includes an automatic solver for your custom board which uses beam-search.
+This software is a simulation of peg solitaire. You can play with a custom board if desired. This software also includes a beam-search automatic solver.
 
-## Set-up 
+## Set-up
 
-To set-up the game:
+To set up the game:
+
 1. Execute `make` in the terminal
-2. Type `./solitaire`
+2. Type `./solitaire.exe`
 3. Read the rules (in French for now) typing 0
 
 To delete the game files:
+
 1. Execute "make clean" in the terminal
