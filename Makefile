@@ -4,7 +4,7 @@ BIN_DIR=bin
 all: solitaire
 
 solitaire: structures.o autosolve.o uiBoard.o data.o rules.o main.o
-	gcc -o solitaire.exe $(BIN_DIR)/structures.o $(BIN_DIR)/autosolve.o $(BIN_DIR)/uiBoard.o $(BIN_DIR)/data.o $(BIN_DIR)/rules.o $(BIN_DIR)/main.o -O3
+	gcc -o solitaire.app $(BIN_DIR)/structures.o $(BIN_DIR)/autosolve.o $(BIN_DIR)/uiBoard.o $(BIN_DIR)/data.o $(BIN_DIR)/rules.o $(BIN_DIR)/main.o -O3
 
 structures.o:
 	gcc -Wall $(SRC_DIR)/structures.c -o $(BIN_DIR)/structures.o -c -O3

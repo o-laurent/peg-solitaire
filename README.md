@@ -9,7 +9,7 @@ This software is a simulation of peg solitaire. You can play with a custom board
 To set up the game:
 
 1. Execute `make` in the terminal
-2. Type `./solitaire.exe`
+2. Type `./solitaire.app`
 3. Read the rules (in French for now) typing 0
 
 To delete the game files:
