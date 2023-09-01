@@ -1,12 +1,15 @@
 #ifndef AUTOSOLVE_H_
 #define AUTOSOLVE_H_
+#include "structures.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "structures.h"
 #endif
 
-//autosolve.c
-trajectoryNode* autosolve(trajectoryNode* pTrajectory, int* boardNb, int* stop, int beamWidth, int* nodeAlloc, int* nodeFree, int* boardAlloc, int* boardFree, int* trajectoryAlloc, int* trajectoryFree, char lineNb, char colNb);
+// autosolve.c
+trajectoryNode *autosolve(trajectoryNode *pTrajectory, int *boardNb, int *stop,
+                          int beamWidth, int *nodeAlloc, int *nodeFree,
+                          int *boardAlloc, int *boardFree, int *trajectoryAlloc,
+                          int *trajectoryFree, char lineNb, char colNb);
 trajectoryNode* rmtTN(trajectoryNode* pTrajectory, int* nodeFree, int* boardFree, int* trajectory, int lineNb);
 
 //main.c

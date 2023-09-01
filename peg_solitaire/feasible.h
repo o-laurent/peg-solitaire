@@ -1,7 +1,7 @@
-typedef enum state {ball, empty, out} state;
+typedef enum state { ball, empty, out } state;
 
-//uiBoard.c
-state** readBoard(char* fileName, char* lineNb, char* colNb);
+// uiBoard.c
+state **readBoard(char *fileName, char *lineNb, char *colNb);
 
-//curent
-int ruleOftheThree(state** board);
+// curent
+int ruleOftheThree(state **board);

@@ -1,8 +1,9 @@
+#include "data.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "data.h"
 
-//Cette fonction sauvegarde dans le fichier save.txt le plateau actuel, le nombre de tours ainsi que le temps de la partie
+// Cette fonction sauvegarde dans le fichier save.txt le plateau actuel, le
+// nombre de tours ainsi que le temps de la partie
 void saveGame (state** board, int turn, double time) {
     FILE *out;
     out = fopen ("data/save.txt", "wb");

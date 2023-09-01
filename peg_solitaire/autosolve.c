@@ -1,9 +1,9 @@
-/*Recherche dans l'arbre par faisceau*/ 
+/*Recherche dans l'arbre par faisceau*/
 #ifndef AUTOSOLVE_C_
 #define AUTOSOLVE_C_
+#include "autosolve.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "autosolve.h"
 #endif
 
 int cost_f(state** board, char lineNb, char colNb){

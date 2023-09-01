@@ -2,8 +2,9 @@
 #define _MAIN_H_
 #include "structures.h"
 
-//main.c
-int makePossibleMoves(state **board, /*movementList* moveList,*/ char lineNb, char colNb);
+// main.c
+int makePossibleMoves(state **board, /*movementList* moveList,*/ char lineNb,
+                      char colNb);
 int moveNb(state **board, char lineNb, char colNb);
 void initBoard(state **board);
 int ballNb(state **board, char lineNb, char colNb);

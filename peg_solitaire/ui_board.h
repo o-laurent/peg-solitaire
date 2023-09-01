@@ -1,10 +1,10 @@
 #include "structures.h"
 
-//main.h
-void initBoard(state **board);
+// main.h
+void initBoard(state** board);
 
-//Printing functions
-void printBoardV(state **board, char lineNb, char colNb);
+// Printing functions
+void printBoardV(state** board, char lineNb, char colNb);
 void printTrajectory(trajectory* trajOrigin, char lineNb, char colNb);
 void printTrajectoryN(trajectoryNode* trajOrigin, char lineNb, char colNb);
 

@@ -1,8 +1,8 @@
 #ifndef STRUCTURES_H_
 #define STRUCTURES_H_
 
-typedef enum direction {north, south, east, west} direction;
-typedef enum state {ball, empty, out} state;
+typedef enum direction { north, south, east, west } direction;
+typedef enum state { ball, empty, out } state;
 typedef struct sorted_children sorted_children;
 typedef struct node node;
 typedef struct movement movement;

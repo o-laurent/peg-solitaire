@@ -1,20 +1,20 @@
 #ifndef STRUCTURES_C_
 #define STRUCTURES_C_
+#include "structures.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include "structures.h"
 #endif
 
-//Utility
+// Utility
 void printSizes() {
-    printf("----- Affichage des tailles des objets utilisés -----\n");
-    printf("Taille de state : %ld\n", sizeof(state));
-    printf("Taille de trajectory : %ld\n", sizeof(trajectory));
-    printf("Taille de direction : %ld\n", sizeof(direction));
-    printf("Taille de movement : %ld\n", sizeof(movement));
-    printf("Taille de movementList : %ld\n", sizeof(movementList));
-    printf("Taille de node : %ld\n", sizeof(node));
-    printf("Taille de trajectoryNode : %ld\n", sizeof(trajectoryNode));
+  printf("----- Affichage des tailles des objets utilisés -----\n");
+  printf("Taille de state : %ld\n", sizeof(state));
+  printf("Taille de trajectory : %ld\n", sizeof(trajectory));
+  printf("Taille de direction : %ld\n", sizeof(direction));
+  printf("Taille de movement : %ld\n", sizeof(movement));
+  printf("Taille de movementList : %ld\n", sizeof(movementList));
+  printf("Taille de node : %ld\n", sizeof(node));
+  printf("Taille de trajectoryNode : %ld\n", sizeof(trajectoryNode));
 }
 
 //Node functions

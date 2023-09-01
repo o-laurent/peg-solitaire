@@ -1,10 +1,11 @@
 #include "feasible.h"
-#include <stdlib.h>
 #include <stdio.h>
+#include <stdlib.h>
 
-//On est pas arrivé à un résultat final, mais on s'est pas-mal rapproché
-//Afin de comprendre la résolution mathématique, il est fortement conseillé de visiter le site ci-dessous:
-//http://eternitygames.free.fr/Solitaire.html?fbclid=IwAR1kuBnqjPf0ZKgkrfL7jdbDzuJ_2RHW1gx9TtFngIwVLSUcgi17B-M8R98#La%20r%C3%A8gle%20de%20trois
+// On est pas arrivé à un résultat final, mais on s'est pas-mal rapproché
+// Afin de comprendre la résolution mathématique, il est fortement conseillé de
+// visiter le site ci-dessous:
+// http://eternitygames.free.fr/Solitaire.html?fbclid=IwAR1kuBnqjPf0ZKgkrfL7jdbDzuJ_2RHW1gx9TtFngIwVLSUcgi17B-M8R98#La%20r%C3%A8gle%20de%20trois
 
 //cette fonction crèe un plateau de taille 7x7 formé uniquement de 0
 int** emptyBoard(state** board) {

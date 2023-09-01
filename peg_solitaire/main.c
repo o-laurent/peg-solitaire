@@ -1,8 +1,9 @@
 /*Remarque générale :
-Nous n'avons pas géré la libération de la mémoire quand il s'agit d'une partie utilisateur 
-car très peu de données sont en jeu.
-Nous avons au contraire concentré nos efforts (à grands coups de valgrind) sur la mémoire de la résolution automatique où 
-chaque petites pertes a des conséquences dramatiques vu le nombre d'étapes... */
+Nous n'avons pas géré la libération de la mémoire quand il s'agit d'une partie
+utilisateur car très peu de données sont en jeu. Nous avons au contraire
+concentré nos efforts (à grands coups de valgrind) sur la mémoire de la
+résolution automatique où chaque petites pertes a des conséquences dramatiques
+vu le nombre d'étapes... */
 
 #include <stdio.h>
 #include <stdlib.h>

@@ -1,69 +1,64 @@
+#include "uiBoard.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include "uiBoard.h"
 
-
-//Printing functions
-void printBoardV(state** board, char lineNb, char colNb) {
-    //Prints the Board on the terminal
-    printf("\n");
-    for (int i=0; i<lineNb+1; i++) {
-        if (i==0||i==lineNb) { //Up and Down Red number lines
-            printf("  ");
-            printf("\033[0;31m"); //Red
-            for (int j=0 ; j<colNb ; j++) {
-                printf("%d ", j+1);
-            }
-            printf("\033[0m");
-            printf("\n");
+// Printing functions
+void printBoardV(state **board, char lineNb, char colNb) {
+  // Prints the Board on the terminal
+  printf("\n");
+  for (int i = 0; i < lineNb + 1; i++) {
+    if (i == 0 || i == lineNb) { // Up and Down Red number lines
+      printf("  ");
+      printf("\033[0;31m"); // Red
+      for (int j = 0; j < colNb; j++) {
+        printf("%d ", j + 1);
+      }
+      printf("\033[0m");
+      printf("\n");
+    }
+    for (int j = 0; j < colNb + 1; j++) {
+      if (j < 10) { // Only one digit : one space between the prints
+        if ((j == 0 || j == colNb) &&
+            i != lineNb) {      // Right and Left Blue number columns
+          printf("\033[0;34m"); // Blue
+          printf("%d ", i + 1);
+          printf("\033[0m");
         }
-        for (int j=0; j<colNb+1 ; j++) {
-            if (j<10) { //Only one digit : one space between the prints
-                if ((j==0 || j==colNb) && i!=lineNb) { //Right and Left Blue number columns
-                    printf("\033[0;34m"); //Blue
-                    printf("%d ", i+1);
-                    printf("\033[0m");
-                }
-                if (i<lineNb && j<colNb && board[i][j]==ball) {
-                    printf("\033[1m");
-                    printf("o ");
-                    printf("\033[0m");
-                }
-                else if (i<lineNb && j<colNb && board[i][j]==empty) {
-                    printf("\033[37;2m"); //Grey 
-                    printf("x ");
-                    printf("\033[0m");
-                }
-                else {
-                    printf("  ");
-                }
-            }
-            else if (j<100) { //Double space to tackle the fact that 10 takes to positions
-                if ((j==0||j==colNb) && i!=lineNb) {
-                    printf("\033[0;34m"); //Blue
-                    printf("%d  ", i+1);
-                    printf("\033[0m");
-                }
-                if (i<lineNb && j<colNb && board[i][j]==ball) {
-                    printf("\033[1m");
-                    printf("o  ");
-                    printf("\033[0m");
-                }
-                else if (i<lineNb && j<colNb && board[i][j]==empty) {
-                    printf("\033[37;2m"); //Grey 
-                    printf("x  ");
-                    printf("\033[0m");
-                }
-                else {
-                    printf("  ");
-                }
-            }
-            
+        if (i < lineNb && j < colNb && board[i][j] == ball) {
+          printf("\033[1m");
+          printf("o ");
+          printf("\033[0m");
+        } else if (i < lineNb && j < colNb && board[i][j] == empty) {
+          printf("\033[37;2m"); // Grey
+          printf("x ");
+          printf("\033[0m");
+        } else {
+          printf("  ");
         }
-        printf("\n");
+      } else if (j < 100) { // Double space to tackle the fact that 10 takes to
+                            // positions
+        if ((j == 0 || j == colNb) && i != lineNb) {
+          printf("\033[0;34m"); // Blue
+          printf("%d  ", i + 1);
+          printf("\033[0m");
+        }
+        if (i < lineNb && j < colNb && board[i][j] == ball) {
+          printf("\033[1m");
+          printf("o  ");
+          printf("\033[0m");
+        } else if (i < lineNb && j < colNb && board[i][j] == empty) {
+          printf("\033[37;2m"); // Grey
+          printf("x  ");
+          printf("\033[0m");
+        } else {
+          printf("  ");
+        }
+      }
     }
     printf("\n");
+  }
+  printf("\n");
 }
 
 void printTrajectory(trajectory* trajOrigin, char lineNb, char colNb) {
